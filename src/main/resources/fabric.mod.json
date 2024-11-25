@@ -1,0 +1,37 @@
+{
+	"schemaVersion": 1,
+	"id": "elemental",
+	"version": "${version}",
+	"name": "Elemental",
+	"description": "A magic themed mod based on cellular automata",
+	"authors": [
+		"Juniper"
+	],
+	"license": "GPLv3",
+	"icon": "assets/elemental/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"juniper.elemental.Elemental"
+		],
+		"client": [
+			"juniper.elemental.ElementalClient"
+		]
+	},
+	"mixins": [
+		"elemental.mixins.json",
+		{
+			"config": "elemental.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.16.9",
+		"minecraft": "~1.21.3",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
