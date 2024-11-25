@@ -95,16 +95,21 @@ public class ConduitBlock extends Block {
     @Override
     protected void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         super.scheduledTick(state, world, pos, random);
-        if (state.get(SIGNAL).equals(ConduitSignal.ON)) {
+        if (state.get(SIGNAL).is_active) {
             for (Direction dir : Direction.values()) {
                 BlockState state2 = world.getBlockState(pos.offset(dir));
-                if (state2.contains(SIGNAL) && state2.get(SIGNAL).equals(ConduitSignal.OFF)) {
-                    world.setBlockState(pos.offset(dir), state2.with(SIGNAL, ConduitSignal.ON));
+                if (state2.contains(SIGNAL)) {
+                    if (state2.get(SIGNAL).equals(ConduitSignal.OFF)) {
+                        world.setBlockState(pos.offset(dir), state2.with(SIGNAL, ConduitSignal.ON1));
+                    } else if (state2.get(SIGNAL).equals(ConduitSignal.ON1)) {
+                        world.setBlockState(pos.offset(dir), state2.with(SIGNAL, ConduitSignal.ON2));
+                    } else if (state2.get(SIGNAL).equals(ConduitSignal.ON2)) {
+                        world.setBlockState(pos.offset(dir), state2.with(SIGNAL, ConduitSignal.OFF));
+                    }
                 }
             }
             state = state.with(SIGNAL, ConduitSignal.COOLDOWN);
             world.setBlockState(pos, state);
-            world.scheduleBlockTick(pos, state.getBlock(), 2);
         } else if (state.get(SIGNAL).equals(ConduitSignal.COOLDOWN)) {
             world.setBlockState(pos, state.with(SIGNAL, ConduitSignal.OFF));
         }
@@ -113,7 +118,7 @@ public class ConduitBlock extends Block {
     @Override
     protected void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
         super.onBlockAdded(state, world, pos, oldState, notify);
-        if (state.get(SIGNAL).equals(ConduitSignal.ON)) {
+        if (state.get(SIGNAL).is_transient) {
             world.scheduleBlockTick(pos, state.getBlock(), 2);
         }
     }

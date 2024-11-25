@@ -18,7 +18,14 @@
     },
     {
       "when": {
-        "signal": "on"
+        "OR": [
+          {
+            "signal": "on1"
+          },
+          {
+            "signal": "on2"
+          }
+        ]
       },
       "apply": {
         "model": "elemental:block/conduit_core_on"
@@ -46,8 +53,16 @@
     },
     {
       "when": {
-        "axis_x": "true",
-        "signal": "on"
+        "OR": [
+          {
+            "axis_x": "true",
+            "signal": "on1"
+          },
+          {
+            "axis_x": "true",
+            "signal": "on2"
+          }
+        ]
       },
       "apply": {
         "model": "elemental:block/conduit_axis_on",
@@ -76,8 +91,16 @@
     },
     {
       "when": {
-        "axis_y": "true",
-        "signal": "on"
+        "OR": [
+          {
+            "axis_y": "true",
+            "signal": "on1"
+          },
+          {
+            "axis_y": "true",
+            "signal": "on2"
+          }
+        ]
       },
       "apply": {
         "model": "elemental:block/conduit_axis_on",
@@ -104,8 +127,16 @@
     },
     {
       "when": {
-        "axis_z": "true",
-        "signal": "on"
+        "OR": [
+          {
+            "axis_z": "true",
+            "signal": "on1"
+          },
+          {
+            "axis_z": "true",
+            "signal": "on2"
+          }
+        ]
       },
       "apply": {
         "model": "elemental:block/conduit_axis_on"
