@@ -5,6 +5,9 @@ import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import juniper.elemental.init.ElementalBlocks;
+import juniper.elemental.init.ElementalItemGroups;
+
 public class Elemental implements ModInitializer {
 	public static final String MOD_ID = "elemental";
 
@@ -20,5 +23,7 @@ public class Elemental implements ModInitializer {
 		// Proceed with mild caution.
 
 		LOGGER.info(MOD_ID + " init");
+		ElementalItemGroups.init();
+		ElementalBlocks.init();
 	}
 }
