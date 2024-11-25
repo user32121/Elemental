@@ -1,0 +1,7 @@
+{
+  "parent": "elemental:block/conduit_axis_off",
+  "textures": {
+    "0": "elemental:block/conduit_axis_on",
+    "1": "elemental:block/conduit_face_on"
+  }
+}

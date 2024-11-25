@@ -10,8 +10,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager.Builder;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Direction.Axis;
@@ -19,6 +21,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.tick.ScheduledTickView;
 
@@ -26,6 +29,7 @@ public class ConduitBlock extends Block {
     public static final BooleanProperty AXIS_X = BooleanProperty.of("axis_x");
     public static final BooleanProperty AXIS_Y = BooleanProperty.of("axis_y");
     public static final BooleanProperty AXIS_Z = BooleanProperty.of("axis_z");
+    public static final EnumProperty<ConduitSignal> SIGNAL = EnumProperty.of("signal", ConduitSignal.class);
 
     public static final Map<Axis, BooleanProperty> AXIS_TO_PROPERTY = Maps
             .newEnumMap(ImmutableMap.of(Axis.X, AXIS_X, Axis.Y, AXIS_Y, Axis.Z, AXIS_Z));
@@ -41,7 +45,8 @@ public class ConduitBlock extends Block {
 
     public ConduitBlock(AbstractBlock.Settings settings) {
         super(settings);
-        this.setDefaultState(getDefaultState().with(AXIS_X, false).with(AXIS_Y, false).with(AXIS_Z, false));
+        this.setDefaultState(getDefaultState().with(AXIS_X, false).with(AXIS_Y, false).with(AXIS_Z, false).with(SIGNAL,
+                ConduitSignal.OFF));
     }
 
     @Override
@@ -58,7 +63,7 @@ public class ConduitBlock extends Block {
     @Override
     protected void appendProperties(Builder<Block, BlockState> builder) {
         super.appendProperties(builder);
-        builder.add(AXIS_X, AXIS_Y, AXIS_Z);
+        builder.add(AXIS_X, AXIS_Y, AXIS_Z, SIGNAL);
     }
 
     private BlockState getStateWithConnections(BlockState baseState, WorldView world, BlockPos pos) {
@@ -85,5 +90,31 @@ public class ConduitBlock extends Block {
         state = super.getStateForNeighborUpdate(state, world, tickView, pos, direction, neighborPos, neighborState,
                 random);
         return getStateWithConnections(state, world, pos);
+    }
+
+    @Override
+    protected void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        super.scheduledTick(state, world, pos, random);
+        if (state.get(SIGNAL).equals(ConduitSignal.ON)) {
+            for (Direction dir : Direction.values()) {
+                BlockState state2 = world.getBlockState(pos.offset(dir));
+                if (state2.contains(SIGNAL) && state2.get(SIGNAL).equals(ConduitSignal.OFF)) {
+                    world.setBlockState(pos.offset(dir), state2.with(SIGNAL, ConduitSignal.ON));
+                }
+            }
+            state = state.with(SIGNAL, ConduitSignal.COOLDOWN);
+            world.setBlockState(pos, state);
+            world.scheduleBlockTick(pos, state.getBlock(), 2);
+        } else if (state.get(SIGNAL).equals(ConduitSignal.COOLDOWN)) {
+            world.setBlockState(pos, state.with(SIGNAL, ConduitSignal.OFF));
+        }
+    }
+
+    @Override
+    protected void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
+        super.onBlockAdded(state, world, pos, oldState, notify);
+        if (state.get(SIGNAL).equals(ConduitSignal.ON)) {
+            world.scheduleBlockTick(pos, state.getBlock(), 2);
+        }
     }
 }

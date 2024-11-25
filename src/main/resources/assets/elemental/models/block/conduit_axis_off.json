@@ -1,24 +1,26 @@
 {
   "credit": "Made with Blockbench",
   "parent": "minecraft:block/block",
-  "texture_size": [4, 4],
   "textures": {
-    "0": "elemental:block/conduit_core",
-    "particle": "elemental:block/conduit_core"
+    "0": "elemental:block/conduit_axis_off",
+    "1": "elemental:block/conduit_face_off",
+    "particle": "#0"
   },
   "elements": [
     {
-      "from": [6, 6, 6],
-      "to": [10, 10, 10],
+      "from": [6, 6, 0],
+      "to": [10, 10, 16],
       "faces": {
         "north": {
-          "texture": "#0"
+          "texture": "#1",
+          "cullface": "north"
         },
         "east": {
           "texture": "#0"
         },
         "south": {
-          "texture": "#0"
+          "texture": "#1",
+          "cullface": "south"
         },
         "west": {
           "texture": "#0"

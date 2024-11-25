@@ -1,0 +1,6 @@
+{
+  "parent": "elemental:block/conduit_core_off",
+  "textures": {
+    "0": "elemental:block/conduit_core_on"
+  }
+}

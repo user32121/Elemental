@@ -1,34 +1,114 @@
 {
   "multipart": [
     {
+      "when": {
+        "signal": "off"
+      },
       "apply": {
-        "model": "elemental:block/conduit_core"
+        "model": "elemental:block/conduit_core_off"
       }
     },
     {
       "when": {
-        "axis_x": "true"
+        "signal": "cooldown"
       },
       "apply": {
-        "model": "elemental:block/conduit_axis",
+        "model": "elemental:block/conduit_core_cooldown"
+      }
+    },
+    {
+      "when": {
+        "signal": "on"
+      },
+      "apply": {
+        "model": "elemental:block/conduit_core_on"
+      }
+    },
+    {
+      "when": {
+        "axis_x": "true",
+        "signal": "off"
+      },
+      "apply": {
+        "model": "elemental:block/conduit_axis_off",
         "y": 90
       }
     },
     {
       "when": {
-        "axis_y": "true"
+        "axis_x": "true",
+        "signal": "cooldown"
       },
       "apply": {
-        "model": "elemental:block/conduit_axis",
+        "model": "elemental:block/conduit_axis_cooldown",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "axis_x": "true",
+        "signal": "on"
+      },
+      "apply": {
+        "model": "elemental:block/conduit_axis_on",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "axis_y": "true",
+        "signal": "off"
+      },
+      "apply": {
+        "model": "elemental:block/conduit_axis_off",
         "x": 90
       }
     },
     {
       "when": {
-        "axis_z": "true"
+        "axis_y": "true",
+        "signal": "cooldown"
       },
       "apply": {
-        "model": "elemental:block/conduit_axis"
+        "model": "elemental:block/conduit_axis_cooldown",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "axis_y": "true",
+        "signal": "on"
+      },
+      "apply": {
+        "model": "elemental:block/conduit_axis_on",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "axis_z": "true",
+        "signal": "off"
+      },
+      "apply": {
+        "model": "elemental:block/conduit_axis_off"
+      }
+    },
+    {
+      "when": {
+        "axis_z": "true",
+        "signal": "cooldown"
+      },
+      "apply": {
+        "model": "elemental:block/conduit_axis_cooldown"
+      }
+    },
+    {
+      "when": {
+        "axis_z": "true",
+        "signal": "on"
+      },
+      "apply": {
+        "model": "elemental:block/conduit_axis_on"
       }
     }
   ]
