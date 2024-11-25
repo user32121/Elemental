@@ -1,7 +1,35 @@
 {
-    "variants": {
-        "": {
-            "model": "elemental:block/conduit"
-        }
+  "multipart": [
+    {
+      "apply": {
+        "model": "elemental:block/conduit_core"
+      }
+    },
+    {
+      "when": {
+        "axis_x": "true"
+      },
+      "apply": {
+        "model": "elemental:block/conduit_axis",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "axis_y": "true"
+      },
+      "apply": {
+        "model": "elemental:block/conduit_axis",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "axis_z": "true"
+      },
+      "apply": {
+        "model": "elemental:block/conduit_axis"
+      }
     }
+  ]
 }
