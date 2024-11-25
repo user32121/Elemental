@@ -57,6 +57,7 @@ public class ConduitBlock extends Block {
 
     @Override
     protected void appendProperties(Builder<Block, BlockState> builder) {
+        super.appendProperties(builder);
         builder.add(AXIS_X, AXIS_Y, AXIS_Z);
     }
 
@@ -74,12 +75,15 @@ public class ConduitBlock extends Block {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return getStateWithConnections(getDefaultState(), ctx.getWorld(), ctx.getBlockPos());
+        BlockState state = super.getPlacementState(ctx);
+        return getStateWithConnections(state, ctx.getWorld(), ctx.getBlockPos());
     }
 
     @Override
     protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView,
             BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
+        state = super.getStateForNeighborUpdate(state, world, tickView, pos, direction, neighborPos, neighborState,
+                random);
         return getStateWithConnections(state, world, pos);
     }
 }
