@@ -3,6 +3,7 @@ package juniper.elemental.init;
 import java.util.function.Function;
 
 import juniper.elemental.Elemental;
+import juniper.elemental.blocks.ConduitBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
@@ -14,7 +15,8 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
 public class ElementalBlocks {
-    public static Block CONDUIT = register("conduit", Block::new, AbstractBlock.Settings.create(), true);
+    public static Block CONDUIT = register("conduit", ConduitBlock::new, AbstractBlock.Settings.create(),
+            true);
 
     public static void init() {
     }
