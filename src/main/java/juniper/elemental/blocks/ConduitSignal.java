@@ -3,7 +3,17 @@ package juniper.elemental.blocks;
 import net.minecraft.util.StringIdentifiable;
 
 public enum ConduitSignal implements StringIdentifiable {
-    OFF("off", false, false), COOLDOWN("cooldown", false, true), ON1("on1", true, true), ON2("on2", true, true);
+    OFF("off", false, false),
+    COOLDOWN("cooldown", false, true),
+    EARTH1("earth1", true, true),
+    EARTH2("earth2", true, true),
+    WATER1("water1", true, true),
+    WATER2("water2", true, true),
+    AIR1("air1", true, true),
+    AIR2("air2", true, true),
+    FIRE1("fire1", true, true),
+    FIRE2("fire2", true, true),
+    ;
 
     public final String id;
     public final boolean is_active;

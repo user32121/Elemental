@@ -5,6 +5,8 @@ import java.util.Map;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
+import juniper.elemental.Elemental;
+import juniper.elemental.blocks.ConduitSignalReactions.ConduitReaction;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -97,19 +99,24 @@ public class ConduitBlock extends Block {
         super.scheduledTick(state, world, pos, random);
         if (state.get(SIGNAL).is_active) {
             for (Direction dir : Direction.values()) {
-                BlockState state2 = world.getBlockState(pos.offset(dir));
+                // reaction
+                BlockPos pos2 = pos.offset(dir);
+                BlockState state2 = world.getBlockState(pos2);
+                if (!state2.contains(SIGNAL)) {
+                    continue;
+                }
+                ConduitReaction reaction = ConduitSignalReactions.REACTIONS.get(state.get(SIGNAL))
+                        .get(state2.get(SIGNAL));
+                ConduitSignal signal = reaction.performReaction(world, pos2);
+                if (signal == null) {
+                    continue;
+                }
+                state2 = world.getBlockState(pos2);
                 if (state2.contains(SIGNAL)) {
-                    if (state2.get(SIGNAL).equals(ConduitSignal.OFF)) {
-                        world.setBlockState(pos.offset(dir), state2.with(SIGNAL, ConduitSignal.ON1));
-                    } else if (state2.get(SIGNAL).equals(ConduitSignal.ON1)) {
-                        world.setBlockState(pos.offset(dir), state2.with(SIGNAL, ConduitSignal.ON2));
-                    } else if (state2.get(SIGNAL).equals(ConduitSignal.ON2)) {
-                        world.setBlockState(pos.offset(dir), state2.with(SIGNAL, ConduitSignal.OFF));
-                    }
+                    world.setBlockState(pos2, state2.with(SIGNAL, signal));
                 }
             }
-            state = state.with(SIGNAL, ConduitSignal.COOLDOWN);
-            world.setBlockState(pos, state);
+            world.setBlockState(pos, state.with(SIGNAL, ConduitSignal.COOLDOWN));
         } else if (state.get(SIGNAL).equals(ConduitSignal.COOLDOWN)) {
             world.setBlockState(pos, state.with(SIGNAL, ConduitSignal.OFF));
         }
