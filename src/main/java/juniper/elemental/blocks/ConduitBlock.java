@@ -107,6 +107,10 @@ public class ConduitBlock extends Block {
                 }
                 ConduitReaction reaction = ConduitSignalReactions.REACTIONS.get(state.get(SIGNAL))
                         .get(state2.get(SIGNAL));
+                if (reaction == null) {
+                    Elemental.LOGGER.info("{} + {} reaction not implemented", state.get(SIGNAL), state2.get(SIGNAL));
+                    continue;
+                }
                 ConduitSignal signal = reaction.performReaction(world, pos2);
                 if (signal == null) {
                     continue;
