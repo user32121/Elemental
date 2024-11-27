@@ -1,0 +1,5 @@
+// 1.21.3	2024-11-27T18:41:48.153699	Elemental/Model Definitions
+c8b8be92f1cd903a022871283c83192c234e6ce2 assets/elemental/models/block/clogged_conduit_core.json
+8c03a46014ac6275c855fe926fb0c004c928f8ae assets/elemental/models/block/clogged_conduit_axis.json
+bc653c8c98d7ce8824aa94f2f502fd41f83c7de3 assets/elemental/models/item/clogged_conduit.json
+8a02b41ede4fd8834cbe533d65132c3ea279246c assets/elemental/blockstates/clogged_conduit.json

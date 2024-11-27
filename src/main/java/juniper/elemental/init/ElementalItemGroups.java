@@ -24,6 +24,7 @@ public class ElementalItemGroups {
             itemGroup.add(ElementalBlocks.CONDUIT.asItem());
             itemGroup.add(ElementalBlocks.OVERGROWN_CONDUIT.asItem());
             itemGroup.add(ElementalBlocks.DUST.asItem());
+            itemGroup.add(ElementalBlocks.CLOGGED_CONDUIT.asItem());
         });
     }
 
