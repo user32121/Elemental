@@ -7,6 +7,7 @@ import juniper.elemental.blocks.ConduitBlock;
 import juniper.elemental.blocks.TriAxisBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.SnowBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -20,6 +21,7 @@ public class ElementalBlocks {
             true);
     public static Block OVERGROWN_CONDUIT = register("overgrown_conduit", TriAxisBlock::new,
             AbstractBlock.Settings.create(), true);
+    public static Block DUST = register("dust", SnowBlock::new, AbstractBlock.Settings.create(), true);
 
     public static void init() {
     }

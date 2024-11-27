@@ -1,7 +1,5 @@
 element generator
 reactions
- water+earth=overgrown pipe
- air+earth=dust
  air+water=splash
  fire+earth=melted
  fire+water=steam spray
@@ -12,3 +10,6 @@ catalyst
  fire+earth=lava
  fire+water=crafting 2
  fire+air=non destructive boom
+reaction sounds
+reaction with cooldown to ensure it ticks
+figure out why water overrides conduit

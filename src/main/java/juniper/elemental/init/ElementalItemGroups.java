@@ -23,6 +23,7 @@ public class ElementalItemGroups {
         ItemGroupEvents.modifyEntriesEvent(ELEMENTAL_ITEM_GROUP_KEY).register((itemGroup) -> {
             itemGroup.add(ElementalBlocks.CONDUIT.asItem());
             itemGroup.add(ElementalBlocks.OVERGROWN_CONDUIT.asItem());
+            itemGroup.add(ElementalBlocks.DUST.asItem());
         });
     }
 

@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "layers=1": {
+      "model": "elemental:block/dust_height2"
+    },
+    "layers=2": {
+      "model": "elemental:block/dust_height4"
+    },
+    "layers=3": {
+      "model": "elemental:block/dust_height6"
+    },
+    "layers=4": {
+      "model": "elemental:block/dust_height8"
+    },
+    "layers=5": {
+      "model": "elemental:block/dust_height10"
+    },
+    "layers=6": {
+      "model": "elemental:block/dust_height12"
+    },
+    "layers=7": {
+      "model": "elemental:block/dust_height14"
+    },
+    "layers=8": {
+      "model": "elemental:block/dust_block"
+    }
+  }
+}

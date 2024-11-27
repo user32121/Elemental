@@ -4,7 +4,13 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import juniper.elemental.init.ElementalBlocks;
+import net.minecraft.block.BlockState;
+import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.World.ExplosionSourceType;
 
@@ -13,13 +19,27 @@ public class ConduitSignalReactions {
     static {
         Map<ConduitSignal, Map<ConduitSignal, ConduitReaction>> allReactions = new EnumMap<>(ConduitSignal.class);
 
+        ConduitReaction waterEarthReaction = (world, pos) -> {
+            world.setBlockState(pos, ElementalBlocks.OVERGROWN_CONDUIT.getDefaultState());
+            return null;
+        };
+        ConduitReaction airEarthReaction = (world, pos) -> {
+            for (BlockPos pos2 : BlockPos.iterateRandomly(world.getRandom(), 5, pos, 3)) {
+                ItemPlacementContext ctx = new ItemPlacementContext(world, null, null,
+                        new ItemStack(ElementalBlocks.DUST),
+                        new BlockHitResult(Vec3d.ofBottomCenter(pos2), Direction.UP, pos2, false));
+                if (world.getBlockState(pos2).canReplace(ctx)) {
+                    BlockState state = ElementalBlocks.DUST.getPlacementState(ctx);
+                    if (state.canPlaceAt(world, pos2)) {
+                        world.setBlockState(pos2, state);
+                    }
+                }
+            }
+            return null;
+        };
         ConduitReaction fireAirReaction = (world, pos) -> {
             world.createExplosion(null, pos.getX(), pos.getY(),
                     pos.getZ(), 1, ExplosionSourceType.BLOCK);
-            return null;
-        };
-        ConduitReaction waterEarthReaction = (world, pos) -> {
-            world.setBlockState(pos, ElementalBlocks.OVERGROWN_CONDUIT.getDefaultState());
             return null;
         };
 
@@ -31,6 +51,8 @@ public class ConduitSignalReactions {
         reactions.put(ConduitSignal.EARTH2, ConduitReaction.basicReaction(ConduitSignal.OFF));
         reactions.put(ConduitSignal.WATER1, waterEarthReaction);
         reactions.put(ConduitSignal.WATER2, waterEarthReaction);
+        reactions.put(ConduitSignal.AIR1, airEarthReaction);
+        reactions.put(ConduitSignal.AIR2, airEarthReaction);
         allReactions.put(ConduitSignal.EARTH1, reactions);
         allReactions.put(ConduitSignal.EARTH2, reactions);
         // water
@@ -51,6 +73,8 @@ public class ConduitSignalReactions {
         reactions.put(ConduitSignal.AIR2, ConduitReaction.basicReaction(ConduitSignal.OFF));
         reactions.put(ConduitSignal.FIRE1, fireAirReaction);
         reactions.put(ConduitSignal.FIRE2, fireAirReaction);
+        reactions.put(ConduitSignal.EARTH1, airEarthReaction);
+        reactions.put(ConduitSignal.EARTH2, airEarthReaction);
         allReactions.put(ConduitSignal.AIR1, reactions);
         allReactions.put(ConduitSignal.AIR2, reactions);
         // fire
