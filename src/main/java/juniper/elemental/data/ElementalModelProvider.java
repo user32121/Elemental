@@ -24,12 +24,14 @@ public class ElementalModelProvider extends FabricModelProvider {
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
         triAxisBlock(blockStateModelGenerator, ElementalBlocks.CLOGGED_CONDUIT, "clogged_conduit");
+        triAxisBlock(blockStateModelGenerator, ElementalBlocks.OVERGROWN_CONDUIT, "overgrown_conduit");
     }
 
     private void triAxisBlock(BlockStateModelGenerator bsmg, Block block, String name) {
         TextureMap textureMap = new TextureMap().put(TextureKey.TEXTURE, formatIdentifier(name, "_core"))
                 .put(TextureKey.SIDE, formatIdentifier(name, "_axis"))
-                .put(TextureKey.END, formatIdentifier(name, "_face"));
+                .put(TextureKey.END, formatIdentifier(name, "_face"))
+                .put(TextureKey.PARTICLE, formatIdentifier(name, "_axis"));
         Identifier idCore = ElementalModels.TriAxisBlockCore.upload(formatIdentifier(name, "_core"), textureMap,
                 bsmg.modelCollector);
         Identifier idAxis = ElementalModels.TriAxisBlockAxis.upload(formatIdentifier(name, "_axis"), textureMap,

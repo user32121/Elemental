@@ -1,5 +1,9 @@
-// 1.21.3	2024-11-27T18:41:48.153699	Elemental/Model Definitions
+// 1.21.3	2024-11-27T18:53:29.049646	Elemental/Model Definitions
+e2bdd330243f8f612e2e18d382ea3bdf166f6be8 assets/elemental/models/block/overgrown_conduit_core.json
 c8b8be92f1cd903a022871283c83192c234e6ce2 assets/elemental/models/block/clogged_conduit_core.json
 8c03a46014ac6275c855fe926fb0c004c928f8ae assets/elemental/models/block/clogged_conduit_axis.json
 bc653c8c98d7ce8824aa94f2f502fd41f83c7de3 assets/elemental/models/item/clogged_conduit.json
+a6a1506bb34bd9f51104b8f4be200ee6825729f4 assets/elemental/models/item/overgrown_conduit.json
+bf60d31c56278fe186bb5abebbdbf93e0e35d7af assets/elemental/models/block/overgrown_conduit_axis.json
+d11429ba56ba6548d60ae71dad73691d2d4e79f4 assets/elemental/blockstates/overgrown_conduit.json
 8a02b41ede4fd8834cbe533d65132c3ea279246c assets/elemental/blockstates/clogged_conduit.json

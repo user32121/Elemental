@@ -1,6 +1,9 @@
 {
   "credit": "Made with Blockbench",
   "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "#texture"
+  },
   "elements": [
     {
       "from": [5.9, 5.9, 5.9],
