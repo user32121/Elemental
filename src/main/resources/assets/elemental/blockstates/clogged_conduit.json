@@ -1,0 +1,35 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "elemental:block/conduit_core_clogged"
+      }
+    },
+    {
+      "when": {
+        "axis_x": "true"
+      },
+      "apply": {
+        "model": "elemental:block/conduit_axis_clogged",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "axis_y": "true"
+      },
+      "apply": {
+        "model": "elemental:block/conduit_axis_clogged",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "axis_z": "true"
+      },
+      "apply": {
+        "model": "elemental:block/conduit_axis_clogged"
+      }
+    }
+  ]
+}

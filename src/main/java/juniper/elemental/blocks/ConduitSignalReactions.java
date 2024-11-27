@@ -46,6 +46,9 @@ public class ConduitSignalReactions {
                     }
                 }
             }
+            if (world.getRandom().nextFloat() < 0.1) {
+                world.setBlockState(pos, ElementalBlocks.CLOGGED_CONDUIT.getDefaultState());
+            }
             return null;
         };
         ConduitReaction fireAirReaction = (world, pos) -> {

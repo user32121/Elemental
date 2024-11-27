@@ -20,7 +20,9 @@ public class ElementalBlocks {
     public static Block CONDUIT = register("conduit", ConduitBlock::new, AbstractBlock.Settings.create(),
             true);
     public static Block OVERGROWN_CONDUIT = register("overgrown_conduit", TriAxisBlock::new,
-            AbstractBlock.Settings.create(), true);
+                    AbstractBlock.Settings.create(), true);
+    public static Block CLOGGED_CONDUIT = register("clogged_conduit", TriAxisBlock::new,
+                    AbstractBlock.Settings.create(), true);
     public static Block DUST = register("dust", SnowBlock::new, AbstractBlock.Settings.create(), true);
 
     public static void init() {
