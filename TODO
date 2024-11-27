@@ -11,5 +11,4 @@ catalyst
  fire+water=crafting 2
  fire+air=non destructive boom
 reaction sounds
-reaction with cooldown to ensure it ticks
 figure out why water overrides conduit

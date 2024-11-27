@@ -53,9 +53,9 @@ public class ConduitBlock extends TriAxisBlock {
                     world.setBlockState(pos2, state2.with(SIGNAL, signal));
                 }
             }
-            world.setBlockState(pos, state.with(SIGNAL, ConduitSignal.COOLDOWN));
-        } else if (state.get(SIGNAL).equals(ConduitSignal.COOLDOWN)) {
-            world.setBlockState(pos, state.with(SIGNAL, ConduitSignal.OFF));
+        }
+        if (state.get(SIGNAL).is_transient) {
+            world.setBlockState(pos, state.with(SIGNAL, ConduitSignalReactions.TRANSITIONS.get(state.get(SIGNAL))));
         }
     }
 

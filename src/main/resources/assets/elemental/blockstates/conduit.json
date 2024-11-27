@@ -10,7 +10,7 @@
     },
     {
       "when": {
-        "signal": "cooldown"
+        "signal": "cooldown1|cooldown2"
       },
       "apply": {
         "model": "elemental:block/conduit_core_cooldown"
@@ -18,14 +18,7 @@
     },
     {
       "when": {
-        "OR": [
-          {
-            "signal": "earth1"
-          },
-          {
-            "signal": "earth2"
-          }
-        ]
+        "signal": "earth1|earth2"
       },
       "apply": {
         "model": "elemental:block/conduit_core_earth"
@@ -33,14 +26,7 @@
     },
     {
       "when": {
-        "OR": [
-          {
-            "signal": "water1"
-          },
-          {
-            "signal": "water2"
-          }
-        ]
+        "signal": "water1|water2"
       },
       "apply": {
         "model": "elemental:block/conduit_core_water"
@@ -48,14 +34,7 @@
     },
     {
       "when": {
-        "OR": [
-          {
-            "signal": "air1"
-          },
-          {
-            "signal": "air2"
-          }
-        ]
+        "signal": "air1|air2"
       },
       "apply": {
         "model": "elemental:block/conduit_core_air"
@@ -63,14 +42,7 @@
     },
     {
       "when": {
-        "OR": [
-          {
-            "signal": "fire1"
-          },
-          {
-            "signal": "fire2"
-          }
-        ]
+        "signal": "fire1|fire2"
       },
       "apply": {
         "model": "elemental:block/conduit_core_fire"
@@ -108,7 +80,7 @@
     {
       "when": {
         "axis_x": "true",
-        "signal": "cooldown"
+        "signal": "cooldown1|cooldown2"
       },
       "apply": {
         "model": "elemental:block/conduit_axis_cooldown",
@@ -118,7 +90,7 @@
     {
       "when": {
         "axis_y": "true",
-        "signal": "cooldown"
+        "signal": "cooldown1|cooldown2"
       },
       "apply": {
         "model": "elemental:block/conduit_axis_cooldown",
@@ -128,7 +100,7 @@
     {
       "when": {
         "axis_z": "true",
-        "signal": "cooldown"
+        "signal": "cooldown1|cooldown2"
       },
       "apply": {
         "model": "elemental:block/conduit_axis_cooldown"
@@ -136,16 +108,8 @@
     },
     {
       "when": {
-        "OR": [
-          {
-            "axis_x": "true",
-            "signal": "earth1"
-          },
-          {
-            "axis_x": "true",
-            "signal": "earth2"
-          }
-        ]
+        "axis_x": "true",
+        "signal": "earth1|earth2"
       },
       "apply": {
         "model": "elemental:block/conduit_axis_earth",
@@ -154,16 +118,8 @@
     },
     {
       "when": {
-        "OR": [
-          {
-            "axis_y": "true",
-            "signal": "earth1"
-          },
-          {
-            "axis_y": "true",
-            "signal": "earth2"
-          }
-        ]
+        "axis_y": "true",
+        "signal": "earth1|earth2"
       },
       "apply": {
         "model": "elemental:block/conduit_axis_earth",
@@ -172,16 +128,8 @@
     },
     {
       "when": {
-        "OR": [
-          {
-            "axis_z": "true",
-            "signal": "earth1"
-          },
-          {
-            "axis_z": "true",
-            "signal": "earth2"
-          }
-        ]
+        "axis_z": "true",
+        "signal": "earth1|earth2"
       },
       "apply": {
         "model": "elemental:block/conduit_axis_earth"
@@ -189,16 +137,8 @@
     },
     {
       "when": {
-        "OR": [
-          {
-            "axis_x": "true",
-            "signal": "water1"
-          },
-          {
-            "axis_x": "true",
-            "signal": "water2"
-          }
-        ]
+        "axis_x": "true",
+        "signal": "water1|water2"
       },
       "apply": {
         "model": "elemental:block/conduit_axis_water",
@@ -207,16 +147,8 @@
     },
     {
       "when": {
-        "OR": [
-          {
-            "axis_y": "true",
-            "signal": "water1"
-          },
-          {
-            "axis_y": "true",
-            "signal": "water2"
-          }
-        ]
+        "axis_y": "true",
+        "signal": "water1|water2"
       },
       "apply": {
         "model": "elemental:block/conduit_axis_water",
@@ -225,16 +157,8 @@
     },
     {
       "when": {
-        "OR": [
-          {
-            "axis_z": "true",
-            "signal": "water1"
-          },
-          {
-            "axis_z": "true",
-            "signal": "water2"
-          }
-        ]
+        "axis_z": "true",
+        "signal": "water1|water2"
       },
       "apply": {
         "model": "elemental:block/conduit_axis_water"
@@ -242,16 +166,8 @@
     },
     {
       "when": {
-        "OR": [
-          {
-            "axis_x": "true",
-            "signal": "air1"
-          },
-          {
-            "axis_x": "true",
-            "signal": "air2"
-          }
-        ]
+        "axis_x": "true",
+        "signal": "air1|air2"
       },
       "apply": {
         "model": "elemental:block/conduit_axis_air",
@@ -260,16 +176,8 @@
     },
     {
       "when": {
-        "OR": [
-          {
-            "axis_y": "true",
-            "signal": "air1"
-          },
-          {
-            "axis_y": "true",
-            "signal": "air2"
-          }
-        ]
+        "axis_y": "true",
+        "signal": "air1|air2"
       },
       "apply": {
         "model": "elemental:block/conduit_axis_air",
@@ -278,16 +186,8 @@
     },
     {
       "when": {
-        "OR": [
-          {
-            "axis_z": "true",
-            "signal": "air1"
-          },
-          {
-            "axis_z": "true",
-            "signal": "air2"
-          }
-        ]
+        "axis_z": "true",
+        "signal": "air1|air2"
       },
       "apply": {
         "model": "elemental:block/conduit_axis_air"
@@ -295,16 +195,8 @@
     },
     {
       "when": {
-        "OR": [
-          {
-            "axis_x": "true",
-            "signal": "fire1"
-          },
-          {
-            "axis_x": "true",
-            "signal": "fire2"
-          }
-        ]
+        "axis_x": "true",
+        "signal": "fire1|fire2"
       },
       "apply": {
         "model": "elemental:block/conduit_axis_fire",
@@ -313,16 +205,8 @@
     },
     {
       "when": {
-        "OR": [
-          {
-            "axis_y": "true",
-            "signal": "fire1"
-          },
-          {
-            "axis_y": "true",
-            "signal": "fire2"
-          }
-        ]
+        "axis_y": "true",
+        "signal": "fire1|fire2"
       },
       "apply": {
         "model": "elemental:block/conduit_axis_fire",
@@ -331,16 +215,8 @@
     },
     {
       "when": {
-        "OR": [
-          {
-            "axis_z": "true",
-            "signal": "fire1"
-          },
-          {
-            "axis_z": "true",
-            "signal": "fire2"
-          }
-        ]
+        "axis_z": "true",
+        "signal": "fire1|fire2"
       },
       "apply": {
         "model": "elemental:block/conduit_axis_fire"

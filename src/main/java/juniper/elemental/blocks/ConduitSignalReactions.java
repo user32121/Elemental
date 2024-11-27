@@ -16,6 +16,17 @@ import net.minecraft.world.World.ExplosionSourceType;
 
 public class ConduitSignalReactions {
     public static final Map<ConduitSignal, Map<ConduitSignal, ConduitReaction>> REACTIONS;
+    public static final Map<ConduitSignal, ConduitSignal> TRANSITIONS = new EnumMap<>(
+            Map.of(ConduitSignal.COOLDOWN1, ConduitSignal.OFF,
+                    ConduitSignal.COOLDOWN2, ConduitSignal.OFF,
+                    ConduitSignal.EARTH1, ConduitSignal.COOLDOWN1,
+                    ConduitSignal.EARTH2, ConduitSignal.COOLDOWN1,
+                    ConduitSignal.WATER1, ConduitSignal.COOLDOWN1,
+                    ConduitSignal.WATER2, ConduitSignal.COOLDOWN1,
+                    ConduitSignal.AIR1, ConduitSignal.COOLDOWN1,
+                    ConduitSignal.AIR2, ConduitSignal.COOLDOWN1,
+                    ConduitSignal.FIRE1, ConduitSignal.COOLDOWN1,
+                    ConduitSignal.FIRE2, ConduitSignal.COOLDOWN1));
     static {
         Map<ConduitSignal, Map<ConduitSignal, ConduitReaction>> allReactions = new EnumMap<>(ConduitSignal.class);
 
@@ -46,7 +57,8 @@ public class ConduitSignalReactions {
         // earth
         Map<ConduitSignal, ConduitReaction> reactions = new EnumMap<>(ConduitSignal.class);
         reactions.put(ConduitSignal.OFF, ConduitReaction.basicReaction(ConduitSignal.EARTH1));
-        reactions.put(ConduitSignal.COOLDOWN, ConduitReaction.basicReaction(ConduitSignal.COOLDOWN));
+        reactions.put(ConduitSignal.COOLDOWN1, ConduitReaction.basicReaction(ConduitSignal.COOLDOWN2));
+        reactions.put(ConduitSignal.COOLDOWN2, ConduitReaction.basicReaction(ConduitSignal.COOLDOWN1));
         reactions.put(ConduitSignal.EARTH1, ConduitReaction.basicReaction(ConduitSignal.EARTH2));
         reactions.put(ConduitSignal.EARTH2, ConduitReaction.basicReaction(ConduitSignal.OFF));
         reactions.put(ConduitSignal.WATER1, waterEarthReaction);
@@ -58,7 +70,8 @@ public class ConduitSignalReactions {
         // water
         reactions = new EnumMap<>(ConduitSignal.class);
         reactions.put(ConduitSignal.OFF, ConduitReaction.basicReaction(ConduitSignal.WATER1));
-        reactions.put(ConduitSignal.COOLDOWN, ConduitReaction.basicReaction(ConduitSignal.COOLDOWN));
+        reactions.put(ConduitSignal.COOLDOWN1, ConduitReaction.basicReaction(ConduitSignal.COOLDOWN2));
+        reactions.put(ConduitSignal.COOLDOWN2, ConduitReaction.basicReaction(ConduitSignal.COOLDOWN1));
         reactions.put(ConduitSignal.WATER1, ConduitReaction.basicReaction(ConduitSignal.WATER2));
         reactions.put(ConduitSignal.WATER2, ConduitReaction.basicReaction(ConduitSignal.OFF));
         reactions.put(ConduitSignal.EARTH1, waterEarthReaction);
@@ -68,7 +81,8 @@ public class ConduitSignalReactions {
         // air
         reactions = new EnumMap<>(ConduitSignal.class);
         reactions.put(ConduitSignal.OFF, ConduitReaction.basicReaction(ConduitSignal.AIR1));
-        reactions.put(ConduitSignal.COOLDOWN, ConduitReaction.basicReaction(ConduitSignal.COOLDOWN));
+        reactions.put(ConduitSignal.COOLDOWN1, ConduitReaction.basicReaction(ConduitSignal.COOLDOWN2));
+        reactions.put(ConduitSignal.COOLDOWN2, ConduitReaction.basicReaction(ConduitSignal.COOLDOWN1));
         reactions.put(ConduitSignal.AIR1, ConduitReaction.basicReaction(ConduitSignal.AIR2));
         reactions.put(ConduitSignal.AIR2, ConduitReaction.basicReaction(ConduitSignal.OFF));
         reactions.put(ConduitSignal.FIRE1, fireAirReaction);
@@ -80,7 +94,8 @@ public class ConduitSignalReactions {
         // fire
         reactions = new EnumMap<>(ConduitSignal.class);
         reactions.put(ConduitSignal.OFF, ConduitReaction.basicReaction(ConduitSignal.FIRE1));
-        reactions.put(ConduitSignal.COOLDOWN, ConduitReaction.basicReaction(ConduitSignal.COOLDOWN));
+        reactions.put(ConduitSignal.COOLDOWN1, ConduitReaction.basicReaction(ConduitSignal.COOLDOWN2));
+        reactions.put(ConduitSignal.COOLDOWN2, ConduitReaction.basicReaction(ConduitSignal.COOLDOWN1));
         reactions.put(ConduitSignal.FIRE1, ConduitReaction.basicReaction(ConduitSignal.FIRE2));
         reactions.put(ConduitSignal.FIRE2, ConduitReaction.basicReaction(ConduitSignal.OFF));
         reactions.put(ConduitSignal.AIR1, fireAirReaction);

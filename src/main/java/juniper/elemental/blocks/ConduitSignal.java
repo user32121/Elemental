@@ -4,7 +4,8 @@ import net.minecraft.util.StringIdentifiable;
 
 public enum ConduitSignal implements StringIdentifiable {
     OFF("off", false, false),
-    COOLDOWN("cooldown", false, true),
+    COOLDOWN1("cooldown1", false, true),
+    COOLDOWN2("cooldown2", false, true),
     EARTH1("earth1", true, true),
     EARTH2("earth2", true, true),
     WATER1("water1", true, true),
