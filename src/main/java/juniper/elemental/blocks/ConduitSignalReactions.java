@@ -3,6 +3,7 @@ package juniper.elemental.blocks;
 import java.util.EnumMap;
 import java.util.Map;
 
+import juniper.elemental.init.ElementalBlocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.World.ExplosionSourceType;
@@ -17,6 +18,10 @@ public class ConduitSignalReactions {
                     pos.getZ(), 1, ExplosionSourceType.BLOCK);
             return null;
         };
+        ConduitReaction waterEarthReaction = (world, pos) -> {
+            world.setBlockState(pos, ElementalBlocks.OVERGROWN_CONDUIT.getDefaultState());
+            return null;
+        };
 
         // earth
         Map<ConduitSignal, ConduitReaction> reactions = new EnumMap<>(ConduitSignal.class);
@@ -24,6 +29,8 @@ public class ConduitSignalReactions {
         reactions.put(ConduitSignal.COOLDOWN, ConduitReaction.basicReaction(ConduitSignal.COOLDOWN));
         reactions.put(ConduitSignal.EARTH1, ConduitReaction.basicReaction(ConduitSignal.EARTH2));
         reactions.put(ConduitSignal.EARTH2, ConduitReaction.basicReaction(ConduitSignal.OFF));
+        reactions.put(ConduitSignal.WATER1, waterEarthReaction);
+        reactions.put(ConduitSignal.WATER2, waterEarthReaction);
         allReactions.put(ConduitSignal.EARTH1, reactions);
         allReactions.put(ConduitSignal.EARTH2, reactions);
         // water
@@ -32,6 +39,8 @@ public class ConduitSignalReactions {
         reactions.put(ConduitSignal.COOLDOWN, ConduitReaction.basicReaction(ConduitSignal.COOLDOWN));
         reactions.put(ConduitSignal.WATER1, ConduitReaction.basicReaction(ConduitSignal.WATER2));
         reactions.put(ConduitSignal.WATER2, ConduitReaction.basicReaction(ConduitSignal.OFF));
+        reactions.put(ConduitSignal.EARTH1, waterEarthReaction);
+        reactions.put(ConduitSignal.EARTH2, waterEarthReaction);
         allReactions.put(ConduitSignal.WATER1, reactions);
         allReactions.put(ConduitSignal.WATER2, reactions);
         // air

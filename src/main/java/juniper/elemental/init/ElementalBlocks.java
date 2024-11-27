@@ -4,6 +4,7 @@ import java.util.function.Function;
 
 import juniper.elemental.Elemental;
 import juniper.elemental.blocks.ConduitBlock;
+import juniper.elemental.blocks.TriAxisBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
@@ -17,6 +18,8 @@ import net.minecraft.util.Identifier;
 public class ElementalBlocks {
     public static Block CONDUIT = register("conduit", ConduitBlock::new, AbstractBlock.Settings.create(),
             true);
+    public static Block OVERGROWN_CONDUIT = register("overgrown_conduit", TriAxisBlock::new,
+            AbstractBlock.Settings.create(), true);
 
     public static void init() {
     }

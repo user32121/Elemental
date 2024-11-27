@@ -1,0 +1,35 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "elemental:block/conduit_core_overgrown"
+      }
+    },
+    {
+      "when": {
+        "axis_x": "true"
+      },
+      "apply": {
+        "model": "elemental:block/conduit_axis_overgrown",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "axis_y": "true"
+      },
+      "apply": {
+        "model": "elemental:block/conduit_axis_overgrown",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "axis_z": "true"
+      },
+      "apply": {
+        "model": "elemental:block/conduit_axis_overgrown"
+      }
+    }
+  ]
+}
