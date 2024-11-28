@@ -22,7 +22,7 @@
       "model": "elemental:block/dust_height14"
     },
     "layers=8": {
-      "model": "elemental:block/dust_block"
+      "model": "elemental:block/dust"
     }
   }
 }
