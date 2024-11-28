@@ -24,6 +24,8 @@ public class ElementalBlocks {
     public static Block CLOGGED_CONDUIT = register("clogged_conduit", TriAxisBlock::new,
                     AbstractBlock.Settings.create(), true);
     public static Block DUST = register("dust", SnowBlock::new, AbstractBlock.Settings.create(), true);
+    public static Block MELTED_CONDUIT = register("melted_conduit", TriAxisBlock::new, AbstractBlock.Settings.create(),
+            true);
 
     public static void init() {
     }

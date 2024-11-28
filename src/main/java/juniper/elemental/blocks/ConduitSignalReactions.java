@@ -6,6 +6,7 @@ import java.util.Map;
 import juniper.elemental.init.ElementalBlocks;
 import net.minecraft.block.AbstractCandleBlock;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.CampfireBlock;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
@@ -63,6 +64,22 @@ public class ConduitSignalReactions {
             }
             return null;
         };
+        ConduitReaction fireEarthReaction = (world, pos) -> {
+            for (BlockPos pos2 : BlockPos.iterateRandomly(world.getRandom(), 5, pos, 3)) {
+                ItemPlacementContext ctx = new ItemPlacementContext(world, null, null, new ItemStack(Blocks.FIRE),
+                        new BlockHitResult(Vec3d.ofBottomCenter(pos2), Direction.UP, pos2, false));
+                if (world.getBlockState(pos2).canReplace(ctx)) {
+                    BlockState state = Blocks.FIRE.getPlacementState(ctx);
+                    if (state.canPlaceAt(world, pos2)) {
+                        world.setBlockState(pos2, state);
+                    }
+                }
+            }
+            if (world.getRandom().nextFloat() < 0.1) {
+                world.setBlockState(pos, ElementalBlocks.MELTED_CONDUIT.getDefaultState());
+            }
+            return null;
+        };
         ConduitReaction fireAirReaction = (world, pos) -> {
             world.createExplosion(null, pos.getX(), pos.getY(),
                     pos.getZ(), 1, ExplosionSourceType.BLOCK);
@@ -80,6 +97,8 @@ public class ConduitSignalReactions {
         reactions.put(ConduitSignal.WATER2, waterEarthReaction);
         reactions.put(ConduitSignal.AIR1, airEarthReaction);
         reactions.put(ConduitSignal.AIR2, airEarthReaction);
+        reactions.put(ConduitSignal.FIRE1, fireEarthReaction);
+        reactions.put(ConduitSignal.FIRE2, fireEarthReaction);
         allReactions.put(ConduitSignal.EARTH1, reactions);
         allReactions.put(ConduitSignal.EARTH2, reactions);
         // water
@@ -119,6 +138,8 @@ public class ConduitSignalReactions {
         reactions.put(ConduitSignal.FIRE2, ConduitReaction.basicReaction(ConduitSignal.OFF));
         reactions.put(ConduitSignal.AIR1, fireAirReaction);
         reactions.put(ConduitSignal.AIR2, fireAirReaction);
+        reactions.put(ConduitSignal.EARTH1, fireEarthReaction);
+        reactions.put(ConduitSignal.EARTH2, fireEarthReaction);
         allReactions.put(ConduitSignal.FIRE1, reactions);
         allReactions.put(ConduitSignal.FIRE2, reactions);
 
