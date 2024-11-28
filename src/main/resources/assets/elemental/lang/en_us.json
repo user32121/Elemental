@@ -1,5 +1,15 @@
 {
-    "itemGroup.elemental": "Elemental",
-    "item.elemental.conduit": "Conduit",
-    "block.elemental.conduit": "Conduit"
+  "itemGroup.elemental": "Elemental",
+  "item.elemental.conduit": "Conduit",
+  "block.elemental.conduit": "Conduit",
+  "item.elemental.overgrown_conduit": "Overgrown Conduit",
+  "block.elemental.overgrown_conduit": "Overgrown Conduit",
+  "item.elemental.clogged_conduit": "Clogged Conduit",
+  "block.elemental.clogged_conduit": "Clogged Conduit",
+  "item.elemental.dust": "Dust",
+  "block.elemental.dust": "Dust",
+  "item.elemental.melted_conduit": "Melted Conduit",
+  "block.elemental.melted_conduit": "Melted Conduit",
+  "item.elemental.blown_out_conduit": "Blown Out Conduit",
+  "block.elemental.blown_out_conduit": "Blown Out Conduit"
 }
