@@ -1,8 +1,12 @@
 package juniper.elemental.init;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import juniper.elemental.Elemental;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -17,15 +21,15 @@ public class ElementalItemGroups {
             .displayName(Text.translatable("itemGroup." + Elemental.MOD_ID))
             .build();
 
+    public static final List<ItemConvertible> ALL_ITEMS = new ArrayList<>();
+
     public static void init() {
         Registry.register(Registries.ITEM_GROUP, ELEMENTAL_ITEM_GROUP_KEY, ELEMENTAL_ITEM_GROUP);
 
         ItemGroupEvents.modifyEntriesEvent(ELEMENTAL_ITEM_GROUP_KEY).register((itemGroup) -> {
-            itemGroup.add(ElementalBlocks.CONDUIT.asItem());
-            itemGroup.add(ElementalBlocks.OVERGROWN_CONDUIT.asItem());
-            itemGroup.add(ElementalBlocks.DUST.asItem());
-            itemGroup.add(ElementalBlocks.CLOGGED_CONDUIT.asItem());
-            itemGroup.add(ElementalBlocks.BLOWN_OUT_CONDUIT.asItem());
+            for (ItemConvertible item : ALL_ITEMS) {
+                itemGroup.add(item);
+            }
         });
     }
 

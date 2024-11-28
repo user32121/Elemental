@@ -44,6 +44,7 @@ public class ElementalBlocks {
             BlockItem blockItem = new BlockItem(block,
                     new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, id)));
             Registry.register(Registries.ITEM, id, blockItem);
+            ElementalItemGroups.ALL_ITEMS.add(blockItem);
         }
 
         return Registry.register(Registries.BLOCK, id, block);
