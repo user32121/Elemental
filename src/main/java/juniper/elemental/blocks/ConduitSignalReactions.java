@@ -4,15 +4,20 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import juniper.elemental.init.ElementalBlocks;
+import net.minecraft.block.AbstractCandleBlock;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.CampfireBlock;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.World.ExplosionSourceType;
+import net.minecraft.world.WorldEvents;
 
 public class ConduitSignalReactions {
     public static final Map<ConduitSignal, Map<ConduitSignal, ConduitReaction>> REACTIONS;
@@ -51,6 +56,13 @@ public class ConduitSignalReactions {
             }
             return null;
         };
+        ConduitReaction airWaterReaction = (world, pos) -> {
+            extinguishFire(world, pos);
+            for (Direction dir : Direction.values()) {
+                extinguishFire(world, pos.offset(dir));
+            }
+            return null;
+        };
         ConduitReaction fireAirReaction = (world, pos) -> {
             world.createExplosion(null, pos.getX(), pos.getY(),
                     pos.getZ(), 1, ExplosionSourceType.BLOCK);
@@ -79,6 +91,8 @@ public class ConduitSignalReactions {
         reactions.put(ConduitSignal.WATER2, ConduitReaction.basicReaction(ConduitSignal.OFF));
         reactions.put(ConduitSignal.EARTH1, waterEarthReaction);
         reactions.put(ConduitSignal.EARTH2, waterEarthReaction);
+        reactions.put(ConduitSignal.AIR1, airWaterReaction);
+        reactions.put(ConduitSignal.AIR2, airWaterReaction);
         allReactions.put(ConduitSignal.WATER1, reactions);
         allReactions.put(ConduitSignal.WATER2, reactions);
         // air
@@ -92,6 +106,8 @@ public class ConduitSignalReactions {
         reactions.put(ConduitSignal.FIRE2, fireAirReaction);
         reactions.put(ConduitSignal.EARTH1, airEarthReaction);
         reactions.put(ConduitSignal.EARTH2, airEarthReaction);
+        reactions.put(ConduitSignal.WATER1, airWaterReaction);
+        reactions.put(ConduitSignal.WATER2, airWaterReaction);
         allReactions.put(ConduitSignal.AIR1, reactions);
         allReactions.put(ConduitSignal.AIR2, reactions);
         // fire
@@ -109,6 +125,19 @@ public class ConduitSignalReactions {
         REACTIONS = new EnumMap<>(allReactions);
     }
 
+    private static void extinguishFire(World world, BlockPos pos) {
+        BlockState blockState = world.getBlockState(pos);
+        if (blockState.isIn(BlockTags.FIRE)) {
+            world.breakBlock(pos, false, null);
+        } else if (AbstractCandleBlock.isLitCandle(blockState)) {
+            AbstractCandleBlock.extinguish(null, blockState, world, pos);
+        } else if (CampfireBlock.isLitCampfire(blockState)) {
+            world.syncWorldEvent(null, WorldEvents.FIRE_EXTINGUISHED, pos, 0);
+            CampfireBlock.extinguish(null, world, pos, blockState);
+            world.setBlockState(pos, (BlockState) blockState.with(CampfireBlock.LIT, false));
+        }
+    }
+
     @FunctionalInterface
     public interface ConduitReaction {
         /**
@@ -119,7 +148,7 @@ public class ConduitSignalReactions {
          * @return the new signal produced by the reaction, or `null` if the reaction
          *         produces no signal
          */
-        public ConduitSignal performReaction(World world, BlockPos pos);
+        public ConduitSignal performReaction(ServerWorld world, BlockPos pos);
 
         public static ConduitReaction basicReaction(ConduitSignal signal) {
             return (world, pos) -> signal;
