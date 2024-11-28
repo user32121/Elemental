@@ -1,0 +1,7 @@
+{
+  "parent": "elemental:block/template_triaxis_axis",
+  "textures": {
+    "end": "elemental:block/conduit_face_water",
+    "side": "elemental:block/conduit_axis_water"
+  }
+}
