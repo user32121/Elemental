@@ -37,6 +37,7 @@ public class ElementalModelProvider extends FabricModelProvider {
         registerTriAxisBlock(blockStateModelGenerator, ElementalBlocks.OVERGROWN_CONDUIT);
         registerSnow(blockStateModelGenerator, ElementalBlocks.DUST);
         registerTriAxisBlock(blockStateModelGenerator, ElementalBlocks.MELTED_CONDUIT);
+        registerTriAxisBlock(blockStateModelGenerator, ElementalBlocks.BLOWN_OUT_CONDUIT);
     }
 
     private void registerTriAxisBlock(BlockStateModelGenerator bsmg, Block block) {

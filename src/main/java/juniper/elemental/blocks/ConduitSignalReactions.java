@@ -1,6 +1,7 @@
 package juniper.elemental.blocks;
 
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 import juniper.elemental.init.ElementalBlocks;
@@ -8,12 +9,14 @@ import net.minecraft.block.AbstractCandleBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CampfireBlock;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -23,19 +26,13 @@ import net.minecraft.world.WorldEvents;
 public class ConduitSignalReactions {
     public static final Map<ConduitSignal, Map<ConduitSignal, ConduitReaction>> REACTIONS;
     public static final Map<ConduitSignal, ConduitSignal> TRANSITIONS = new EnumMap<>(
-            Map.of(ConduitSignal.COOLDOWN1, ConduitSignal.OFF,
-                    ConduitSignal.COOLDOWN2, ConduitSignal.OFF,
-                    ConduitSignal.EARTH1, ConduitSignal.COOLDOWN1,
-                    ConduitSignal.EARTH2, ConduitSignal.COOLDOWN1,
-                    ConduitSignal.WATER1, ConduitSignal.COOLDOWN1,
-                    ConduitSignal.WATER2, ConduitSignal.COOLDOWN1,
-                    ConduitSignal.AIR1, ConduitSignal.COOLDOWN1,
-                    ConduitSignal.AIR2, ConduitSignal.COOLDOWN1,
-                    ConduitSignal.FIRE1, ConduitSignal.COOLDOWN1,
-                    ConduitSignal.FIRE2, ConduitSignal.COOLDOWN1));
+            Map.of(ConduitSignal.COOLDOWN1, ConduitSignal.OFF, ConduitSignal.COOLDOWN2, ConduitSignal.OFF,
+                    ConduitSignal.EARTH1, ConduitSignal.COOLDOWN1, ConduitSignal.EARTH2, ConduitSignal.COOLDOWN1,
+                    ConduitSignal.WATER1, ConduitSignal.COOLDOWN1, ConduitSignal.WATER2, ConduitSignal.COOLDOWN1,
+                    ConduitSignal.AIR1, ConduitSignal.COOLDOWN1, ConduitSignal.AIR2, ConduitSignal.COOLDOWN1,
+                    ConduitSignal.FIRE1, ConduitSignal.COOLDOWN1, ConduitSignal.FIRE2, ConduitSignal.COOLDOWN1));
     static {
         Map<ConduitSignal, Map<ConduitSignal, ConduitReaction>> allReactions = new EnumMap<>(ConduitSignal.class);
-
         ConduitReaction waterEarthReaction = (world, pos) -> {
             world.setBlockState(pos, ElementalBlocks.OVERGROWN_CONDUIT.getDefaultState());
             return null;
@@ -80,12 +77,25 @@ public class ConduitSignalReactions {
             }
             return null;
         };
-        ConduitReaction fireAirReaction = (world, pos) -> {
-            world.createExplosion(null, pos.getX(), pos.getY(),
-                    pos.getZ(), 1, ExplosionSourceType.BLOCK);
+        ConduitReaction fireWaterReaction = (world, pos) -> {
+            Vec3d dir = new Vec3d(world.random.nextFloat(), world.random.nextFloat(), world.random.nextFloat());
+            List<Entity> entities = world.getOtherEntities(null, Box.of(pos.toCenterPos(), 10, 10, 10));
+            for (Entity entity : entities) {
+                Vec3d vecToEntity = entity.getPos().subtract(pos.toCenterPos());
+                if (vecToEntity.dotProduct(dir) > 0) {
+                    float damage = (float) (1 / (1 + vecToEntity.distanceTo(Vec3d.ZERO)));
+                    entity.damage(world, world.getDamageSources().inFire(), damage);
+                }
+            }
+            if (world.getRandom().nextFloat() < 0.1) {
+                world.setBlockState(pos, ElementalBlocks.BLOWN_OUT_CONDUIT.getDefaultState());
+            }
             return null;
         };
-
+        ConduitReaction fireAirReaction = (world, pos) -> {
+            world.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 1, ExplosionSourceType.BLOCK);
+            return null;
+        };
         // earth
         Map<ConduitSignal, ConduitReaction> reactions = new EnumMap<>(ConduitSignal.class);
         reactions.put(ConduitSignal.OFF, ConduitReaction.basicReaction(ConduitSignal.EARTH1));
@@ -112,6 +122,8 @@ public class ConduitSignalReactions {
         reactions.put(ConduitSignal.EARTH2, waterEarthReaction);
         reactions.put(ConduitSignal.AIR1, airWaterReaction);
         reactions.put(ConduitSignal.AIR2, airWaterReaction);
+        reactions.put(ConduitSignal.FIRE1, fireWaterReaction);
+        reactions.put(ConduitSignal.FIRE2, fireWaterReaction);
         allReactions.put(ConduitSignal.WATER1, reactions);
         allReactions.put(ConduitSignal.WATER2, reactions);
         // air
@@ -140,9 +152,10 @@ public class ConduitSignalReactions {
         reactions.put(ConduitSignal.AIR2, fireAirReaction);
         reactions.put(ConduitSignal.EARTH1, fireEarthReaction);
         reactions.put(ConduitSignal.EARTH2, fireEarthReaction);
+        reactions.put(ConduitSignal.WATER1, fireWaterReaction);
+        reactions.put(ConduitSignal.WATER2, fireWaterReaction);
         allReactions.put(ConduitSignal.FIRE1, reactions);
         allReactions.put(ConduitSignal.FIRE2, reactions);
-
         REACTIONS = new EnumMap<>(allReactions);
     }
 

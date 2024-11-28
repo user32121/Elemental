@@ -25,7 +25,9 @@ public class ElementalBlocks {
                     AbstractBlock.Settings.create(), true);
     public static Block DUST = register("dust", SnowBlock::new, AbstractBlock.Settings.create(), true);
     public static Block MELTED_CONDUIT = register("melted_conduit", TriAxisBlock::new, AbstractBlock.Settings.create(),
-            true);
+                    true);
+    public static Block BLOWN_OUT_CONDUIT = register("blown_out_conduit", TriAxisBlock::new,
+                    AbstractBlock.Settings.create(), true);
 
     public static void init() {
     }
