@@ -6,5 +6,4 @@ catalyst
  fire+earth=lava
  fire+water=crafting 2
  fire+air=non destructive boom
-reaction sounds
-block properties (tool, loot table, etc)
+block properties (tool, etc)
