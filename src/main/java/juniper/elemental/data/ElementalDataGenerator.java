@@ -9,5 +9,6 @@ public class ElementalDataGenerator implements DataGeneratorEntrypoint {
         FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
         pack.addProvider(ElementalModelProvider::new);
         pack.addProvider(ElementalLootTableProvider::new);
+        pack.addProvider(ElementalBlockTagProvider::new);
     }
 }

@@ -1,4 +1,4 @@
-// 1.21.3	2024-11-30T11:35:39.4894144	Elemental/Model Definitions
+// 1.21.3	2024-11-30T12:01:37.3793598	Elemental/Model Definitions
 067c14c3f76c2da8152c448f84fd7af1595828c1 assets\elemental\models\block\dust_height14.json
 54d8ed9e8bfe80a7b297bc185d3d11facd90f54a assets\elemental\models\item\dust.json
 5fd0acc889fdcca0cb63e3d6971f0dc547a169d1 assets\elemental\models\block\dust_height8.json
@@ -15,8 +15,8 @@ bc653c8c98d7ce8824aa94f2f502fd41f83c7de3 assets\elemental\models\item\clogged_co
 46fb07fc4652f0dee28e85563da3e49d1eb1a34e assets\elemental\models\block\conduit_core_air.json
 105efb2117705d70d78842b4513d63eebcafc36b assets\elemental\models\block\dust_height16.json
 2bb946d17d9236598090a222b6e7db82a11d1462 assets\elemental\models\block\conduit_core_water.json
-018729787d0f87cf7def31de8854fc976bd0f933 assets\elemental\models\block\conduit_core_fire.json
 e2bdd330243f8f612e2e18d382ea3bdf166f6be8 assets\elemental\models\block\overgrown_conduit_core.json
+018729787d0f87cf7def31de8854fc976bd0f933 assets\elemental\models\block\conduit_core_fire.json
 7e31e81d99c242c00898ff677ad6e78ab1265694 assets\elemental\models\block\conduit_axis_off.json
 fe7378c3e69e9e6bcf4b0663f378ba4deafcb06a assets\elemental\models\block\conduit_axis_cooldown.json
 7637a7fb5b269d5ba0bace1771fd3f9ef170de40 assets\elemental\models\block\dust_height4.json
@@ -31,9 +31,9 @@ edf65df1f3832fb57936d1037cc2d6edcbc90402 assets\elemental\models\block\conduit_a
 7bc6455e57ac525766086e6afd95f79619d5de7e assets\elemental\models\block\conduit_core_cooldown.json
 8c03a46014ac6275c855fe926fb0c004c928f8ae assets\elemental\models\block\clogged_conduit_axis.json
 8b648684f1ac59126d538e0a996143a3e74da2ec assets\elemental\models\block\dust_height6.json
+e09d12fde2e5b05918e7769cbe30da8fc455c67e assets\elemental\blockstates\blown_out_conduit.json
 d11429ba56ba6548d60ae71dad73691d2d4e79f4 assets\elemental\blockstates\overgrown_conduit.json
 f3a6b17dae4df3424ce514560dfc79db13c46598 assets\elemental\models\block\conduit_axis_earth.json
-e09d12fde2e5b05918e7769cbe30da8fc455c67e assets\elemental\blockstates\blown_out_conduit.json
 a520247ec26c9f7bcbfc853dd31f442d88405bae assets\elemental\models\block\dust_height12.json
 faca7c93482167acc27a2c6afe6d788a5714b146 assets\elemental\blockstates\melted_conduit.json
 bf60d31c56278fe186bb5abebbdbf93e0e35d7af assets\elemental\models\block\overgrown_conduit_axis.json
