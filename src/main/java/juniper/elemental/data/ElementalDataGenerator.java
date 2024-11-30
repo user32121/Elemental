@@ -8,6 +8,6 @@ public class ElementalDataGenerator implements DataGeneratorEntrypoint {
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
         FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
         pack.addProvider(ElementalModelProvider::new);
-        pack.addProvider(ElementalLootTableGenerator::new);
+        pack.addProvider(ElementalLootTableProvider::new);
     }
 }
