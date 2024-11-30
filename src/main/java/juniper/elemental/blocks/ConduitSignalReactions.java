@@ -12,8 +12,11 @@ import net.minecraft.block.CampfireBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -34,10 +37,14 @@ public class ConduitSignalReactions {
     static {
         Map<ConduitSignal, Map<ConduitSignal, ConduitReaction>> allReactions = new EnumMap<>(ConduitSignal.class);
         ConduitReaction waterEarthReaction = (world, pos) -> {
+            world.playSound(null, pos, SoundEvents.ITEM_BONE_MEAL_USE, SoundCategory.BLOCKS, 3, 1);
             world.setBlockState(pos, ElementalBlocks.OVERGROWN_CONDUIT.getDefaultState());
             return null;
         };
         ConduitReaction airEarthReaction = (world, pos) -> {
+            world.playSound(null, pos, SoundEvents.ENTITY_WIND_CHARGE_WIND_BURST.value(), SoundCategory.BLOCKS, 1, 1);
+            world.spawnParticles(ParticleTypes.WHITE_SMOKE, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 20,
+                    0.1, 0.1, 0.1, 1);
             for (BlockPos pos2 : BlockPos.iterateRandomly(world.getRandom(), 5, pos, 3)) {
                 ItemPlacementContext ctx = new ItemPlacementContext(world, null, null,
                         new ItemStack(ElementalBlocks.DUST),
