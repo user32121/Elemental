@@ -62,13 +62,23 @@ public class ConduitSignalReactions {
             return null;
         };
         ConduitReaction airWaterReaction = (world, pos) -> {
+            world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_SPLASH, SoundCategory.BLOCKS, 0.1f, 1);
+            world.spawnParticles(ParticleTypes.SPLASH, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 30, 0.5,
+                    0.5, 0.5, 1);
             extinguishFire(world, pos);
-            for (Direction dir : Direction.values()) {
-                extinguishFire(world, pos.offset(dir));
+            for (BlockPos pos2 : BlockPos.iterate(pos.add(-1, -1, -1), pos.add(1, 1, 1))) {
+                extinguishFire(world, pos2);
+            }
+            List<Entity> entities = world.getOtherEntities(null, Box.of(pos.toCenterPos(), 3, 3, 3));
+            for (Entity entity : entities) {
+                entity.extinguish();
             }
             return null;
         };
         ConduitReaction fireEarthReaction = (world, pos) -> {
+            world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1, 1);
+            world.spawnParticles(ParticleTypes.FLAME, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 20, 0, 0, 0,
+                    0.05);
             for (BlockPos pos2 : BlockPos.iterateRandomly(world.getRandom(), 5, pos, 3)) {
                 ItemPlacementContext ctx = new ItemPlacementContext(world, null, null, new ItemStack(Blocks.FIRE),
                         new BlockHitResult(Vec3d.ofBottomCenter(pos2), Direction.UP, pos2, false));
@@ -85,14 +95,13 @@ public class ConduitSignalReactions {
             return null;
         };
         ConduitReaction fireWaterReaction = (world, pos) -> {
-            Vec3d dir = new Vec3d(world.random.nextFloat(), world.random.nextFloat(), world.random.nextFloat());
+            world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1, 1);
+            world.spawnParticles(ParticleTypes.WHITE_SMOKE, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 20,
+                    0.1, 0.1, 0.1, 1);
             List<Entity> entities = world.getOtherEntities(null, Box.of(pos.toCenterPos(), 10, 10, 10));
             for (Entity entity : entities) {
-                Vec3d vecToEntity = entity.getPos().subtract(pos.toCenterPos());
-                if (vecToEntity.dotProduct(dir) > 0) {
-                    float damage = (float) (1 / (1 + vecToEntity.distanceTo(Vec3d.ZERO)));
-                    entity.damage(world, world.getDamageSources().inFire(), damage);
-                }
+                float damage = (float) (1 / (1 + entity.getPos().subtract(pos.toCenterPos()).distanceTo(Vec3d.ZERO)));
+                entity.damage(world, world.getDamageSources().inFire(), damage);
             }
             if (world.getRandom().nextFloat() < 0.1) {
                 world.setBlockState(pos, ElementalBlocks.BLOWN_OUT_CONDUIT.getDefaultState());
@@ -170,6 +179,7 @@ public class ConduitSignalReactions {
         BlockState blockState = world.getBlockState(pos);
         if (blockState.isIn(BlockTags.FIRE)) {
             world.breakBlock(pos, false, null);
+            world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1, 1);
         } else if (AbstractCandleBlock.isLitCandle(blockState)) {
             AbstractCandleBlock.extinguish(null, blockState, world, pos);
         } else if (CampfireBlock.isLitCampfire(blockState)) {
