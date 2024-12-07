@@ -25,7 +25,7 @@ public class ElementalBlocks {
     public static Block CLOGGED_CONDUIT = register("clogged_conduit", TriAxisBlock::new,
             AbstractBlock.Settings.create().strength(1.5f).requiresTool(), true);
     public static Block DUST = register("dust", SnowBlock::new,
-            AbstractBlock.Settings.create().strength(1.5f).requiresTool(), true);
+                    AbstractBlock.Settings.create().strength(0.5f), true);
     public static Block MELTED_CONDUIT = register("melted_conduit", TriAxisBlock::new,
             AbstractBlock.Settings.create().strength(1.5f).requiresTool(), true);
     public static Block BLOWN_OUT_CONDUIT = register("blown_out_conduit", TriAxisBlock::new,

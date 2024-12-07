@@ -1,8 +1,0 @@
-// 1.21.3	2024-12-07T13:20:25.5054029	Elemental/Block Loot Tables
-d9c8c9026abd7705b101ca162712f2f0270545f5 data\elemental\loot_table\blocks\conduit.json
-b507a182b8c7c265be11e5167b781d642a0f08d1 data\elemental\loot_table\blocks\dust.json
-95ba5f9f7e93299514993b7bf7d88d49b5c40156 data\elemental\loot_table\blocks\blown_out_conduit.json
-3a8bd570786bf60eb39f21dbf7e819235fc815ce data\elemental\loot_table\blocks\melted_conduit.json
-ffac8675bc2094908c33b624f3aab2051cad0aef data\elemental\loot_table\blocks\clogged_conduit.json
-bed546fd1d88c9ab5562bbe184d6475ee96efe44 data\elemental\loot_table\blocks\condenser.json
-c6651d431a28eb7f95f60c43bababe88dd64d4ec data\elemental\loot_table\blocks\overgrown_conduit.json
