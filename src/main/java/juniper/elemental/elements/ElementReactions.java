@@ -1,4 +1,4 @@
-package juniper.elemental.blocks;
+package juniper.elemental.elements;
 
 import java.util.EnumMap;
 import java.util.List;
@@ -26,16 +26,16 @@ import net.minecraft.world.World;
 import net.minecraft.world.World.ExplosionSourceType;
 import net.minecraft.world.WorldEvents;
 
-public class ConduitSignalReactions {
-    public static final Map<ConduitSignal, Map<ConduitSignal, ConduitReaction>> REACTIONS;
-    public static final Map<ConduitSignal, ConduitSignal> TRANSITIONS = new EnumMap<>(
-            Map.of(ConduitSignal.COOLDOWN1, ConduitSignal.OFF, ConduitSignal.COOLDOWN2, ConduitSignal.OFF,
-                    ConduitSignal.EARTH1, ConduitSignal.COOLDOWN1, ConduitSignal.EARTH2, ConduitSignal.COOLDOWN1,
-                    ConduitSignal.WATER1, ConduitSignal.COOLDOWN1, ConduitSignal.WATER2, ConduitSignal.COOLDOWN1,
-                    ConduitSignal.AIR1, ConduitSignal.COOLDOWN1, ConduitSignal.AIR2, ConduitSignal.COOLDOWN1,
-                    ConduitSignal.FIRE1, ConduitSignal.COOLDOWN1, ConduitSignal.FIRE2, ConduitSignal.COOLDOWN1));
+public class ElementReactions {
+    public static final Map<ElementSignal, Map<ElementSignal, ConduitReaction>> REACTIONS;
+    public static final Map<ElementSignal, ElementSignal> TRANSITIONS = new EnumMap<>(
+            Map.of(ElementSignal.COOLDOWN1, ElementSignal.OFF, ElementSignal.COOLDOWN2, ElementSignal.OFF,
+                    ElementSignal.EARTH1, ElementSignal.COOLDOWN1, ElementSignal.EARTH2, ElementSignal.COOLDOWN1,
+                    ElementSignal.WATER1, ElementSignal.COOLDOWN1, ElementSignal.WATER2, ElementSignal.COOLDOWN1,
+                    ElementSignal.AIR1, ElementSignal.COOLDOWN1, ElementSignal.AIR2, ElementSignal.COOLDOWN1,
+                    ElementSignal.FIRE1, ElementSignal.COOLDOWN1, ElementSignal.FIRE2, ElementSignal.COOLDOWN1));
     static {
-        Map<ConduitSignal, Map<ConduitSignal, ConduitReaction>> allReactions = new EnumMap<>(ConduitSignal.class);
+        Map<ElementSignal, Map<ElementSignal, ConduitReaction>> allReactions = new EnumMap<>(ElementSignal.class);
         ConduitReaction waterEarthReaction = (world, pos) -> {
             world.playSound(null, pos, SoundEvents.ITEM_BONE_MEAL_USE, SoundCategory.BLOCKS, 3, 1);
             world.setBlockState(pos, ElementalBlocks.OVERGROWN_CONDUIT.getDefaultState());
@@ -113,65 +113,65 @@ public class ConduitSignalReactions {
             return null;
         };
         // earth
-        Map<ConduitSignal, ConduitReaction> reactions = new EnumMap<>(ConduitSignal.class);
-        reactions.put(ConduitSignal.OFF, ConduitReaction.basicReaction(ConduitSignal.EARTH1));
-        reactions.put(ConduitSignal.COOLDOWN1, ConduitReaction.basicReaction(ConduitSignal.COOLDOWN2));
-        reactions.put(ConduitSignal.COOLDOWN2, ConduitReaction.basicReaction(ConduitSignal.COOLDOWN1));
-        reactions.put(ConduitSignal.EARTH1, ConduitReaction.basicReaction(ConduitSignal.EARTH2));
-        reactions.put(ConduitSignal.EARTH2, ConduitReaction.basicReaction(ConduitSignal.OFF));
-        reactions.put(ConduitSignal.WATER1, waterEarthReaction);
-        reactions.put(ConduitSignal.WATER2, waterEarthReaction);
-        reactions.put(ConduitSignal.AIR1, airEarthReaction);
-        reactions.put(ConduitSignal.AIR2, airEarthReaction);
-        reactions.put(ConduitSignal.FIRE1, fireEarthReaction);
-        reactions.put(ConduitSignal.FIRE2, fireEarthReaction);
-        allReactions.put(ConduitSignal.EARTH1, reactions);
-        allReactions.put(ConduitSignal.EARTH2, reactions);
+        Map<ElementSignal, ConduitReaction> reactions = new EnumMap<>(ElementSignal.class);
+        reactions.put(ElementSignal.OFF, ConduitReaction.basicReaction(ElementSignal.EARTH1));
+        reactions.put(ElementSignal.COOLDOWN1, ConduitReaction.basicReaction(ElementSignal.COOLDOWN2));
+        reactions.put(ElementSignal.COOLDOWN2, ConduitReaction.basicReaction(ElementSignal.COOLDOWN1));
+        reactions.put(ElementSignal.EARTH1, ConduitReaction.basicReaction(ElementSignal.EARTH2));
+        reactions.put(ElementSignal.EARTH2, ConduitReaction.basicReaction(ElementSignal.OFF));
+        reactions.put(ElementSignal.WATER1, waterEarthReaction);
+        reactions.put(ElementSignal.WATER2, waterEarthReaction);
+        reactions.put(ElementSignal.AIR1, airEarthReaction);
+        reactions.put(ElementSignal.AIR2, airEarthReaction);
+        reactions.put(ElementSignal.FIRE1, fireEarthReaction);
+        reactions.put(ElementSignal.FIRE2, fireEarthReaction);
+        allReactions.put(ElementSignal.EARTH1, reactions);
+        allReactions.put(ElementSignal.EARTH2, reactions);
         // water
-        reactions = new EnumMap<>(ConduitSignal.class);
-        reactions.put(ConduitSignal.OFF, ConduitReaction.basicReaction(ConduitSignal.WATER1));
-        reactions.put(ConduitSignal.COOLDOWN1, ConduitReaction.basicReaction(ConduitSignal.COOLDOWN2));
-        reactions.put(ConduitSignal.COOLDOWN2, ConduitReaction.basicReaction(ConduitSignal.COOLDOWN1));
-        reactions.put(ConduitSignal.WATER1, ConduitReaction.basicReaction(ConduitSignal.WATER2));
-        reactions.put(ConduitSignal.WATER2, ConduitReaction.basicReaction(ConduitSignal.OFF));
-        reactions.put(ConduitSignal.EARTH1, waterEarthReaction);
-        reactions.put(ConduitSignal.EARTH2, waterEarthReaction);
-        reactions.put(ConduitSignal.AIR1, airWaterReaction);
-        reactions.put(ConduitSignal.AIR2, airWaterReaction);
-        reactions.put(ConduitSignal.FIRE1, fireWaterReaction);
-        reactions.put(ConduitSignal.FIRE2, fireWaterReaction);
-        allReactions.put(ConduitSignal.WATER1, reactions);
-        allReactions.put(ConduitSignal.WATER2, reactions);
+        reactions = new EnumMap<>(ElementSignal.class);
+        reactions.put(ElementSignal.OFF, ConduitReaction.basicReaction(ElementSignal.WATER1));
+        reactions.put(ElementSignal.COOLDOWN1, ConduitReaction.basicReaction(ElementSignal.COOLDOWN2));
+        reactions.put(ElementSignal.COOLDOWN2, ConduitReaction.basicReaction(ElementSignal.COOLDOWN1));
+        reactions.put(ElementSignal.WATER1, ConduitReaction.basicReaction(ElementSignal.WATER2));
+        reactions.put(ElementSignal.WATER2, ConduitReaction.basicReaction(ElementSignal.OFF));
+        reactions.put(ElementSignal.EARTH1, waterEarthReaction);
+        reactions.put(ElementSignal.EARTH2, waterEarthReaction);
+        reactions.put(ElementSignal.AIR1, airWaterReaction);
+        reactions.put(ElementSignal.AIR2, airWaterReaction);
+        reactions.put(ElementSignal.FIRE1, fireWaterReaction);
+        reactions.put(ElementSignal.FIRE2, fireWaterReaction);
+        allReactions.put(ElementSignal.WATER1, reactions);
+        allReactions.put(ElementSignal.WATER2, reactions);
         // air
-        reactions = new EnumMap<>(ConduitSignal.class);
-        reactions.put(ConduitSignal.OFF, ConduitReaction.basicReaction(ConduitSignal.AIR1));
-        reactions.put(ConduitSignal.COOLDOWN1, ConduitReaction.basicReaction(ConduitSignal.COOLDOWN2));
-        reactions.put(ConduitSignal.COOLDOWN2, ConduitReaction.basicReaction(ConduitSignal.COOLDOWN1));
-        reactions.put(ConduitSignal.AIR1, ConduitReaction.basicReaction(ConduitSignal.AIR2));
-        reactions.put(ConduitSignal.AIR2, ConduitReaction.basicReaction(ConduitSignal.OFF));
-        reactions.put(ConduitSignal.FIRE1, fireAirReaction);
-        reactions.put(ConduitSignal.FIRE2, fireAirReaction);
-        reactions.put(ConduitSignal.EARTH1, airEarthReaction);
-        reactions.put(ConduitSignal.EARTH2, airEarthReaction);
-        reactions.put(ConduitSignal.WATER1, airWaterReaction);
-        reactions.put(ConduitSignal.WATER2, airWaterReaction);
-        allReactions.put(ConduitSignal.AIR1, reactions);
-        allReactions.put(ConduitSignal.AIR2, reactions);
+        reactions = new EnumMap<>(ElementSignal.class);
+        reactions.put(ElementSignal.OFF, ConduitReaction.basicReaction(ElementSignal.AIR1));
+        reactions.put(ElementSignal.COOLDOWN1, ConduitReaction.basicReaction(ElementSignal.COOLDOWN2));
+        reactions.put(ElementSignal.COOLDOWN2, ConduitReaction.basicReaction(ElementSignal.COOLDOWN1));
+        reactions.put(ElementSignal.AIR1, ConduitReaction.basicReaction(ElementSignal.AIR2));
+        reactions.put(ElementSignal.AIR2, ConduitReaction.basicReaction(ElementSignal.OFF));
+        reactions.put(ElementSignal.FIRE1, fireAirReaction);
+        reactions.put(ElementSignal.FIRE2, fireAirReaction);
+        reactions.put(ElementSignal.EARTH1, airEarthReaction);
+        reactions.put(ElementSignal.EARTH2, airEarthReaction);
+        reactions.put(ElementSignal.WATER1, airWaterReaction);
+        reactions.put(ElementSignal.WATER2, airWaterReaction);
+        allReactions.put(ElementSignal.AIR1, reactions);
+        allReactions.put(ElementSignal.AIR2, reactions);
         // fire
-        reactions = new EnumMap<>(ConduitSignal.class);
-        reactions.put(ConduitSignal.OFF, ConduitReaction.basicReaction(ConduitSignal.FIRE1));
-        reactions.put(ConduitSignal.COOLDOWN1, ConduitReaction.basicReaction(ConduitSignal.COOLDOWN2));
-        reactions.put(ConduitSignal.COOLDOWN2, ConduitReaction.basicReaction(ConduitSignal.COOLDOWN1));
-        reactions.put(ConduitSignal.FIRE1, ConduitReaction.basicReaction(ConduitSignal.FIRE2));
-        reactions.put(ConduitSignal.FIRE2, ConduitReaction.basicReaction(ConduitSignal.OFF));
-        reactions.put(ConduitSignal.AIR1, fireAirReaction);
-        reactions.put(ConduitSignal.AIR2, fireAirReaction);
-        reactions.put(ConduitSignal.EARTH1, fireEarthReaction);
-        reactions.put(ConduitSignal.EARTH2, fireEarthReaction);
-        reactions.put(ConduitSignal.WATER1, fireWaterReaction);
-        reactions.put(ConduitSignal.WATER2, fireWaterReaction);
-        allReactions.put(ConduitSignal.FIRE1, reactions);
-        allReactions.put(ConduitSignal.FIRE2, reactions);
+        reactions = new EnumMap<>(ElementSignal.class);
+        reactions.put(ElementSignal.OFF, ConduitReaction.basicReaction(ElementSignal.FIRE1));
+        reactions.put(ElementSignal.COOLDOWN1, ConduitReaction.basicReaction(ElementSignal.COOLDOWN2));
+        reactions.put(ElementSignal.COOLDOWN2, ConduitReaction.basicReaction(ElementSignal.COOLDOWN1));
+        reactions.put(ElementSignal.FIRE1, ConduitReaction.basicReaction(ElementSignal.FIRE2));
+        reactions.put(ElementSignal.FIRE2, ConduitReaction.basicReaction(ElementSignal.OFF));
+        reactions.put(ElementSignal.AIR1, fireAirReaction);
+        reactions.put(ElementSignal.AIR2, fireAirReaction);
+        reactions.put(ElementSignal.EARTH1, fireEarthReaction);
+        reactions.put(ElementSignal.EARTH2, fireEarthReaction);
+        reactions.put(ElementSignal.WATER1, fireWaterReaction);
+        reactions.put(ElementSignal.WATER2, fireWaterReaction);
+        allReactions.put(ElementSignal.FIRE1, reactions);
+        allReactions.put(ElementSignal.FIRE2, reactions);
         REACTIONS = new EnumMap<>(allReactions);
     }
 
@@ -199,9 +199,9 @@ public class ConduitSignalReactions {
          * @return the new signal produced by the reaction, or `null` if the reaction
          *         produces no signal
          */
-        public ConduitSignal performReaction(ServerWorld world, BlockPos pos);
+        public ElementSignal performReaction(ServerWorld world, BlockPos pos);
 
-        public static ConduitReaction basicReaction(ConduitSignal signal) {
+        public static ConduitReaction basicReaction(ElementSignal signal) {
             return (world, pos) -> signal;
         }
     }

@@ -3,9 +3,9 @@ package juniper.elemental.data;
 import java.util.Optional;
 
 import juniper.elemental.blocks.ConduitBlock;
-import juniper.elemental.blocks.ConduitSignal;
-import juniper.elemental.blocks.SignalHolder;
+import juniper.elemental.blocks.ElementHolder;
 import juniper.elemental.blocks.TriAxisBlock;
+import juniper.elemental.elements.ElementSignal;
 import juniper.elemental.init.ElementalBlocks;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
@@ -66,15 +66,15 @@ public class ElementalModelProvider extends FabricModelProvider {
     private void registerConduit(BlockStateModelGenerator bsmg, Block block) {
         Identifier idItem = null;
         MultipartBlockStateSupplier mbss = MultipartBlockStateSupplier.create(block);
-        for (ConduitSignal signal : ConduitBlock.SIGNAL.getValues()) {
+        for (ElementSignal signal : ConduitBlock.SIGNAL.getValues()) {
             String signalName = signal.asString();
-            ConduitSignal complementarySignal = signal;
+            ElementSignal complementarySignal = signal;
             if (signalName.endsWith("2")) {
                 continue;
             } else if (signalName.endsWith("1")) {
                 signalName = signalName.substring(0, signalName.length() - 1);
                 String signalStr = signal.toString();
-                complementarySignal = ConduitSignal.valueOf(signalStr.substring(0, signalStr.length() - 1) + "2");
+                complementarySignal = ElementSignal.valueOf(signalStr.substring(0, signalStr.length() - 1) + "2");
             }
             TextureMap tm = new TextureMap()
                     .put(TextureKey.TEXTURE, ModelIds.getBlockSubModelId(block, "_core_" + signalName))
@@ -84,7 +84,7 @@ public class ElementalModelProvider extends FabricModelProvider {
                     .upload(ModelIds.getBlockSubModelId(block, "_core_" + signalName), tm, bsmg.modelCollector);
             Identifier idAxis = ElementalModels.TriAxisBlockAxis
                     .upload(ModelIds.getBlockSubModelId(block, "_axis_" + signalName), tm, bsmg.modelCollector);
-            if (signal.equals(ConduitSignal.OFF)) {
+            if (signal.equals(ElementSignal.OFF)) {
                 idItem = idAxis;
             }
             mbss = mbss
@@ -121,7 +121,7 @@ public class ElementalModelProvider extends FabricModelProvider {
 
     private void registerSignalHolder(BlockStateModelGenerator bsmg, Block block) {
         bsmg.blockStateCollector.accept(VariantsBlockStateSupplier.create(block)
-                .coordinate(BlockStateVariantMap.create(SignalHolder.SIGNAL).register(signal -> {
+                        .coordinate(BlockStateVariantMap.create(ElementHolder.SIGNAL).register(signal -> {
                     String signalName = signal.asString();
                     if (signalName.endsWith("1") || signalName.endsWith("2")) {
                         signalName = signalName.substring(0, signalName.length() - 1);

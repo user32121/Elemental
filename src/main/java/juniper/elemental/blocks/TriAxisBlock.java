@@ -65,7 +65,7 @@ public class TriAxisBlock extends Block implements Waterloggable {
     }
 
     private boolean canConnectTo(BlockState state) {
-        return state.getBlock() instanceof TriAxisBlock || state.getBlock() instanceof SignalHolder;
+        return state.getBlock() instanceof TriAxisBlock || state.getBlock() instanceof ElementHolder;
     }
 
     private BlockState getStateWithConnections(BlockState baseState, WorldView world, BlockPos pos) {

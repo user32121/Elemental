@@ -8,4 +8,5 @@ catalyst
  fire+air=non destructive boom
 burnout for air+water to avoid mixer situation
 pitch variations for reactions
+actual condenser behavior
 condenser reactions should either use conderser variants or remove block

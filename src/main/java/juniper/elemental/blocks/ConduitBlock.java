@@ -1,5 +1,6 @@
 package juniper.elemental.blocks;
 
+import juniper.elemental.elements.ElementSignal;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -9,10 +10,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
-public class ConduitBlock extends TriAxisBlock implements SignalHolder {
+public class ConduitBlock extends TriAxisBlock implements ElementHolder {
     public ConduitBlock(AbstractBlock.Settings settings) {
         super(settings);
-        this.setDefaultState(getDefaultState().with(SIGNAL, ConduitSignal.OFF));
+        this.setDefaultState(getDefaultState().with(SIGNAL, ElementSignal.OFF));
     }
 
     @Override
