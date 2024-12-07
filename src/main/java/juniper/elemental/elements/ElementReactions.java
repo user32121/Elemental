@@ -4,8 +4,10 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import juniper.elemental.blocks.TriAxisBlock;
 import juniper.elemental.init.ElementalBlocks;
 import net.minecraft.block.AbstractCandleBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CampfireBlock;
@@ -38,7 +40,12 @@ public class ElementReactions {
         Map<ElementSignal, Map<ElementSignal, ConduitReaction>> allReactions = new EnumMap<>(ElementSignal.class);
         ConduitReaction waterEarthReaction = (world, pos) -> {
             world.playSound(null, pos, SoundEvents.ITEM_BONE_MEAL_USE, SoundCategory.BLOCKS, 3, 1);
-            world.setBlockState(pos, ElementalBlocks.OVERGROWN_CONDUIT.getDefaultState());
+            if (world.getBlockState(pos).getBlock() instanceof TriAxisBlock) {
+                world.setBlockState(pos, ElementalBlocks.OVERGROWN_CONDUIT.getDefaultState());
+            } else {
+                Block.dropStacks(world.getBlockState(pos), world, pos, world.getBlockEntity(pos));
+                world.removeBlock(pos, false);
+            }
             return null;
         };
         ConduitReaction airEarthReaction = (world, pos) -> {
@@ -57,7 +64,12 @@ public class ElementReactions {
                 }
             }
             if (world.getRandom().nextFloat() < 0.1) {
-                world.setBlockState(pos, ElementalBlocks.CLOGGED_CONDUIT.getDefaultState());
+                if (world.getBlockState(pos).getBlock() instanceof TriAxisBlock) {
+                    world.setBlockState(pos, ElementalBlocks.CLOGGED_CONDUIT.getDefaultState());
+                } else {
+                    Block.dropStacks(world.getBlockState(pos), world, pos, world.getBlockEntity(pos));
+                    world.removeBlock(pos, false);
+                }
             }
             return null;
         };
@@ -90,7 +102,12 @@ public class ElementReactions {
                 }
             }
             if (world.getRandom().nextFloat() < 0.1) {
-                world.setBlockState(pos, ElementalBlocks.MELTED_CONDUIT.getDefaultState());
+                if (world.getBlockState(pos).getBlock() instanceof TriAxisBlock) {
+                    world.setBlockState(pos, ElementalBlocks.MELTED_CONDUIT.getDefaultState());
+                } else {
+                    Block.dropStacks(world.getBlockState(pos), world, pos, world.getBlockEntity(pos));
+                    world.removeBlock(pos, false);
+                }
             }
             return null;
         };
@@ -104,7 +121,12 @@ public class ElementReactions {
                 entity.damage(world, world.getDamageSources().inFire(), damage);
             }
             if (world.getRandom().nextFloat() < 0.1) {
-                world.setBlockState(pos, ElementalBlocks.BLOWN_OUT_CONDUIT.getDefaultState());
+                if (world.getBlockState(pos).getBlock() instanceof TriAxisBlock) {
+                    world.setBlockState(pos, ElementalBlocks.BLOWN_OUT_CONDUIT.getDefaultState());
+                } else {
+                    Block.dropStacks(world.getBlockState(pos), world, pos, world.getBlockEntity(pos));
+                    world.removeBlock(pos, false);
+                }
             }
             return null;
         };
