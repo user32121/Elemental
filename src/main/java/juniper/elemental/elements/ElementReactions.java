@@ -89,6 +89,14 @@ public class ElementReactions {
             for (Entity entity : entities) {
                 entity.extinguish();
             }
+            if (world.getRandom().nextFloat() < 0.1) {
+                if (world.getBlockState(pos).getBlock() instanceof TriAxisBlock) {
+                    world.setBlockState(pos, ElementalBlocks.BLOWN_OUT_CONDUIT.getDefaultState());
+                } else {
+                    Block.dropStacks(world.getBlockState(pos), world, pos, world.getBlockEntity(pos));
+                    world.removeBlock(pos, false);
+                }
+            }
             return null;
         };
         ConduitReaction fireEarthReaction = (world, pos) -> {
