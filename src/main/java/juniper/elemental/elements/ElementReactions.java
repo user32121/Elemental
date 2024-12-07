@@ -39,7 +39,8 @@ public class ElementReactions {
     static {
         Map<ElementSignal, Map<ElementSignal, ConduitReaction>> allReactions = new EnumMap<>(ElementSignal.class);
         ConduitReaction waterEarthReaction = (world, pos) -> {
-            world.playSound(null, pos, SoundEvents.ITEM_BONE_MEAL_USE, SoundCategory.BLOCKS, 3, 1);
+            float pitch = 0.9f + world.getRandom().nextFloat() * 0.2f;
+            world.playSound(null, pos, SoundEvents.ITEM_BONE_MEAL_USE, SoundCategory.BLOCKS, 3, pitch);
             if (world.getBlockState(pos).getBlock() instanceof TriAxisBlock) {
                 world.setBlockState(pos, ElementalBlocks.OVERGROWN_CONDUIT.getDefaultState());
             } else {
@@ -49,7 +50,9 @@ public class ElementReactions {
             return null;
         };
         ConduitReaction airEarthReaction = (world, pos) -> {
-            world.playSound(null, pos, SoundEvents.ENTITY_WIND_CHARGE_WIND_BURST.value(), SoundCategory.BLOCKS, 1, 1);
+            float pitch = 0.9f + world.getRandom().nextFloat() * 0.2f;
+            world.playSound(null, pos, SoundEvents.ENTITY_WIND_CHARGE_WIND_BURST.value(), SoundCategory.BLOCKS, 1,
+                    pitch);
             world.spawnParticles(ParticleTypes.WHITE_SMOKE, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 20,
                     0.1, 0.1, 0.1, 1);
             for (BlockPos pos2 : BlockPos.iterateRandomly(world.getRandom(), 5, pos, 3)) {
@@ -74,7 +77,8 @@ public class ElementReactions {
             return null;
         };
         ConduitReaction airWaterReaction = (world, pos) -> {
-            world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_SPLASH, SoundCategory.BLOCKS, 0.1f, 1);
+            float pitch = 0.9f + world.getRandom().nextFloat() * 0.2f;
+            world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_SPLASH, SoundCategory.BLOCKS, 0.1f, pitch);
             world.spawnParticles(ParticleTypes.SPLASH, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 30, 0.5,
                     0.5, 0.5, 1);
             extinguishFire(world, pos);
@@ -88,7 +92,8 @@ public class ElementReactions {
             return null;
         };
         ConduitReaction fireEarthReaction = (world, pos) -> {
-            world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1, 1);
+            float pitch = 0.9f + world.getRandom().nextFloat() * 0.2f;
+            world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1, pitch);
             world.spawnParticles(ParticleTypes.FLAME, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 20, 0, 0, 0,
                     0.05);
             for (BlockPos pos2 : BlockPos.iterateRandomly(world.getRandom(), 5, pos, 3)) {
@@ -112,7 +117,8 @@ public class ElementReactions {
             return null;
         };
         ConduitReaction fireWaterReaction = (world, pos) -> {
-            world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1, 1);
+            float pitch = 0.9f + world.getRandom().nextFloat() * 0.2f;
+            world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1, pitch);
             world.spawnParticles(ParticleTypes.WHITE_SMOKE, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 20,
                     0.1, 0.1, 0.1, 1);
             List<Entity> entities = world.getOtherEntities(null, Box.of(pos.toCenterPos(), 10, 10, 10));
@@ -201,7 +207,8 @@ public class ElementReactions {
         BlockState blockState = world.getBlockState(pos);
         if (blockState.isIn(BlockTags.FIRE)) {
             world.breakBlock(pos, false, null);
-            world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1, 1);
+            float pitch = 0.9f + world.getRandom().nextFloat() * 0.2f;
+            world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1, pitch);
         } else if (AbstractCandleBlock.isLitCandle(blockState)) {
             AbstractCandleBlock.extinguish(null, blockState, world, pos);
         } else if (CampfireBlock.isLitCampfire(blockState)) {
