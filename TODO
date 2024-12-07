@@ -6,3 +6,4 @@ catalyst
  fire+earth=lava
  fire+water=crafting 2
  fire+air=non destructive boom
+burnout for air+water to avoid mixer situation
