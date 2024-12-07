@@ -19,6 +19,6 @@ public class ElementalBlockTagProvider extends BlockTagProvider {
     protected void configure(WrapperLookup wrapperLookup) {
         getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE).add(ElementalBlocks.CONDUIT,
                 ElementalBlocks.OVERGROWN_CONDUIT, ElementalBlocks.CLOGGED_CONDUIT, ElementalBlocks.DUST,
-                ElementalBlocks.MELTED_CONDUIT, ElementalBlocks.BLOWN_OUT_CONDUIT);
+                ElementalBlocks.MELTED_CONDUIT, ElementalBlocks.BLOWN_OUT_CONDUIT, ElementalBlocks.CONDENSER);
     }
 }

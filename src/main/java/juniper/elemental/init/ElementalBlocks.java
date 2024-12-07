@@ -3,6 +3,7 @@ package juniper.elemental.init;
 import java.util.function.Function;
 
 import juniper.elemental.Elemental;
+import juniper.elemental.blocks.CondenserBlock;
 import juniper.elemental.blocks.ConduitBlock;
 import juniper.elemental.blocks.TriAxisBlock;
 import net.minecraft.block.AbstractBlock;
@@ -28,7 +29,9 @@ public class ElementalBlocks {
     public static Block MELTED_CONDUIT = register("melted_conduit", TriAxisBlock::new,
             AbstractBlock.Settings.create().strength(1.5f).requiresTool(), true);
     public static Block BLOWN_OUT_CONDUIT = register("blown_out_conduit", TriAxisBlock::new,
-            AbstractBlock.Settings.create().strength(1.5f).requiresTool(), true);
+                    AbstractBlock.Settings.create().strength(1.5f).requiresTool(), true);
+    public static Block CONDENSER = register("condenser", CondenserBlock::new,
+                    AbstractBlock.Settings.create().strength(1.5f).requiresTool(), true);
 
     public static void init() {
     }

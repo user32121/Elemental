@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import juniper.elemental.blocks.ConduitBlock;
 import juniper.elemental.blocks.ConduitSignal;
+import juniper.elemental.blocks.SignalHolder;
 import juniper.elemental.blocks.TriAxisBlock;
 import juniper.elemental.init.ElementalBlocks;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -38,6 +39,7 @@ public class ElementalModelProvider extends FabricModelProvider {
         registerSnow(blockStateModelGenerator, ElementalBlocks.DUST);
         registerTriAxisBlock(blockStateModelGenerator, ElementalBlocks.MELTED_CONDUIT);
         registerTriAxisBlock(blockStateModelGenerator, ElementalBlocks.BLOWN_OUT_CONDUIT);
+        registerSignalHolder(blockStateModelGenerator, ElementalBlocks.CONDENSER);
     }
 
     private void registerTriAxisBlock(BlockStateModelGenerator bsmg, Block block) {
@@ -115,6 +117,23 @@ public class ElementalModelProvider extends FabricModelProvider {
                     return BlockStateVariant.create().put(VariantSettings.MODEL, height < 8 ? id : idCubeAll);
                 })));
         bsmg.registerParentedItemModel(block, ModelIds.getBlockSubModelId(block, "_height2"));
+    }
+
+    private void registerSignalHolder(BlockStateModelGenerator bsmg, Block block) {
+        bsmg.blockStateCollector.accept(VariantsBlockStateSupplier.create(block)
+                .coordinate(BlockStateVariantMap.create(SignalHolder.SIGNAL).register(signal -> {
+                    String signalName = signal.asString();
+                    if (signalName.endsWith("1") || signalName.endsWith("2")) {
+                        signalName = signalName.substring(0, signalName.length() - 1);
+                    }
+                    Identifier id = ModelIds.getBlockSubModelId(block, "_" + signalName);
+                    if (!signal.asString().endsWith("2")) {
+                        TextureMap tm = TextureMap.all(id);
+                        id = Models.CUBE_ALL.upload(id, tm, bsmg.modelCollector);
+                    }
+                    return BlockStateVariant.create().put(VariantSettings.MODEL, id);
+                })));
+        bsmg.registerParentedItemModel(block, ModelIds.getBlockSubModelId(block, "_off"));
     }
 
     @Override

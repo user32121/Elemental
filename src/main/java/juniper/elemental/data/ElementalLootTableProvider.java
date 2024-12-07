@@ -21,5 +21,6 @@ public class ElementalLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ElementalBlocks.DUST);
         addDrop(ElementalBlocks.MELTED_CONDUIT);
         addDrop(ElementalBlocks.BLOWN_OUT_CONDUIT);
+        addDrop(ElementalBlocks.CONDENSER);
     }
 }
