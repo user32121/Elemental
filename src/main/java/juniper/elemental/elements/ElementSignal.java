@@ -8,6 +8,7 @@ public enum ElementSignal implements StringIdentifiable {
                     "air1", true,
                     true), AIR2("air2", true, true), FIRE1("fire1", true, true), FIRE2("fire2", true, true),;
 
+    public static final ElementSignal[] VALUES = values();
     public final String id;
     public final boolean is_active;
     public final boolean is_transient;

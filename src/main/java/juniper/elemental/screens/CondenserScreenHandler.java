@@ -7,24 +7,30 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.ArrayPropertyDelegate;
+import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 
 public class CondenserScreenHandler extends ScreenHandler {
+    public final PropertyDelegate propertyDelegate;
     private Inventory inventory;
 
     public CondenserScreenHandler(int syncId, PlayerInventory playerInventory) {
-        this(syncId, playerInventory, new SimpleInventory(3));
+        this(syncId, playerInventory, new SimpleInventory(3), new ArrayPropertyDelegate(4));
     }
 
-    public CondenserScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
+    public CondenserScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory,
+            PropertyDelegate propertyDelegate) {
         super(ElementalScreenHandlers.CONDENSER_SCREEN_HANDLER, syncId);
         checkSize(inventory, 3);
         this.inventory = inventory;
+        this.propertyDelegate = propertyDelegate;
+        this.addProperties(propertyDelegate);
         inventory.onOpen(playerInventory.player);
         // block inventory
         for (int i = 0; i < 3; ++i) {
-            this.addSlot(new FilteredSlot(inventory, i, 43 + 19 * i, 35, CondenserBlockEntity.ALLOWED_ITEMS[i]));
+            this.addSlot(new FilteredSlot(inventory, i, 43 + 19 * i, 35, CondenserBlockEntity.FUEL_ITEMS[i]));
         }
         // player inventory
         for (int y = 0; y < 3; ++y) {

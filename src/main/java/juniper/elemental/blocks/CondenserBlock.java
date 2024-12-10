@@ -4,12 +4,15 @@ import com.mojang.serialization.MapCodec;
 
 import juniper.elemental.blockEntities.CondenserBlockEntity;
 import juniper.elemental.elements.ElementSignal;
+import juniper.elemental.init.ElementalBlockEntities;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
@@ -79,5 +82,12 @@ public class CondenserBlock extends BlockWithEntity implements ElementHolder {
     @Override
     protected int getComparatorOutput(BlockState state, World world, BlockPos pos) {
         return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos));
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state,
+            BlockEntityType<T> type) {
+        return world.isClient ? null
+                : validateTicker(type, ElementalBlockEntities.CONDENSER_BLOCK_ENTITY, CondenserBlockEntity::tick);
     }
 }
