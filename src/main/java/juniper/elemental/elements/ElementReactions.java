@@ -210,11 +210,38 @@ public class ElementReactions {
         allReactions.put(ElementSignal.FIRE1, reactions);
         allReactions.put(ElementSignal.FIRE2, reactions);
         DEFAULT_REACTIONS = new EnumMap<>(allReactions);
-        //TODO
+        //TODO catalyst reactions
+        waterEarthReaction = (world, pos) -> {
+            float pitch = 0.9f + world.getRandom().nextFloat() * 0.2f;
+            world.playSound(null, pos, SoundEvents.ITEM_BONE_MEAL_USE, SoundCategory.BLOCKS, 3, pitch);
+            for (BlockPos pos2 : BlockPos.iterateRandomly(world.getRandom(), 2, pos, 3)) {
+                BlockState state2 = world.getBlockState(pos2);
+                if (state2.isOf(Blocks.DIRT) || state2.isOf(Blocks.GRASS_BLOCK)) {
+                    world.setBlockState(pos2, ElementalBlocks.RICH_SOIL.getDefaultState());
+                }
+            }
+            return null;
+        };
         //earth
+        reactions = new EnumMap<>(allReactions.get(ElementSignal.EARTH1));
+        reactions.put(ElementSignal.WATER1, waterEarthReaction);
+        reactions.put(ElementSignal.WATER2, waterEarthReaction);
+        allReactions.put(ElementSignal.EARTH1, reactions);
+        allReactions.put(ElementSignal.EARTH2, reactions);
         //water
+        reactions = new EnumMap<>(allReactions.get(ElementSignal.WATER1));
+        reactions.put(ElementSignal.EARTH1, waterEarthReaction);
+        reactions.put(ElementSignal.EARTH2, waterEarthReaction);
+        allReactions.put(ElementSignal.WATER1, reactions);
+        allReactions.put(ElementSignal.WATER2, reactions);
         //air
+        reactions = new EnumMap<>(allReactions.get(ElementSignal.AIR1));
+        allReactions.put(ElementSignal.AIR1, reactions);
+        allReactions.put(ElementSignal.AIR2, reactions);
         //fire
+        reactions = new EnumMap<>(allReactions.get(ElementSignal.FIRE1));
+        allReactions.put(ElementSignal.FIRE1, reactions);
+        allReactions.put(ElementSignal.FIRE2, reactions);
         CATALYST_REACTIONS = new EnumMap<>(allReactions);
     }
 

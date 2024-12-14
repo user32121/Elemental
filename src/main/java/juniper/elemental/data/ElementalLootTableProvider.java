@@ -34,6 +34,7 @@ public class ElementalLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ElementalBlocks.BLOWN_OUT_CONDUIT);
         addDrop(ElementalBlocks.CONDENSER);
         addDrop(ElementalBlocks.CATALYST);
+        addDrop(ElementalBlocks.RICH_SOIL);
     }
 
     private Builder layeredBlock(Block block) {
