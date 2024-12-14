@@ -1,0 +1,19 @@
+{
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "elemental:house/middle",
+        "projection": "rigid",
+        "processors": [
+          {
+            "processor_type": "minecraft:block_age",
+            "mossiness": 0.1
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -5,7 +5,6 @@ catalyst
  fire+earth=lava
  fire+water=crafting 2
  fire+air=non destructive boom
-originally obtain blocks from structures (since crafting introduces circular dependency)
 aether compressor (multiblock)
  an attempt to obtain alkahest
  requires input of 1024 element pulses and 1024 items, must be no more than 1 apart or boom
