@@ -1,0 +1,37 @@
+{
+  "variants": {
+    "signal=air1": {
+      "model": "elemental:block/catalyst_air"
+    },
+    "signal=air2": {
+      "model": "elemental:block/catalyst_air"
+    },
+    "signal=cooldown1": {
+      "model": "elemental:block/catalyst_cooldown"
+    },
+    "signal=cooldown2": {
+      "model": "elemental:block/catalyst_cooldown"
+    },
+    "signal=earth1": {
+      "model": "elemental:block/catalyst_earth"
+    },
+    "signal=earth2": {
+      "model": "elemental:block/catalyst_earth"
+    },
+    "signal=fire1": {
+      "model": "elemental:block/catalyst_fire"
+    },
+    "signal=fire2": {
+      "model": "elemental:block/catalyst_fire"
+    },
+    "signal=off": {
+      "model": "elemental:block/catalyst_off"
+    },
+    "signal=water1": {
+      "model": "elemental:block/catalyst_water"
+    },
+    "signal=water2": {
+      "model": "elemental:block/catalyst_water"
+    }
+  }
+}

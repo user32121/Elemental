@@ -29,7 +29,8 @@ import net.minecraft.world.World.ExplosionSourceType;
 import net.minecraft.world.WorldEvents;
 
 public class ElementReactions {
-    public static final Map<ElementSignal, Map<ElementSignal, ConduitReaction>> REACTIONS;
+    public static final Map<ElementSignal, Map<ElementSignal, ConduitReaction>> DEFAULT_REACTIONS;
+    public static final Map<ElementSignal, Map<ElementSignal, ConduitReaction>> CATALYST_REACTIONS;
     public static final Map<ElementSignal, ElementSignal> TRANSITIONS = new EnumMap<>(
             Map.of(ElementSignal.COOLDOWN1, ElementSignal.OFF, ElementSignal.COOLDOWN2, ElementSignal.OFF,
                     ElementSignal.EARTH1, ElementSignal.COOLDOWN1, ElementSignal.EARTH2, ElementSignal.COOLDOWN1,
@@ -208,7 +209,13 @@ public class ElementReactions {
         reactions.put(ElementSignal.WATER2, fireWaterReaction);
         allReactions.put(ElementSignal.FIRE1, reactions);
         allReactions.put(ElementSignal.FIRE2, reactions);
-        REACTIONS = new EnumMap<>(allReactions);
+        DEFAULT_REACTIONS = new EnumMap<>(allReactions);
+        //TODO
+        //earth
+        //water
+        //air
+        //fire
+        CATALYST_REACTIONS = new EnumMap<>(allReactions);
     }
 
     private static void extinguishFire(World world, BlockPos pos) {

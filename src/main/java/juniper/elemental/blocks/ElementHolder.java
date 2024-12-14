@@ -51,6 +51,9 @@ public interface ElementHolder {
     }
 
     public default ConduitReaction getSignalReaction(BlockState state, BlockState state2) {
-        return ElementReactions.REACTIONS.get(state.get(SIGNAL)).get(state2.get(SIGNAL));
+        if (state.getBlock() instanceof CatalystBlock) {
+            return ElementReactions.CATALYST_REACTIONS.get(state.get(SIGNAL)).get(state2.get(SIGNAL));
+        }
+        return ElementReactions.DEFAULT_REACTIONS.get(state.get(SIGNAL)).get(state2.get(SIGNAL));
     }
 }

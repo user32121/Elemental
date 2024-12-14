@@ -3,6 +3,7 @@ package juniper.elemental.init;
 import java.util.function.Function;
 
 import juniper.elemental.Elemental;
+import juniper.elemental.blocks.CatalystBlock;
 import juniper.elemental.blocks.CondenserBlock;
 import juniper.elemental.blocks.ConduitBlock;
 import juniper.elemental.blocks.TriAxisBlock;
@@ -32,6 +33,8 @@ public class ElementalBlocks {
                     AbstractBlock.Settings.create().strength(1.5f).requiresTool(), true);
     public static Block CONDENSER = register("condenser", CondenserBlock::new,
                     AbstractBlock.Settings.create().strength(1.5f).requiresTool(), true);
+    public static Block CATALYST = register("catalyst", CatalystBlock::new,
+            AbstractBlock.Settings.create().strength(1.5f).requiresTool(), true);
 
     public static void init() {
     }

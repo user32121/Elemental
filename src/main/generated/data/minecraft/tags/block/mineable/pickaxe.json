@@ -5,6 +5,7 @@
     "elemental:clogged_conduit",
     "elemental:melted_conduit",
     "elemental:blown_out_conduit",
-    "elemental:condenser"
+    "elemental:condenser",
+    "elemental:catalyst"
   ]
 }

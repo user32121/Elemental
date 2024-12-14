@@ -33,6 +33,7 @@ public class ElementalLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ElementalBlocks.MELTED_CONDUIT);
         addDrop(ElementalBlocks.BLOWN_OUT_CONDUIT);
         addDrop(ElementalBlocks.CONDENSER);
+        addDrop(ElementalBlocks.CATALYST);
     }
 
     private Builder layeredBlock(Block block) {
