@@ -48,7 +48,7 @@ public class ElementReactions {
                 Block.dropStacks(world.getBlockState(pos), world, pos, world.getBlockEntity(pos));
                 world.removeBlock(pos, false);
             }
-            return null;
+            return ElementSignal.OFF;
         };
         ConduitReaction airEarthReaction = (world, pos) -> {
             float pitch = 0.9f + world.getRandom().nextFloat() * 0.2f;
@@ -75,7 +75,7 @@ public class ElementReactions {
                     world.removeBlock(pos, false);
                 }
             }
-            return null;
+            return ElementSignal.OFF;
         };
         ConduitReaction airWaterReaction = (world, pos) -> {
             float pitch = 0.9f + world.getRandom().nextFloat() * 0.2f;
@@ -98,7 +98,7 @@ public class ElementReactions {
                     world.removeBlock(pos, false);
                 }
             }
-            return null;
+            return ElementSignal.OFF;
         };
         ConduitReaction fireEarthReaction = (world, pos) -> {
             float pitch = 0.9f + world.getRandom().nextFloat() * 0.2f;
@@ -123,7 +123,7 @@ public class ElementReactions {
                     world.removeBlock(pos, false);
                 }
             }
-            return null;
+            return ElementSignal.OFF;
         };
         ConduitReaction fireWaterReaction = (world, pos) -> {
             float pitch = 0.9f + world.getRandom().nextFloat() * 0.2f;
@@ -143,11 +143,11 @@ public class ElementReactions {
                     world.removeBlock(pos, false);
                 }
             }
-            return null;
+            return ElementSignal.OFF;
         };
         ConduitReaction fireAirReaction = (world, pos) -> {
             world.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 1, ExplosionSourceType.BLOCK);
-            return null;
+            return ElementSignal.OFF;
         };
         // earth
         Map<ElementSignal, ConduitReaction> reactions = new EnumMap<>(ElementSignal.class);
@@ -220,7 +220,7 @@ public class ElementReactions {
                     world.setBlockState(pos2, ElementalBlocks.RICH_SOIL.getDefaultState());
                 }
             }
-            return null;
+            return ElementSignal.OFF;
         };
         //earth
         reactions = new EnumMap<>(allReactions.get(ElementSignal.EARTH1));
