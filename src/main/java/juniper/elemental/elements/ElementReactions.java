@@ -222,6 +222,17 @@ public class ElementReactions {
             }
             return ElementSignal.OFF;
         };
+        airWaterReaction = (world, pos) -> {
+            float pitch = 0.9f + world.getRandom().nextFloat() * 0.2f;
+            world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_SPLASH, SoundCategory.BLOCKS, 0.5f, pitch);
+            world.spawnParticles(ParticleTypes.SPLASH, pos.getX() + 0.5, pos.getY() + 0.5 + 2.5, pos.getZ() + 0.5, 100, 0.1, 5, 0.1, 1);
+            if (world.isRaining() || world.isThundering()) {
+                world.setWeather(world.getRandom().nextBetween(1 * 20 * 60, 2 * 20 * 60), 0, false, false);
+            } else {
+                world.setWeather(0, world.getRandom().nextBetween(1 * 20 * 60, 2 * 20 * 60), true, false);
+            }
+            return ElementSignal.OFF;
+        };
         //earth
         reactions = new EnumMap<>(allReactions.get(ElementSignal.EARTH1));
         reactions.put(ElementSignal.WATER1, waterEarthReaction);
@@ -232,10 +243,14 @@ public class ElementReactions {
         reactions = new EnumMap<>(allReactions.get(ElementSignal.WATER1));
         reactions.put(ElementSignal.EARTH1, waterEarthReaction);
         reactions.put(ElementSignal.EARTH2, waterEarthReaction);
+        reactions.put(ElementSignal.AIR1, airWaterReaction);
+        reactions.put(ElementSignal.AIR2, airWaterReaction);
         allReactions.put(ElementSignal.WATER1, reactions);
         allReactions.put(ElementSignal.WATER2, reactions);
         //air
         reactions = new EnumMap<>(allReactions.get(ElementSignal.AIR1));
+        reactions.put(ElementSignal.WATER1, airWaterReaction);
+        reactions.put(ElementSignal.WATER2, airWaterReaction);
         allReactions.put(ElementSignal.AIR1, reactions);
         allReactions.put(ElementSignal.AIR2, reactions);
         //fire

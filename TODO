@@ -1,6 +1,5 @@
 catalyst
  air+earth=crafting 1
- air+water=toggle weather
  fire+earth=lava
  fire+water=crafting 2
  fire+air=non destructive boom
