@@ -16,6 +16,7 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager.Builder;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Direction.Axis;
@@ -104,5 +105,16 @@ public class TriAxisBlock extends Block implements Waterloggable {
             return Fluids.WATER.getStill(false);
         }
         return super.getFluidState(state);
+    }
+
+    @Override
+    protected BlockState rotate(BlockState state, BlockRotation rotation) {
+        switch (rotation) {
+            case CLOCKWISE_90:
+            case COUNTERCLOCKWISE_90:
+                return state.with(AXIS_X, state.get(AXIS_Z)).with(AXIS_Z, state.get(AXIS_X));
+            default:
+                return state;
+        }
     }
 }
