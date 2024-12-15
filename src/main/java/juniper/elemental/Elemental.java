@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import juniper.elemental.init.ElementalBlockEntities;
 import juniper.elemental.init.ElementalBlocks;
+import juniper.elemental.init.ElementalEntities;
 import juniper.elemental.init.ElementalItemGroups;
 
 public class Elemental implements ModInitializer {
@@ -27,5 +28,6 @@ public class Elemental implements ModInitializer {
 		ElementalItemGroups.init();
 		ElementalBlocks.init();
 		ElementalBlockEntities.init();
+        ElementalEntities.init();
 	}
 }
