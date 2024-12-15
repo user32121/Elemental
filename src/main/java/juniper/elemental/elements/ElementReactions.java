@@ -3,6 +3,7 @@ package juniper.elemental.elements;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import juniper.elemental.blocks.TriAxisBlock;
 import juniper.elemental.init.ElementalBlocks;
@@ -27,6 +28,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.World.ExplosionSourceType;
 import net.minecraft.world.WorldEvents;
+import net.minecraft.world.explosion.AdvancedExplosionBehavior;
+import net.minecraft.world.explosion.Explosion;
 
 public class ElementReactions {
     public static final Map<ElementSignal, Map<ElementSignal, ConduitReaction>> DEFAULT_REACTIONS;
@@ -146,7 +149,7 @@ public class ElementReactions {
             return ElementSignal.OFF;
         };
         ConduitReaction fireAirReaction = (world, pos) -> {
-            world.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 1, ExplosionSourceType.BLOCK);
+            world.createExplosion(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 5, ExplosionSourceType.BLOCK);
             return ElementSignal.OFF;
         };
         // earth
@@ -245,6 +248,11 @@ public class ElementReactions {
             }
             return ElementSignal.OFF;
         };
+        fireAirReaction = (world, pos) -> {
+            world.createExplosion(null, Explosion.createDamageSource(world, null), new AdvancedExplosionBehavior(false, true, Optional.empty(), Optional.empty()), pos.toCenterPos(), 5, false,
+                    ExplosionSourceType.BLOCK);
+            return ElementSignal.OFF;
+        };
         //earth
         reactions = new EnumMap<>(allReactions.get(ElementSignal.EARTH1));
         reactions.put(ElementSignal.WATER1, waterEarthReaction);
@@ -265,12 +273,16 @@ public class ElementReactions {
         reactions = new EnumMap<>(allReactions.get(ElementSignal.AIR1));
         reactions.put(ElementSignal.WATER1, airWaterReaction);
         reactions.put(ElementSignal.WATER2, airWaterReaction);
+        reactions.put(ElementSignal.FIRE1, fireAirReaction);
+        reactions.put(ElementSignal.FIRE2, fireAirReaction);
         allReactions.put(ElementSignal.AIR1, reactions);
         allReactions.put(ElementSignal.AIR2, reactions);
         //fire
         reactions = new EnumMap<>(allReactions.get(ElementSignal.FIRE1));
         reactions.put(ElementSignal.EARTH1, fireEarthReaction);
         reactions.put(ElementSignal.EARTH2, fireEarthReaction);
+        reactions.put(ElementSignal.AIR1, fireAirReaction);
+        reactions.put(ElementSignal.AIR2, fireAirReaction);
         allReactions.put(ElementSignal.FIRE1, reactions);
         allReactions.put(ElementSignal.FIRE2, reactions);
         CATALYST_REACTIONS = new EnumMap<>(allReactions);

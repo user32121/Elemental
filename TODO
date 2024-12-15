@@ -1,7 +1,6 @@
 catalyst
  air+earth=crafting 1
  fire+water=crafting 2
- fire+air=non destructive boom
 aether compressor (multiblock)
  an attempt to obtain alkahest
  requires input of 1024 element pulses and 1024 items, must be no more than 1 apart or boom
