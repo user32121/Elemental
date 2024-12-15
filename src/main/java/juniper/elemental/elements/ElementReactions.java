@@ -233,10 +233,24 @@ public class ElementReactions {
             }
             return ElementSignal.OFF;
         };
+        fireEarthReaction = (world, pos) -> {
+            for (Direction dir : Direction.values()) {
+                BlockPos targetPos = pos.offset(dir);
+                if (world.getBlockState(targetPos).isReplaceable()) {
+                    float pitch = 0.9f + world.getRandom().nextFloat() * 0.2f;
+                    world.playSound(null, pos, SoundEvents.ITEM_BUCKET_EMPTY_LAVA, SoundCategory.BLOCKS, 1, pitch);
+                    world.setBlockState(targetPos, Blocks.LAVA.getDefaultState());
+                    break;
+                }
+            }
+            return ElementSignal.OFF;
+        };
         //earth
         reactions = new EnumMap<>(allReactions.get(ElementSignal.EARTH1));
         reactions.put(ElementSignal.WATER1, waterEarthReaction);
         reactions.put(ElementSignal.WATER2, waterEarthReaction);
+        reactions.put(ElementSignal.FIRE1, fireEarthReaction);
+        reactions.put(ElementSignal.FIRE2, fireEarthReaction);
         allReactions.put(ElementSignal.EARTH1, reactions);
         allReactions.put(ElementSignal.EARTH2, reactions);
         //water
@@ -255,6 +269,8 @@ public class ElementReactions {
         allReactions.put(ElementSignal.AIR2, reactions);
         //fire
         reactions = new EnumMap<>(allReactions.get(ElementSignal.FIRE1));
+        reactions.put(ElementSignal.EARTH1, fireEarthReaction);
+        reactions.put(ElementSignal.EARTH2, fireEarthReaction);
         allReactions.put(ElementSignal.FIRE1, reactions);
         allReactions.put(ElementSignal.FIRE2, reactions);
         CATALYST_REACTIONS = new EnumMap<>(allReactions);
