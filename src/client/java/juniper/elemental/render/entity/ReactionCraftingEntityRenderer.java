@@ -1,7 +1,7 @@
 package juniper.elemental.render.entity;
 
 import juniper.elemental.Elemental;
-import juniper.elemental.entities.CraftingEntity;
+import juniper.elemental.entities.ReactionCraftingEntity;
 import juniper.elemental.init.ElementalEntities;
 import juniper.elemental.init.ElementalModelLayers;
 import net.minecraft.client.render.OverlayTexture;
@@ -13,30 +13,30 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
-public class CraftingEntityRenderer extends EntityRenderer<CraftingEntity, CraftingEntityRenderState> {
-    private static final Identifier TEXTURE = Identifier.of(Elemental.MOD_ID, "textures/entity/crafting/crafting.png");
+public class ReactionCraftingEntityRenderer extends EntityRenderer<ReactionCraftingEntity, ReactionCraftingEntityRenderState> {
+    private static final Identifier TEXTURE = Identifier.of(Elemental.MOD_ID, "textures/entity/reaction_crafting/reaction_crafting.png");
     private static final RenderLayer RENDER_LAYER = RenderLayer.getEntityCutout(TEXTURE);
-    private final CraftingEntityModel model;
+    private final ReactionCraftingEntityModel model;
 
-    public CraftingEntityRenderer(Context context) {
+    public ReactionCraftingEntityRenderer(Context context) {
         super(context);
-        this.model = new CraftingEntityModel(context.getPart(ElementalModelLayers.CRAFTING));
+        this.model = new ReactionCraftingEntityModel(context.getPart(ElementalModelLayers.REACTION_CRAFTING));
     }
 
     @Override
-    public CraftingEntityRenderState createRenderState() {
-        return new CraftingEntityRenderState();
+    public ReactionCraftingEntityRenderState createRenderState() {
+        return new ReactionCraftingEntityRenderState();
     }
 
     @Override
-    public void updateRenderState(CraftingEntity entity, CraftingEntityRenderState state, float tickDelta) {
+    public void updateRenderState(ReactionCraftingEntity entity, ReactionCraftingEntityRenderState state, float tickDelta) {
         super.updateRenderState(entity, state, tickDelta);
         state.craftProgress = MathHelper.lerp(tickDelta, entity.prevCraftProgress, entity.craftProgress);
-        state.isFireWater = entity.getType().equals(ElementalEntities.CRAFTING_FIRE_WATER);
+        state.isFireWater = entity.getType().equals(ElementalEntities.REACTION_CRAFTING_FIRE_WATER);
     }
 
     @Override
-    public void render(CraftingEntityRenderState state, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
+    public void render(ReactionCraftingEntityRenderState state, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
         light = 255;
         super.render(state, matrices, vertexConsumers, light);
         model.setAngles(state);

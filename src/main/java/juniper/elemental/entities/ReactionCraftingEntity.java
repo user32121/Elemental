@@ -11,13 +11,14 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 
-public class CraftingEntity extends Entity {
+public class ReactionCraftingEntity extends Entity {
     public static final float PROGRESS_DECAY_RATE = 0.99f;
     public static final float MINIMUM_PROGRESS = (float) Math.pow(PROGRESS_DECAY_RATE, 20 * 5);
-    private static final TrackedData<Float> CRAFT_PROGRESS = DataTracker.registerData(CraftingEntity.class, TrackedDataHandlerRegistry.FLOAT);
+    private static final TrackedData<Float> CRAFT_PROGRESS = DataTracker.registerData(ReactionCraftingEntity.class, TrackedDataHandlerRegistry.FLOAT);
     private static final String CRAFT_PROGRESS_KEY = "CraftProgress";
     public float craftProgress, prevCraftProgress;
-    public CraftingEntity(EntityType<?> type, World world) {
+
+    public ReactionCraftingEntity(EntityType<?> type, World world) {
         super(type, world);
     }
 

@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import juniper.elemental.blocks.TriAxisBlock;
-import juniper.elemental.entities.CraftingEntity;
+import juniper.elemental.entities.ReactionCraftingEntity;
 import juniper.elemental.init.ElementalBlocks;
 import juniper.elemental.init.ElementalEntities;
 import net.minecraft.block.AbstractCandleBlock;
@@ -256,8 +256,8 @@ public class ElementReactions {
                     ExplosionSourceType.BLOCK);
             return ElementSignal.OFF;
         };
-        airEarthReaction = craftingReaction(ElementalEntities.CRAFTING_AIR_EARTH);
-        fireWaterReaction = craftingReaction(ElementalEntities.CRAFTING_FIRE_WATER);
+        airEarthReaction = craftingReaction(ElementalEntities.REACTION_CRAFTING_AIR_EARTH);
+        fireWaterReaction = craftingReaction(ElementalEntities.REACTION_CRAFTING_FIRE_WATER);
         //earth
         reactions = new EnumMap<>(allReactions.get(ElementSignal.EARTH1));
         reactions.put(ElementSignal.WATER1, waterEarthReaction);
@@ -301,12 +301,12 @@ public class ElementReactions {
         CATALYST_REACTIONS = new EnumMap<>(allReactions);
     }
 
-    private static ConduitReaction craftingReaction(EntityType<CraftingEntity> craftingEntity) {
+    private static ConduitReaction craftingReaction(EntityType<ReactionCraftingEntity> craftingEntity) {
         return (world, pos) -> {
-            List<CraftingEntity> entities = world.getEntitiesByType(craftingEntity, new Box(pos.up()), Entity::isAlive);
-            CraftingEntity entity;
+            List<ReactionCraftingEntity> entities = world.getEntitiesByType(craftingEntity, new Box(pos.up()), Entity::isAlive);
+            ReactionCraftingEntity entity;
             if (entities.isEmpty()) {
-                entity = new CraftingEntity(craftingEntity, world);
+                entity = new ReactionCraftingEntity(craftingEntity, world);
                 entity.setPosition(pos.up().toBottomCenterPos());
                 world.spawnEntity(entity);
             } else {

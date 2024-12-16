@@ -3,7 +3,7 @@ package juniper.elemental.init;
 import java.util.function.UnaryOperator;
 
 import juniper.elemental.Elemental;
-import juniper.elemental.entities.CraftingEntity;
+import juniper.elemental.entities.ReactionCraftingEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EntityType.Builder;
@@ -16,8 +16,10 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
 public class ElementalEntities {
-    public static final EntityType<CraftingEntity> CRAFTING_AIR_EARTH = register("crafting_air_earth", CraftingEntity::new, SpawnGroup.MISC, builder -> builder.dimensions(0.5f, 0.5f));
-    public static final EntityType<CraftingEntity> CRAFTING_FIRE_WATER = register("crafting_fire_water", CraftingEntity::new, SpawnGroup.MISC, builder -> builder.dimensions(0.5f, 0.5f));
+    public static final EntityType<ReactionCraftingEntity> REACTION_CRAFTING_AIR_EARTH = register("reaction_crafting_air_earth", ReactionCraftingEntity::new, SpawnGroup.MISC,
+            builder -> builder.dimensions(0.5f, 0.5f));
+    public static final EntityType<ReactionCraftingEntity> REACTION_CRAFTING_FIRE_WATER = register("reaction_crafting_fire_water", ReactionCraftingEntity::new, SpawnGroup.MISC,
+            builder -> builder.dimensions(0.5f, 0.5f));
 
     public static void init() {
     }

@@ -11,7 +11,7 @@ import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.util.math.MathHelper;
 
-public class CraftingEntityModel extends EntityModel<CraftingEntityRenderState> {
+public class ReactionCraftingEntityModel extends EntityModel<ReactionCraftingEntityRenderState> {
     public static final String CIRCLE_EARTH_KEY = "circle_earth";
     public static final String CIRCLE_WATER_KEY = "circle_Water";
     public static final String CIRCLE_AIR_KEY = "circle_air";
@@ -21,7 +21,7 @@ public class CraftingEntityModel extends EntityModel<CraftingEntityRenderState> 
     private final ModelPart circleAir;
     private final ModelPart circleFire;
 
-    public CraftingEntityModel(ModelPart root) {
+    public ReactionCraftingEntityModel(ModelPart root) {
         super(root);
         circleEarth = root.getChild(CIRCLE_EARTH_KEY);
         circleWater = root.getChild(CIRCLE_WATER_KEY);
@@ -40,7 +40,7 @@ public class CraftingEntityModel extends EntityModel<CraftingEntityRenderState> 
     }
 
     @Override
-    public void setAngles(CraftingEntityRenderState state) {
+    public void setAngles(ReactionCraftingEntityRenderState state) {
         super.setAngles(state);
         float rotation = state.craftProgress * MathHelper.PI / 2;
         circleEarth.rotate(new Vector3f(0, rotation, 0));

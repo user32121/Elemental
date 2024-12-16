@@ -1,14 +1,14 @@
 package juniper.elemental.init;
 
 import juniper.elemental.Elemental;
-import juniper.elemental.render.entity.CraftingEntityModel;
+import juniper.elemental.render.entity.ReactionCraftingEntityModel;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry.TexturedModelDataProvider;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
 
 public class ElementalModelLayers {
-    public static final EntityModelLayer CRAFTING = register("crafting", CraftingEntityModel::getTexturedModelData);
+    public static final EntityModelLayer REACTION_CRAFTING = register("reaction_crafting", ReactionCraftingEntityModel::getTexturedModelData);
 
     public static void init() {
     }
