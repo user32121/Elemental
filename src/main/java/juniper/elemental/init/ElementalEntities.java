@@ -16,7 +16,8 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
 public class ElementalEntities {
-    public static final EntityType<CraftingEntity> CRAFTING = register("crafting", CraftingEntity::new, SpawnGroup.MISC, builder -> builder.dimensions(0.5f, 0.5f));
+    public static final EntityType<CraftingEntity> CRAFTING_AIR_EARTH = register("crafting_air_earth", CraftingEntity::new, SpawnGroup.MISC, builder -> builder.dimensions(0.5f, 0.5f));
+    public static final EntityType<CraftingEntity> CRAFTING_FIRE_WATER = register("crafting_fire_water", CraftingEntity::new, SpawnGroup.MISC, builder -> builder.dimensions(0.5f, 0.5f));
 
     public static void init() {
     }

@@ -6,7 +6,9 @@ import java.util.Map;
 import java.util.Optional;
 
 import juniper.elemental.blocks.TriAxisBlock;
+import juniper.elemental.entities.CraftingEntity;
 import juniper.elemental.init.ElementalBlocks;
+import juniper.elemental.init.ElementalEntities;
 import net.minecraft.block.AbstractCandleBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -253,12 +255,27 @@ public class ElementReactions {
                     ExplosionSourceType.BLOCK);
             return ElementSignal.OFF;
         };
+        airEarthReaction = (world, pos) -> {
+            List<CraftingEntity> entities = world.getEntitiesByType(ElementalEntities.CRAFTING_AIR_EARTH, new Box(pos.up()), Entity::isAlive);
+            CraftingEntity entity;
+            if (entities.isEmpty()) {
+                entity = new CraftingEntity(ElementalEntities.CRAFTING_AIR_EARTH, world);
+                entity.setPosition(pos.up().toBottomCenterPos());
+                world.spawnEntity(entity);
+            } else {
+                entity = entities.get(0);
+            }
+            entity.incrementCraftProgress();
+            return ElementSignal.OFF;
+        };
         //earth
         reactions = new EnumMap<>(allReactions.get(ElementSignal.EARTH1));
         reactions.put(ElementSignal.WATER1, waterEarthReaction);
         reactions.put(ElementSignal.WATER2, waterEarthReaction);
         reactions.put(ElementSignal.FIRE1, fireEarthReaction);
         reactions.put(ElementSignal.FIRE2, fireEarthReaction);
+        reactions.put(ElementSignal.AIR1, airEarthReaction);
+        reactions.put(ElementSignal.AIR2, airEarthReaction);
         allReactions.put(ElementSignal.EARTH1, reactions);
         allReactions.put(ElementSignal.EARTH2, reactions);
         //water
@@ -275,6 +292,8 @@ public class ElementReactions {
         reactions.put(ElementSignal.WATER2, airWaterReaction);
         reactions.put(ElementSignal.FIRE1, fireAirReaction);
         reactions.put(ElementSignal.FIRE2, fireAirReaction);
+        reactions.put(ElementSignal.EARTH1, airEarthReaction);
+        reactions.put(ElementSignal.EARTH2, airEarthReaction);
         allReactions.put(ElementSignal.AIR1, reactions);
         allReactions.put(ElementSignal.AIR2, reactions);
         //fire

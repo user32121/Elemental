@@ -10,6 +10,7 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 
 public class CraftingEntityRenderer extends EntityRenderer<CraftingEntity, CraftingEntityRenderState> {
     private static final Identifier TEXTURE = Identifier.of(Elemental.MOD_ID, "textures/entity/crafting/crafting.png");
@@ -24,6 +25,12 @@ public class CraftingEntityRenderer extends EntityRenderer<CraftingEntity, Craft
     @Override
     public CraftingEntityRenderState createRenderState() {
         return new CraftingEntityRenderState();
+    }
+
+    @Override
+    public void updateRenderState(CraftingEntity entity, CraftingEntityRenderState state, float tickDelta) {
+        super.updateRenderState(entity, state, tickDelta);
+        state.craftProgress = MathHelper.lerp(tickDelta, entity.prevCraftProgress, entity.craftProgress);
     }
 
     @Override
