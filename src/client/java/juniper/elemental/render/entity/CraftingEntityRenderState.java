@@ -4,4 +4,5 @@ import net.minecraft.client.render.entity.state.EntityRenderState;
 
 public class CraftingEntityRenderState extends EntityRenderState {
     public float craftProgress;
+    public boolean isFireWater;
 }

@@ -33,22 +33,23 @@ public class CraftingEntityModel extends EntityModel<CraftingEntityRenderState> 
         ModelData modelData = new ModelData();
         ModelPartData root = modelData.getRoot();
         root.addChild(CIRCLE_EARTH_KEY, ModelPartBuilder.create().uv(0, 16 * 0).cuboid(-8, 0.13f, -8, 16, 0, 16), ModelTransform.NONE.withScale(2));
-        root.addChild(CIRCLE_WATER_KEY, ModelPartBuilder.create().uv(0, 16 * 1).cuboid(-8, 0.12f, -8, 16, 0, 16), ModelTransform.NONE.withScale(2));
-        root.addChild(CIRCLE_AIR_KEY, ModelPartBuilder.create().uv(0, 16 * 2).cuboid(-8, 0.11f, -8, 16, 0, 16), ModelTransform.NONE.withScale(2));
+        root.addChild(CIRCLE_WATER_KEY, ModelPartBuilder.create().uv(0, 16 * 1).cuboid(-8, 0.11f, -8, 16, 0, 16), ModelTransform.NONE.withScale(2));
+        root.addChild(CIRCLE_AIR_KEY, ModelPartBuilder.create().uv(0, 16 * 2).cuboid(-8, 0.12f, -8, 16, 0, 16), ModelTransform.NONE.withScale(2));
         root.addChild(CIRCLE_FIRE_KEY, ModelPartBuilder.create().uv(0, 16 * 3).cuboid(-8, 0.10f, -8, 16, 0, 16), ModelTransform.NONE.withScale(2));
         return TexturedModelData.of(modelData, 16, 64);
     }
 
     @Override
     public void setAngles(CraftingEntityRenderState state) {
-        //TODO render water+fire type
         super.setAngles(state);
         float rotation = state.craftProgress * MathHelper.PI / 2;
         circleEarth.rotate(new Vector3f(0, rotation, 0));
         circleWater.rotate(new Vector3f(0, rotation, 0));
         circleAir.rotate(new Vector3f(0, -rotation, 0));
         circleFire.rotate(new Vector3f(0, -rotation, 0));
-        circleWater.visible = false;
-        circleFire.visible = false;
+        circleEarth.visible = !state.isFireWater;
+        circleWater.visible = state.isFireWater;
+        circleAir.visible = !state.isFireWater;
+        circleFire.visible = state.isFireWater;
     }
 }

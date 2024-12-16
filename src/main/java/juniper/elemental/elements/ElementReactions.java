@@ -15,6 +15,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CampfireBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
@@ -255,19 +256,8 @@ public class ElementReactions {
                     ExplosionSourceType.BLOCK);
             return ElementSignal.OFF;
         };
-        airEarthReaction = (world, pos) -> {
-            List<CraftingEntity> entities = world.getEntitiesByType(ElementalEntities.CRAFTING_AIR_EARTH, new Box(pos.up()), Entity::isAlive);
-            CraftingEntity entity;
-            if (entities.isEmpty()) {
-                entity = new CraftingEntity(ElementalEntities.CRAFTING_AIR_EARTH, world);
-                entity.setPosition(pos.up().toBottomCenterPos());
-                world.spawnEntity(entity);
-            } else {
-                entity = entities.get(0);
-            }
-            entity.incrementCraftProgress();
-            return ElementSignal.OFF;
-        };
+        airEarthReaction = craftingReaction(ElementalEntities.CRAFTING_AIR_EARTH);
+        fireWaterReaction = craftingReaction(ElementalEntities.CRAFTING_FIRE_WATER);
         //earth
         reactions = new EnumMap<>(allReactions.get(ElementSignal.EARTH1));
         reactions.put(ElementSignal.WATER1, waterEarthReaction);
@@ -284,6 +274,8 @@ public class ElementReactions {
         reactions.put(ElementSignal.EARTH2, waterEarthReaction);
         reactions.put(ElementSignal.AIR1, airWaterReaction);
         reactions.put(ElementSignal.AIR2, airWaterReaction);
+        reactions.put(ElementSignal.FIRE1, fireWaterReaction);
+        reactions.put(ElementSignal.FIRE2, fireWaterReaction);
         allReactions.put(ElementSignal.WATER1, reactions);
         allReactions.put(ElementSignal.WATER2, reactions);
         //air
@@ -302,9 +294,27 @@ public class ElementReactions {
         reactions.put(ElementSignal.EARTH2, fireEarthReaction);
         reactions.put(ElementSignal.AIR1, fireAirReaction);
         reactions.put(ElementSignal.AIR2, fireAirReaction);
+        reactions.put(ElementSignal.WATER1, fireWaterReaction);
+        reactions.put(ElementSignal.WATER2, fireWaterReaction);
         allReactions.put(ElementSignal.FIRE1, reactions);
         allReactions.put(ElementSignal.FIRE2, reactions);
         CATALYST_REACTIONS = new EnumMap<>(allReactions);
+    }
+
+    private static ConduitReaction craftingReaction(EntityType<CraftingEntity> craftingEntity) {
+        return (world, pos) -> {
+            List<CraftingEntity> entities = world.getEntitiesByType(craftingEntity, new Box(pos.up()), Entity::isAlive);
+            CraftingEntity entity;
+            if (entities.isEmpty()) {
+                entity = new CraftingEntity(craftingEntity, world);
+                entity.setPosition(pos.up().toBottomCenterPos());
+                world.spawnEntity(entity);
+            } else {
+                entity = entities.get(0);
+            }
+            entity.incrementCraftProgress();
+            return ElementSignal.OFF;
+        };
     }
 
     private static void extinguishFire(World world, BlockPos pos) {
