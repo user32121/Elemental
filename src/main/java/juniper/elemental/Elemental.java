@@ -9,6 +9,7 @@ import juniper.elemental.init.ElementalBlockEntities;
 import juniper.elemental.init.ElementalBlocks;
 import juniper.elemental.init.ElementalEntities;
 import juniper.elemental.init.ElementalItemGroups;
+import juniper.elemental.init.ElementalRecipes;
 
 public class Elemental implements ModInitializer {
 	public static final String MOD_ID = "elemental";
@@ -29,5 +30,6 @@ public class Elemental implements ModInitializer {
 		ElementalBlocks.init();
 		ElementalBlockEntities.init();
         ElementalEntities.init();
+        ElementalRecipes.init();
 	}
 }

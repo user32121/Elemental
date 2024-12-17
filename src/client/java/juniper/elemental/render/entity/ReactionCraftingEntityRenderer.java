@@ -2,7 +2,6 @@ package juniper.elemental.render.entity;
 
 import juniper.elemental.Elemental;
 import juniper.elemental.entities.ReactionCraftingEntity;
-import juniper.elemental.init.ElementalEntities;
 import juniper.elemental.init.ElementalModelLayers;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
@@ -32,7 +31,7 @@ public class ReactionCraftingEntityRenderer extends EntityRenderer<ReactionCraft
     public void updateRenderState(ReactionCraftingEntity entity, ReactionCraftingEntityRenderState state, float tickDelta) {
         super.updateRenderState(entity, state, tickDelta);
         state.craftProgress = MathHelper.lerp(tickDelta, entity.prevCraftProgress, entity.craftProgress);
-        state.isFireWater = entity.getType().equals(ElementalEntities.REACTION_CRAFTING_FIRE_WATER);
+        state.isFireWater = entity.isFireWater;
     }
 
     @Override

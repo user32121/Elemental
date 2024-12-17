@@ -1,0 +1,13 @@
+{
+  "type": "elemental:reaction",
+  "cost": 10,
+  "ingredients": [
+    "minecraft:iron_ingot",
+    "minecraft:gold_ingot",
+    "minecraft:copper_ingot"
+  ],
+  "result": {
+    "id": "elemental:conduit"
+  },
+  "isFireWater": false
+}
