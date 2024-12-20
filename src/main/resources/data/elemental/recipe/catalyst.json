@@ -1,0 +1,15 @@
+{
+  "type": "elemental:reaction",
+  "cost": 30,
+  "ingredients": [
+    "elemental:conduit",
+    "elemental:condenser",
+    "minecraft:chain",
+    "minecraft:obsidian",
+    "minecraft:diamond_block"
+  ],
+  "result": {
+    "id": "elemental:catalyst"
+  },
+  "isFireWater": false
+}

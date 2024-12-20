@@ -1,12 +1,9 @@
-catalyst
- air+earth=crafting 1
- fire+water=crafting 2
+structure spawn with catalyst
 aether compressor (multiblock)
  an attempt to obtain alkahest
  requires input of 1024 element pulses and 1024 items, must be no more than 1 apart or boom
  creates 1 use portal to dark dim
 dark dim
- created by
  radar + helmet, enable pulse shader
  probably cave-like world gen
  goal to find special item (TBD), when picked up, warps to overworld

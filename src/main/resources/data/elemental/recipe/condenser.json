@@ -1,0 +1,15 @@
+{
+  "type": "elemental:reaction",
+  "cost": 20,
+  "ingredients": [
+    "elemental:conduit",
+    "minecraft:piston",
+    "minecraft:sticky_piston",
+    "minecraft:blue_ice",
+    "minecraft:amethyst_block"
+  ],
+  "result": {
+    "id": "elemental:condenser"
+  },
+  "isFireWater": true
+}

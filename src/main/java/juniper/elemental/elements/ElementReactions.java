@@ -216,7 +216,6 @@ public class ElementReactions {
         allReactions.put(ElementSignal.FIRE1, reactions);
         allReactions.put(ElementSignal.FIRE2, reactions);
         DEFAULT_REACTIONS = new EnumMap<>(allReactions);
-        //TODO catalyst reactions
         waterEarthReaction = (world, pos) -> {
             float pitch = 0.9f + world.getRandom().nextFloat() * 0.2f;
             world.playSound(null, pos, SoundEvents.ITEM_BONE_MEAL_USE, SoundCategory.BLOCKS, 3, pitch);
