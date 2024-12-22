@@ -1,0 +1,16 @@
+{
+  "structures": [
+    {
+      "structure": "elemental:lab",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "distance": 32,
+    "spread": 1,
+    "count": 128,
+    "preferred_biomes": [],
+    "salt": 1165154607,
+    "type": "minecraft:concentric_rings"
+  }
+}

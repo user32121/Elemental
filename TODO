@@ -1,4 +1,3 @@
-structure spawn with catalyst
 aether compressor (multiblock)
  an attempt to obtain alkahest
  requires input of 1024 element pulses and 1024 items, must be no more than 1 apart or boom
@@ -7,3 +6,5 @@ dark dim
  radar + helmet, enable pulse shader
  probably cave-like world gen
  goal to find special item (TBD), when picked up, warps to overworld
+crafting
+ elemental pellets - same as condenser, but in item form
