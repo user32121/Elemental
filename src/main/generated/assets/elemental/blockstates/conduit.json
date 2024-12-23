@@ -42,7 +42,7 @@
         "model": "elemental:block/conduit_core_cooldown"
       },
       "when": {
-        "signal": "cooldown1|cooldown2"
+        "signal": "cooldown|cooldown"
       }
     },
     {
@@ -52,7 +52,7 @@
       },
       "when": {
         "axis_x": "true",
-        "signal": "cooldown1|cooldown2"
+        "signal": "cooldown|cooldown"
       }
     },
     {
@@ -62,7 +62,7 @@
       },
       "when": {
         "axis_y": "true",
-        "signal": "cooldown1|cooldown2"
+        "signal": "cooldown|cooldown"
       }
     },
     {
@@ -71,7 +71,7 @@
       },
       "when": {
         "axis_z": "true",
-        "signal": "cooldown1|cooldown2"
+        "signal": "cooldown|cooldown"
       }
     },
     {

@@ -37,12 +37,9 @@ import net.minecraft.world.explosion.Explosion;
 public class ElementReactions {
     public static final Map<ElementSignal, Map<ElementSignal, ConduitReaction>> DEFAULT_REACTIONS;
     public static final Map<ElementSignal, Map<ElementSignal, ConduitReaction>> CATALYST_REACTIONS;
-    public static final Map<ElementSignal, ElementSignal> TRANSITIONS = new EnumMap<>(
-            Map.of(ElementSignal.COOLDOWN1, ElementSignal.OFF, ElementSignal.COOLDOWN2, ElementSignal.OFF,
-                    ElementSignal.EARTH1, ElementSignal.COOLDOWN1, ElementSignal.EARTH2, ElementSignal.COOLDOWN1,
-                    ElementSignal.WATER1, ElementSignal.COOLDOWN1, ElementSignal.WATER2, ElementSignal.COOLDOWN1,
-                    ElementSignal.AIR1, ElementSignal.COOLDOWN1, ElementSignal.AIR2, ElementSignal.COOLDOWN1,
-                    ElementSignal.FIRE1, ElementSignal.COOLDOWN1, ElementSignal.FIRE2, ElementSignal.COOLDOWN1));
+    public static final Map<ElementSignal, ElementSignal> TRANSITIONS = new EnumMap<>(Map.of(ElementSignal.COOLDOWN, ElementSignal.OFF, ElementSignal.EARTH1, ElementSignal.COOLDOWN,
+            ElementSignal.EARTH2, ElementSignal.COOLDOWN, ElementSignal.WATER1, ElementSignal.COOLDOWN, ElementSignal.WATER2, ElementSignal.COOLDOWN, ElementSignal.AIR1, ElementSignal.COOLDOWN,
+            ElementSignal.AIR2, ElementSignal.COOLDOWN, ElementSignal.FIRE1, ElementSignal.COOLDOWN, ElementSignal.FIRE2, ElementSignal.COOLDOWN));
     static {
         Map<ElementSignal, Map<ElementSignal, ConduitReaction>> allReactions = new EnumMap<>(ElementSignal.class);
         ConduitReaction waterEarthReaction = (world, pos) -> {
@@ -58,14 +55,10 @@ public class ElementReactions {
         };
         ConduitReaction airEarthReaction = (world, pos) -> {
             float pitch = 0.9f + world.getRandom().nextFloat() * 0.2f;
-            world.playSound(null, pos, SoundEvents.ENTITY_WIND_CHARGE_WIND_BURST.value(), SoundCategory.BLOCKS, 1,
-                    pitch);
-            world.spawnParticles(ParticleTypes.WHITE_SMOKE, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 20,
-                    0.1, 0.1, 0.1, 1);
+            world.playSound(null, pos, SoundEvents.ENTITY_WIND_CHARGE_WIND_BURST.value(), SoundCategory.BLOCKS, 1, pitch);
+            world.spawnParticles(ParticleTypes.WHITE_SMOKE, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 20, 0.1, 0.1, 0.1, 1);
             for (BlockPos pos2 : BlockPos.iterateRandomly(world.getRandom(), 5, pos, 3)) {
-                ItemPlacementContext ctx = new ItemPlacementContext(world, null, null,
-                        new ItemStack(ElementalBlocks.DUST),
-                        new BlockHitResult(Vec3d.ofBottomCenter(pos2), Direction.UP, pos2, false));
+                ItemPlacementContext ctx = new ItemPlacementContext(world, null, null, new ItemStack(ElementalBlocks.DUST), new BlockHitResult(Vec3d.ofBottomCenter(pos2), Direction.UP, pos2, false));
                 if (world.getBlockState(pos2).canReplace(ctx)) {
                     BlockState state = ElementalBlocks.DUST.getPlacementState(ctx);
                     if (state.canPlaceAt(world, pos2)) {
@@ -86,8 +79,7 @@ public class ElementReactions {
         ConduitReaction airWaterReaction = (world, pos) -> {
             float pitch = 0.9f + world.getRandom().nextFloat() * 0.2f;
             world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_SPLASH, SoundCategory.BLOCKS, 0.1f, pitch);
-            world.spawnParticles(ParticleTypes.SPLASH, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 30, 0.5,
-                    0.5, 0.5, 1);
+            world.spawnParticles(ParticleTypes.SPLASH, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 30, 0.5, 0.5, 0.5, 1);
             extinguishFire(world, pos);
             for (BlockPos pos2 : BlockPos.iterate(pos.add(-1, -1, -1), pos.add(1, 1, 1))) {
                 extinguishFire(world, pos2);
@@ -109,11 +101,9 @@ public class ElementReactions {
         ConduitReaction fireEarthReaction = (world, pos) -> {
             float pitch = 0.9f + world.getRandom().nextFloat() * 0.2f;
             world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1, pitch);
-            world.spawnParticles(ParticleTypes.FLAME, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 20, 0, 0, 0,
-                    0.05);
+            world.spawnParticles(ParticleTypes.FLAME, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 20, 0, 0, 0, 0.05);
             for (BlockPos pos2 : BlockPos.iterateRandomly(world.getRandom(), 5, pos, 3)) {
-                ItemPlacementContext ctx = new ItemPlacementContext(world, null, null, new ItemStack(Blocks.FIRE),
-                        new BlockHitResult(Vec3d.ofBottomCenter(pos2), Direction.UP, pos2, false));
+                ItemPlacementContext ctx = new ItemPlacementContext(world, null, null, new ItemStack(Blocks.FIRE), new BlockHitResult(Vec3d.ofBottomCenter(pos2), Direction.UP, pos2, false));
                 if (world.getBlockState(pos2).canReplace(ctx)) {
                     BlockState state = Blocks.FIRE.getPlacementState(ctx);
                     if (state.canPlaceAt(world, pos2)) {
@@ -134,8 +124,7 @@ public class ElementReactions {
         ConduitReaction fireWaterReaction = (world, pos) -> {
             float pitch = 0.9f + world.getRandom().nextFloat() * 0.2f;
             world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1, pitch);
-            world.spawnParticles(ParticleTypes.WHITE_SMOKE, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 20,
-                    0.1, 0.1, 0.1, 1);
+            world.spawnParticles(ParticleTypes.WHITE_SMOKE, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 20, 0.1, 0.1, 0.1, 1);
             List<Entity> entities = world.getOtherEntities(null, Box.of(pos.toCenterPos(), 10, 10, 10));
             for (Entity entity : entities) {
                 float damage = (float) (1 / (1 + entity.getPos().subtract(pos.toCenterPos()).distanceTo(Vec3d.ZERO)));
@@ -158,8 +147,7 @@ public class ElementReactions {
         // earth
         Map<ElementSignal, ConduitReaction> reactions = new EnumMap<>(ElementSignal.class);
         reactions.put(ElementSignal.OFF, ConduitReaction.basicReaction(ElementSignal.EARTH1));
-        reactions.put(ElementSignal.COOLDOWN1, ConduitReaction.basicReaction(ElementSignal.COOLDOWN2));
-        reactions.put(ElementSignal.COOLDOWN2, ConduitReaction.basicReaction(ElementSignal.COOLDOWN1));
+        reactions.put(ElementSignal.COOLDOWN, ConduitReaction.basicReaction(ElementSignal.COOLDOWN));
         reactions.put(ElementSignal.EARTH1, ConduitReaction.basicReaction(ElementSignal.EARTH2));
         reactions.put(ElementSignal.EARTH2, ConduitReaction.basicReaction(ElementSignal.OFF));
         reactions.put(ElementSignal.WATER1, waterEarthReaction);
@@ -173,8 +161,7 @@ public class ElementReactions {
         // water
         reactions = new EnumMap<>(ElementSignal.class);
         reactions.put(ElementSignal.OFF, ConduitReaction.basicReaction(ElementSignal.WATER1));
-        reactions.put(ElementSignal.COOLDOWN1, ConduitReaction.basicReaction(ElementSignal.COOLDOWN2));
-        reactions.put(ElementSignal.COOLDOWN2, ConduitReaction.basicReaction(ElementSignal.COOLDOWN1));
+        reactions.put(ElementSignal.COOLDOWN, ConduitReaction.basicReaction(ElementSignal.COOLDOWN));
         reactions.put(ElementSignal.WATER1, ConduitReaction.basicReaction(ElementSignal.WATER2));
         reactions.put(ElementSignal.WATER2, ConduitReaction.basicReaction(ElementSignal.OFF));
         reactions.put(ElementSignal.EARTH1, waterEarthReaction);
@@ -188,8 +175,7 @@ public class ElementReactions {
         // air
         reactions = new EnumMap<>(ElementSignal.class);
         reactions.put(ElementSignal.OFF, ConduitReaction.basicReaction(ElementSignal.AIR1));
-        reactions.put(ElementSignal.COOLDOWN1, ConduitReaction.basicReaction(ElementSignal.COOLDOWN2));
-        reactions.put(ElementSignal.COOLDOWN2, ConduitReaction.basicReaction(ElementSignal.COOLDOWN1));
+        reactions.put(ElementSignal.COOLDOWN, ConduitReaction.basicReaction(ElementSignal.COOLDOWN));
         reactions.put(ElementSignal.AIR1, ConduitReaction.basicReaction(ElementSignal.AIR2));
         reactions.put(ElementSignal.AIR2, ConduitReaction.basicReaction(ElementSignal.OFF));
         reactions.put(ElementSignal.FIRE1, fireAirReaction);
@@ -203,8 +189,7 @@ public class ElementReactions {
         // fire
         reactions = new EnumMap<>(ElementSignal.class);
         reactions.put(ElementSignal.OFF, ConduitReaction.basicReaction(ElementSignal.FIRE1));
-        reactions.put(ElementSignal.COOLDOWN1, ConduitReaction.basicReaction(ElementSignal.COOLDOWN2));
-        reactions.put(ElementSignal.COOLDOWN2, ConduitReaction.basicReaction(ElementSignal.COOLDOWN1));
+        reactions.put(ElementSignal.COOLDOWN, ConduitReaction.basicReaction(ElementSignal.COOLDOWN));
         reactions.put(ElementSignal.FIRE1, ConduitReaction.basicReaction(ElementSignal.FIRE2));
         reactions.put(ElementSignal.FIRE2, ConduitReaction.basicReaction(ElementSignal.OFF));
         reactions.put(ElementSignal.AIR1, fireAirReaction);

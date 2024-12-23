@@ -6,10 +6,7 @@
     "signal=air2": {
       "model": "elemental:block/catalyst_air"
     },
-    "signal=cooldown1": {
-      "model": "elemental:block/catalyst_cooldown"
-    },
-    "signal=cooldown2": {
+    "signal=cooldown": {
       "model": "elemental:block/catalyst_cooldown"
     },
     "signal=earth1": {
