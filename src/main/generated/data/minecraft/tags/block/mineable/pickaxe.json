@@ -6,6 +6,7 @@
     "elemental:melted_conduit",
     "elemental:blown_out_conduit",
     "elemental:condenser",
-    "elemental:catalyst"
+    "elemental:catalyst",
+    "elemental:extractor"
   ]
 }

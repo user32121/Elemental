@@ -2,6 +2,7 @@ package juniper.elemental.init;
 
 import juniper.elemental.Elemental;
 import juniper.elemental.blockEntities.CondenserBlockEntity;
+import juniper.elemental.blockEntities.ExtractorBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder.Factory;
 import net.minecraft.block.Block;
@@ -13,13 +14,12 @@ import net.minecraft.util.Identifier;
 
 public class ElementalBlockEntities {
     public static final BlockEntityType<CondenserBlockEntity> CONDENSER = register("condenser", CondenserBlockEntity::new, ElementalBlocks.CONDENSER);
+    public static final BlockEntityType<ExtractorBlockEntity> EXTRACTOR = register("extractor", ExtractorBlockEntity::new, ElementalBlocks.EXTRACTOR);
 
     public static void init() {
     }
 
-    private static <T extends BlockEntity> BlockEntityType<T> register(String name, Factory<T> factory,
-            Block... blocks) {
-        return Registry.register(Registries.BLOCK_ENTITY_TYPE, Identifier.of(Elemental.MOD_ID, name),
-                FabricBlockEntityTypeBuilder.create(factory, blocks).build());
+    private static <T extends BlockEntity> BlockEntityType<T> register(String name, Factory<T> factory, Block... blocks) {
+        return Registry.register(Registries.BLOCK_ENTITY_TYPE, Identifier.of(Elemental.MOD_ID, name), FabricBlockEntityTypeBuilder.create(factory, blocks).build());
     }
 }

@@ -6,6 +6,7 @@ import juniper.elemental.Elemental;
 import juniper.elemental.blocks.CatalystBlock;
 import juniper.elemental.blocks.CondenserBlock;
 import juniper.elemental.blocks.ConduitBlock;
+import juniper.elemental.blocks.ExtractorBlock;
 import juniper.elemental.blocks.RichSoilBlock;
 import juniper.elemental.blocks.TriAxisBlock;
 import net.minecraft.block.AbstractBlock;
@@ -37,6 +38,7 @@ public class ElementalBlocks {
     public static Block CATALYST = register("catalyst", CatalystBlock::new,
             AbstractBlock.Settings.create().strength(1.5f).requiresTool(), true);
     public static Block RICH_SOIL = register("rich_soil", RichSoilBlock::new, AbstractBlock.Settings.create().strength(0.5f).ticksRandomly(), true);
+    public static Block EXTRACTOR = register("extractor", ExtractorBlock::new, AbstractBlock.Settings.create().strength(1.5f).requiresTool(), true);
 
     public static void init() {
     }

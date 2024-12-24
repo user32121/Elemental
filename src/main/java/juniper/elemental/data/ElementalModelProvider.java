@@ -42,6 +42,7 @@ public class ElementalModelProvider extends FabricModelProvider {
         registerSignalHolder(blockStateModelGenerator, ElementalBlocks.CONDENSER);
         registerSignalHolder(blockStateModelGenerator, ElementalBlocks.CATALYST);
         blockStateModelGenerator.registerSimpleCubeAll(ElementalBlocks.RICH_SOIL);
+        blockStateModelGenerator.registerSimpleCubeAll(ElementalBlocks.EXTRACTOR);
     }
 
     private void registerTriAxisBlock(BlockStateModelGenerator bsmg, Block block) {

@@ -1,0 +1,13 @@
+{
+  "type": "elemental:reaction",
+  "cost": 50,
+  "ingredients": [
+    "elemental:conduit",
+    "elemental:catalyst",
+    "minecraft:netherite_ingot"
+  ],
+  "result": {
+    "id": "elemental:extractor"
+  },
+  "isFireWater": true
+}
