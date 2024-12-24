@@ -88,6 +88,6 @@ public class CondenserBlock extends BlockWithEntity implements ElementHolder {
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state,
             BlockEntityType<T> type) {
         return world.isClient ? null
-                : validateTicker(type, ElementalBlockEntities.CONDENSER_BLOCK_ENTITY, CondenserBlockEntity::tick);
+                : validateTicker(type, ElementalBlockEntities.CONDENSER, CondenserBlockEntity::tick);
     }
 }

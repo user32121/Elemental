@@ -81,7 +81,7 @@ public class CondenserBlockEntity extends BlockEntity implements NamedScreenHand
     };
 
     public CondenserBlockEntity(BlockPos pos, BlockState state) {
-        super(ElementalBlockEntities.CONDENSER_BLOCK_ENTITY, pos, state);
+        super(ElementalBlockEntities.CONDENSER, pos, state);
     }
 
     @Override

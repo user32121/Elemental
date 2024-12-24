@@ -22,7 +22,7 @@ public class CondenserScreenHandler extends ScreenHandler {
 
     public CondenserScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory,
             PropertyDelegate propertyDelegate) {
-        super(ElementalScreenHandlers.CONDENSER_SCREEN_HANDLER, syncId);
+        super(ElementalScreenHandlers.CONDENSER, syncId);
         checkSize(inventory, 3);
         this.inventory = inventory;
         this.propertyDelegate = propertyDelegate;

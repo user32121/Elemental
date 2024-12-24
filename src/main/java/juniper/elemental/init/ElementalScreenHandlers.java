@@ -11,8 +11,7 @@ import net.minecraft.screen.ScreenHandlerType.Factory;
 import net.minecraft.util.Identifier;
 
 public class ElementalScreenHandlers {
-    public static final ScreenHandlerType<CondenserScreenHandler> CONDENSER_SCREEN_HANDLER = register("condenser",
-            CondenserScreenHandler::new);
+    public static final ScreenHandlerType<CondenserScreenHandler> CONDENSER = register("condenser", CondenserScreenHandler::new);
 
     public static void init() {
     }

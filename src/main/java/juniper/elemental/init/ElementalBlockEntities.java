@@ -12,8 +12,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class ElementalBlockEntities {
-    public static final BlockEntityType<CondenserBlockEntity> CONDENSER_BLOCK_ENTITY = register("condenser",
-            CondenserBlockEntity::new, ElementalBlocks.CONDENSER);
+    public static final BlockEntityType<CondenserBlockEntity> CONDENSER = register("condenser", CondenserBlockEntity::new, ElementalBlocks.CONDENSER);
 
     public static void init() {
     }
