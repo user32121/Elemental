@@ -7,6 +7,7 @@ import juniper.elemental.blocks.ElementHolder;
 import juniper.elemental.blocks.TriAxisBlock;
 import juniper.elemental.elements.ElementSignal;
 import juniper.elemental.init.ElementalBlocks;
+import juniper.elemental.init.ElementalItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.Block;
@@ -141,5 +142,13 @@ public class ElementalModelProvider extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
+        itemModelGenerator.register(ElementalItems.EARTH_FRAGMENT, Models.GENERATED);
+        itemModelGenerator.register(ElementalItems.WATER_FRAGMENT, Models.GENERATED);
+        itemModelGenerator.register(ElementalItems.AIR_FRAGMENT, Models.GENERATED);
+        itemModelGenerator.register(ElementalItems.FIRE_FRAGMENT, Models.GENERATED);
+        itemModelGenerator.register(ElementalItems.EARTH_SHARD, Models.GENERATED);
+        itemModelGenerator.register(ElementalItems.WATER_SHARD, Models.GENERATED);
+        itemModelGenerator.register(ElementalItems.AIR_SHARD, Models.GENERATED);
+        itemModelGenerator.register(ElementalItems.FIRE_SHARD, Models.GENERATED);
     }
 }

@@ -9,6 +9,7 @@ import juniper.elemental.init.ElementalBlockEntities;
 import juniper.elemental.init.ElementalBlocks;
 import juniper.elemental.init.ElementalEntities;
 import juniper.elemental.init.ElementalItemGroups;
+import juniper.elemental.init.ElementalItems;
 import juniper.elemental.init.ElementalRecipes;
 
 public class Elemental implements ModInitializer {
@@ -27,6 +28,7 @@ public class Elemental implements ModInitializer {
 
 		LOGGER.info(MOD_ID + " init");
 		ElementalItemGroups.init();
+        ElementalItems.init();
 		ElementalBlocks.init();
 		ElementalBlockEntities.init();
         ElementalEntities.init();

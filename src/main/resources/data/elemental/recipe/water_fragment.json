@@ -1,0 +1,13 @@
+{
+  "type": "elemental:reaction",
+  "cost": 10,
+  "ingredients": [
+    "minecraft:blue_orchid",
+    "minecraft:lapis_block",
+    "minecraft:prismarine_shard"
+  ],
+  "result": {
+    "id": "elemental:water_fragment"
+  },
+  "isFireWater": true
+}

@@ -10,5 +10,6 @@ public class ElementalDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider(ElementalModelProvider::new);
         pack.addProvider(ElementalLootTableProvider::new);
         pack.addProvider(ElementalBlockTagProvider::new);
+        pack.addProvider(ElementalRecipeProvider::new);
     }
 }

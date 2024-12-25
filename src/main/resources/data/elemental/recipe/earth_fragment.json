@@ -1,0 +1,13 @@
+{
+  "type": "elemental:reaction",
+  "cost": 10,
+  "ingredients": [
+    "minecraft:big_dripleaf",
+    "minecraft:copper_block",
+    "minecraft:golden_carrot"
+  ],
+  "result": {
+    "id": "elemental:earth_fragment"
+  },
+  "isFireWater": false
+}

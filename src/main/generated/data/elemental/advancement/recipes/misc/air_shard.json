@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_air_fragment": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elemental:air_fragment"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "elemental:air_shard"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_air_fragment"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "elemental:air_shard"
+    ]
+  }
+}
