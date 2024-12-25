@@ -2,6 +2,7 @@ package juniper.elemental.init;
 
 import juniper.elemental.Elemental;
 import juniper.elemental.screens.CondenserScreenHandler;
+import juniper.elemental.screens.ExtractorScreenHandler;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.resource.featuretoggle.FeatureSet;
@@ -12,6 +13,7 @@ import net.minecraft.util.Identifier;
 
 public class ElementalScreenHandlers {
     public static final ScreenHandlerType<CondenserScreenHandler> CONDENSER = register("condenser", CondenserScreenHandler::new);
+    public static final ScreenHandlerType<ExtractorScreenHandler> EXTRACTOR = register("extractor", ExtractorScreenHandler::new);
 
     public static void init() {
     }
