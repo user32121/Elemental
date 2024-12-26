@@ -24,7 +24,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-//TODO doesn't drop items when broken
 public class CondenserBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, Inventory {
     public static final Item[][] FUEL_ITEMS = {
             { Items.BIG_DRIPLEAF, Items.BLUE_ORCHID, Items.LILY_OF_THE_VALLEY, Items.POPPY },

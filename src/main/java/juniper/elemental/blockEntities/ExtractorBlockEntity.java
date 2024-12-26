@@ -68,6 +68,7 @@ public class ExtractorBlockEntity extends BlockEntity implements NamedScreenHand
     };
     private boolean isMultiblockValid;
     private int progress;
+
     static {
         BLOCK_LIST = new ArrayList<>();
         TAG_LIST = new ArrayList<>();
