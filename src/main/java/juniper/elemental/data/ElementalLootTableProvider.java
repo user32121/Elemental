@@ -43,6 +43,7 @@ public class ElementalLootTableProvider extends FabricBlockLootTableProvider {
                 .with(AlternativeEntry.builder(SnowBlock.LAYERS.getValues(), layers -> ItemEntry.builder(block)
                         .conditionally(BlockStatePropertyLootCondition.builder(block).properties(
                                 StatePredicate.Builder.create().exactMatch(SnowBlock.LAYERS, layers.intValue())))
-                        .apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(layers.intValue()))))));
+                        .apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(layers.intValue())))))
+                .conditionally(createSilkTouchCondition()));
     }
 }
