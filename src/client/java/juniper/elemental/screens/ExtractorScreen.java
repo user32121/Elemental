@@ -11,6 +11,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class ExtractorScreen extends HandledScreen<ExtractorScreenHandler> {
+    private static final String INVALID_STRING = "Invalid Multiblock";
     private static final Identifier BACKGROUND_TEXTURE = Identifier.of(Elemental.MOD_ID, "textures/gui/container/extractor.png");
     private static final Identifier INVALID_TEXTURE = Identifier.of(Elemental.MOD_ID, "container/extractor/invalid");
     private static final Identifier ELEMENTS_TEXTURE = Identifier.of(Elemental.MOD_ID, "container/extractor/elements");
@@ -26,6 +27,7 @@ public class ExtractorScreen extends HandledScreen<ExtractorScreenHandler> {
         int flags = handler.propertyDelegate.get(0);
         if ((flags & 1) == 0) {
             context.drawGuiTexture(RenderLayer::getGuiTextured, INVALID_TEXTURE, 22, 15, 0, 0, this.x + 96, this.y + 35, 22, 15);
+            context.drawText(textRenderer, INVALID_STRING, this.x + backgroundWidth / 2 - textRenderer.getWidth(INVALID_STRING) / 2, this.y + 64, 0xFF6060, false);
         }
         for (int i = 0; i < 4; ++i) {
             if ((flags & (1 << (i + 1))) != 0) {

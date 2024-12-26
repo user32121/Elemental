@@ -1,5 +1,6 @@
 package juniper.elemental.screens;
 
+import juniper.elemental.blockEntities.ExtractorBlockEntity;
 import juniper.elemental.init.ElementalScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -27,7 +28,8 @@ public class ExtractorScreenHandler extends ScreenHandler {
         // block inventory
         for (int y = 0; y < 2; ++y) {
             for (int x = 0; x < 2; ++x) {
-                this.addSlot(new FilteredSlot(inventory, y * 2 + x, 52 + 18 * x, 26 + 18 * y));
+                int i = y * 2 + x;
+                this.addSlot(new FilteredSlot(inventory, i, 52 + 18 * x, 26 + 18 * y, ExtractorBlockEntity.SHARD_ITEMS[i]));
             }
         }
         // player inventory
