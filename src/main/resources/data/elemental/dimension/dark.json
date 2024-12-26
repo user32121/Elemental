@@ -1,0 +1,11 @@
+{
+  "type": "elemental:dark",
+  "generator": {
+    "type": "minecraft:noise",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "elemental:dark"
+    },
+    "settings": "elemental:layers"
+  }
+}

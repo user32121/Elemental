@@ -7,6 +7,7 @@
     "elemental:blown_out_conduit",
     "elemental:condenser",
     "elemental:catalyst",
-    "elemental:extractor"
+    "elemental:extractor",
+    "elemental:dark_block"
   ]
 }
