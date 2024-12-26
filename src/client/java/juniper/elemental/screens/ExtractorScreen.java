@@ -31,7 +31,7 @@ public class ExtractorScreen extends HandledScreen<ExtractorScreenHandler> {
         }
         for (int i = 0; i < 4; ++i) {
             if ((flags & (1 << (i + 1))) != 0) {
-                context.drawGuiTexture(RenderLayer::getGuiTextured, ELEMENTS_TEXTURE, 16, 64, 0, 16 * i, this.x + 52 + i % 2 * 16, this.y + 26 + i / 2 * 16, 16, 16);
+                context.drawGuiTexture(RenderLayer::getGuiTextured, ELEMENTS_TEXTURE, 16, 64, 0, 16 * i, this.x + 52 + i % 2 * 18, this.y + 26 + i / 2 * 18, 16, 16);
             }
         }
         int progress = handler.propertyDelegate.get(1);

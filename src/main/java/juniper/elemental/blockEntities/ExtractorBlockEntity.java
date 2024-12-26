@@ -3,6 +3,8 @@ package juniper.elemental.blockEntities;
 import java.util.ArrayList;
 import java.util.List;
 
+import juniper.elemental.blocks.ElementHolder;
+import juniper.elemental.elements.ElementSignal;
 import juniper.elemental.init.ElementalBlockEntities;
 import juniper.elemental.init.ElementalBlocks;
 import juniper.elemental.init.ElementalItems;
@@ -12,10 +14,13 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.screen.NamedScreenHandlerFactory;
@@ -26,12 +31,15 @@ import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
+import net.minecraft.world.World.ExplosionSourceType;
 
 public class ExtractorBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, Inventory {
     public static final List<Pair<Vec3i, Block>> BLOCK_LIST;
     public static final List<Pair<Vec3i, TagKey<Block>>> TAG_LIST;
     public static final Item[] SHARD_ITEMS = { ElementalItems.EARTH_SHARD, ElementalItems.WATER_SHARD, ElementalItems.AIR_SHARD, ElementalItems.FIRE_SHARD };
     public static final int MAX_PROGRESS = 1024;
+    public static final String FLAGS_KEY = "Flags";
+    public static final String PROGRESS_KEY = "Progress";
     private final SimpleInventory inventory = new SimpleInventory(4);
     private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
@@ -40,6 +48,9 @@ public class ExtractorBlockEntity extends BlockEntity implements NamedScreenHand
                 case 0 -> {
                     int value = 0;
                     value |= isMultiblockValid ? (1 << 0) : 0;
+                    for (int i = 0; i < hasElement.length; ++i) {
+                        value |= hasElement[i] ? (1 << (i + 1)) : 0;
+                    }
                     yield value;
                 }
                 case 1 -> progress;
@@ -52,6 +63,9 @@ public class ExtractorBlockEntity extends BlockEntity implements NamedScreenHand
             switch (index) {
                 case 0:
                     isMultiblockValid = (value & (1 << 0)) != 0;
+                    for (int i = 0; i < hasElement.length; ++i) {
+                        hasElement[i] = (value & (1 << (i + 1))) != 0;
+                    }
                     break;
                 case 1:
                     progress = value;
@@ -67,6 +81,7 @@ public class ExtractorBlockEntity extends BlockEntity implements NamedScreenHand
         }
     };
     private boolean isMultiblockValid;
+    private boolean[] hasElement = new boolean[4];
     private int progress;
 
     static {
@@ -80,6 +95,7 @@ public class ExtractorBlockEntity extends BlockEntity implements NamedScreenHand
             } else if (faceCount == 3) {
                 BLOCK_LIST.add(new Pair<>(pos, ElementalBlocks.CATALYST));
             } else if (Math.max(Math.abs(pos.getX()), Math.abs(pos.getZ())) == -pos.getY()) {
+                //doesn't actually check block states but it doesn't really matter
                 TAG_LIST.add(new Pair<>(pos, BlockTags.STAIRS));
             } else if (faceCount == 2) {
                 BLOCK_LIST.add(new Pair<>(pos, ElementalBlocks.CONDUIT));
@@ -93,7 +109,7 @@ public class ExtractorBlockEntity extends BlockEntity implements NamedScreenHand
 
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new ExtractorScreenHandler(syncId, playerInventory, inventory, propertyDelegate);
+        return new ExtractorScreenHandler(syncId, playerInventory, this, propertyDelegate);
     }
 
     @Override
@@ -115,7 +131,44 @@ public class ExtractorBlockEntity extends BlockEntity implements NamedScreenHand
                 return;
             }
         }
-        //TODO rest of behavior (consuming signals)
+        for (int x = -2; x <= 2; x += 4) {
+            for (int y = -2; y <= 2; y += 4) {
+                for (int z = -2; z <= 2; z += 4) {
+                    BlockPos targetPos = pos.add(x, y, z);
+                    BlockState targetState = world.getBlockState(targetPos);
+                    ElementSignal signal;
+                    if (targetState.getBlock() instanceof ElementHolder && (signal = targetState.get(ElementHolder.SIGNAL)).is_active) {
+                        if (blockEntity.hasElement[signal.elementOrdinal]) {
+                            world.createExplosion(null, null, null, pos.toCenterPos(), 10, true, ExplosionSourceType.BLOCK);
+                            return;
+                        }
+                        blockEntity.hasElement[signal.elementOrdinal] = true;
+                        world.setBlockState(targetPos, targetState.with(ElementHolder.SIGNAL, ElementSignal.OFF));
+                    }
+                }
+            }
+        }
+        for (boolean b : blockEntity.hasElement) {
+            if (!b) {
+                return;
+            }
+        }
+        for (ItemStack stack : blockEntity.inventory.getHeldStacks()) {
+            if (stack.isEmpty()) {
+                return;
+            }
+        }
+        //consume signal/items and increase progress
+        for (int i = 0; i < blockEntity.hasElement.length; ++i) {
+            blockEntity.hasElement[i] = false;
+        }
+        for (int i = 0; i < blockEntity.size(); ++i) {
+            blockEntity.removeStack(i, 1);
+        }
+        ++blockEntity.progress;
+        if (blockEntity.progress >= MAX_PROGRESS) {
+            //TODO create portal
+        }
     }
 
     @Override
@@ -161,5 +214,21 @@ public class ExtractorBlockEntity extends BlockEntity implements NamedScreenHand
     @Override
     public boolean isValid(int slot, ItemStack stack) {
         return stack.isOf(SHARD_ITEMS[slot]);
+    }
+
+    @Override
+    protected void readNbt(NbtCompound nbt, WrapperLookup registries) {
+        super.readNbt(nbt, registries);
+        Inventories.readNbt(nbt, inventory.getHeldStacks(), registries);
+        propertyDelegate.set(0, nbt.getInt(FLAGS_KEY));
+        progress = nbt.getInt(PROGRESS_KEY);
+    }
+
+    @Override
+    protected void writeNbt(NbtCompound nbt, WrapperLookup registries) {
+        super.writeNbt(nbt, registries);
+        Inventories.writeNbt(nbt, inventory.getHeldStacks(), registries);
+        nbt.putInt(FLAGS_KEY, propertyDelegate.get(0));
+        nbt.putInt(PROGRESS_KEY, progress);
     }
 }

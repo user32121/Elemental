@@ -25,19 +25,7 @@ public class CondenserScreen extends HandledScreen<CondenserScreenHandler> {
 
     private int propertyTypeToIndex(int propertyType) {
         ElementSignal type = ElementSignal.VALUES[propertyType];
-        return switch (type) {
-            case OFF -> 0;
-            case EARTH1 -> 0;
-            case EARTH2 -> 0;
-            case WATER1 -> 1;
-            case WATER2 -> 1;
-            case AIR1 -> 2;
-            case AIR2 -> 2;
-            case FIRE1 -> 3;
-            case FIRE2 -> 3;
-            //can't really do much if there's an error and we don't really want to crash since this is unsanitized user input
-            default -> 0;
-        };
+        return type.elementOrdinal;
     }
 
     @Override
