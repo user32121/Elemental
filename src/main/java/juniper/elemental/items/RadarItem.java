@@ -32,7 +32,7 @@ public class RadarItem extends Item {
         if (entity instanceof PlayerEntity pe && pe.getItemCooldownManager().getCooldownProgress(stack, 0) > 0) {
             return;
         }
-        world.playSound(null, entity.getBlockPos(), ElementalSounds.RADAR, SoundCategory.BLOCKS, 1, 1);
+        world.playSound(null, entity.getBlockPos(), ElementalSounds.RADAR_PING, SoundCategory.BLOCKS, 1, 1);
         if (entity instanceof PlayerEntity pe) {
             pe.getItemCooldownManager().set(stack, MAX_COOLDOWN);
         }

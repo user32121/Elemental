@@ -7,7 +7,7 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 
 public class ElementalSounds {
-    public static SoundEvent RADAR = register("radar");
+    public static SoundEvent RADAR_PING = register("radar_ping");
 
     public static void init() {
     }

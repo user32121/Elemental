@@ -1,6 +1,6 @@
 {
-  "radar": {
-    "subtitle": "subtitles.elemental.radar",
-    "sounds": ["elemental:radar"]
+  "radar_ping": {
+    "subtitle": "subtitles.elemental.radar_ping",
+    "sounds": ["elemental:radar_ping"]
   }
 }
