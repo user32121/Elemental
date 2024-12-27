@@ -4,6 +4,7 @@ import java.util.function.Function;
 
 import juniper.elemental.Elemental;
 import juniper.elemental.elements.ElementSignal;
+import juniper.elemental.items.RadarItem;
 import juniper.elemental.items.ShardItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -22,6 +23,7 @@ public class ElementalItems {
     public static final Item WATER_SHARD = register("water_shard", settings -> new ShardItem(settings, ElementSignal.WATER1));
     public static final Item AIR_SHARD = register("air_shard", settings -> new ShardItem(settings, ElementSignal.AIR1));
     public static final Item FIRE_SHARD = register("fire_shard", settings -> new ShardItem(settings, ElementSignal.FIRE1));
+    public static final Item RADAR = register("radar", RadarItem::new, new Item.Settings().maxCount(1));
 
     public static void init() {
     }

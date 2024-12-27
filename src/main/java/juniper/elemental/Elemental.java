@@ -7,10 +7,12 @@ import org.slf4j.LoggerFactory;
 
 import juniper.elemental.init.ElementalBlockEntities;
 import juniper.elemental.init.ElementalBlocks;
+import juniper.elemental.init.ElementalComponents;
 import juniper.elemental.init.ElementalEntities;
 import juniper.elemental.init.ElementalItemGroups;
 import juniper.elemental.init.ElementalItems;
 import juniper.elemental.init.ElementalRecipes;
+import juniper.elemental.init.ElementalSounds;
 
 public class Elemental implements ModInitializer {
 	public static final String MOD_ID = "elemental";
@@ -33,5 +35,7 @@ public class Elemental implements ModInitializer {
 		ElementalBlockEntities.init();
         ElementalEntities.init();
         ElementalRecipes.init();
+        ElementalComponents.init();
+        ElementalSounds.init();
 	}
 }

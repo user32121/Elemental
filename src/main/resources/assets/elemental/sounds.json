@@ -1,0 +1,6 @@
+{
+  "radar": {
+    "subtitle": "subtitles.elemental.radar",
+    "sounds": ["elemental:radar"]
+  }
+}
