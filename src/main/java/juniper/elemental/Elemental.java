@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import juniper.elemental.init.ElementalBlockEntities;
 import juniper.elemental.init.ElementalBlocks;
 import juniper.elemental.init.ElementalComponents;
+import juniper.elemental.init.ElementalDimensions;
 import juniper.elemental.init.ElementalEntities;
 import juniper.elemental.init.ElementalItemGroups;
 import juniper.elemental.init.ElementalItems;
@@ -37,5 +38,6 @@ public class Elemental implements ModInitializer {
         ElementalRecipes.init();
         ElementalComponents.init();
         ElementalSounds.init();
+        ElementalDimensions.init();
 	}
 }
