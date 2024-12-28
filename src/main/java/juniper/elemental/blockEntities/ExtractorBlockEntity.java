@@ -19,6 +19,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.BlockTags;
@@ -36,11 +37,11 @@ import net.minecraft.world.World.ExplosionSourceType;
 public class ExtractorBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, Inventory {
     public static final List<Pair<Vec3i, Block>> BLOCK_LIST;
     public static final List<Pair<Vec3i, TagKey<Block>>> TAG_LIST;
-    public static final Item[] SHARD_ITEMS = { ElementalItems.EARTH_SHARD, ElementalItems.WATER_SHARD, ElementalItems.AIR_SHARD, ElementalItems.FIRE_SHARD };
+    public static final Item[] SHARD_ITEMS = { ElementalItems.EARTH_SHARD, ElementalItems.WATER_SHARD, ElementalItems.AIR_SHARD, ElementalItems.FIRE_SHARD, Items.AIR };
     public static final int MAX_PROGRESS = 1024;
     public static final String FLAGS_KEY = "Flags";
     public static final String PROGRESS_KEY = "Progress";
-    private final SimpleInventory inventory = new SimpleInventory(4);
+    private final SimpleInventory inventory = new SimpleInventory(5);
     private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
         @Override
         public int get(int index) {
@@ -118,6 +119,7 @@ public class ExtractorBlockEntity extends BlockEntity implements NamedScreenHand
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, ExtractorBlockEntity blockEntity) {
+        //multiblock check
         blockEntity.isMultiblockValid = true;
         for (Pair<Vec3i, Block> pair : BLOCK_LIST) {
             if (!world.getBlockState(pos.add(pair.getLeft())).isOf(pair.getRight())) {
@@ -131,6 +133,7 @@ public class ExtractorBlockEntity extends BlockEntity implements NamedScreenHand
                 return;
             }
         }
+        //absorb elements
         for (int x = -2; x <= 2; x += 4) {
             for (int y = -2; y <= 2; y += 4) {
                 for (int z = -2; z <= 2; z += 4) {
@@ -148,26 +151,28 @@ public class ExtractorBlockEntity extends BlockEntity implements NamedScreenHand
                 }
             }
         }
+        //inventory/element check
         for (boolean b : blockEntity.hasElement) {
             if (!b) {
                 return;
             }
         }
-        for (ItemStack stack : blockEntity.inventory.getHeldStacks()) {
-            if (stack.isEmpty()) {
+        for (int i = 0; i < 4; ++i) {
+            if (blockEntity.getStack(i).isEmpty()) {
                 return;
             }
         }
-        //consume signal/items and increase progress
+        //consume elements/items and increase progress
         for (int i = 0; i < blockEntity.hasElement.length; ++i) {
             blockEntity.hasElement[i] = false;
         }
-        for (int i = 0; i < blockEntity.size(); ++i) {
+        for (int i = 0; i < 4; ++i) {
             blockEntity.removeStack(i, 1);
         }
         ++blockEntity.progress;
         if (blockEntity.progress >= MAX_PROGRESS) {
-            //TODO create portal
+            blockEntity.clear();
+            world.setBlockState(pos, ElementalBlocks.DARK_PORTAL.getDefaultState());
         }
     }
 

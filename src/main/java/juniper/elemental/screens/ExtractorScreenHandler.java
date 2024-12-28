@@ -17,7 +17,7 @@ public class ExtractorScreenHandler extends ScreenHandler {
     private final Inventory inventory;
 
     public ExtractorScreenHandler(int syncId, PlayerInventory playerInventory) {
-        this(syncId, playerInventory, new SimpleInventory(4), new ArrayPropertyDelegate(2));
+        this(syncId, playerInventory, new SimpleInventory(5), new ArrayPropertyDelegate(2));
     }
 
     public ExtractorScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate propertyDelegate) {
@@ -29,9 +29,15 @@ public class ExtractorScreenHandler extends ScreenHandler {
         for (int y = 0; y < 2; ++y) {
             for (int x = 0; x < 2; ++x) {
                 int i = y * 2 + x;
-                this.addSlot(new FilteredSlot(inventory, i, 52 + 18 * x, 26 + 18 * y, ExtractorBlockEntity.SHARD_ITEMS[i]));
+                this.addSlot(new FilteredSlot(inventory, i, 42 + 18 * x, 26 + 18 * y, ExtractorBlockEntity.SHARD_ITEMS[i]));
             }
         }
+        this.addSlot(new Slot(inventory, 4, 118, 35) {
+            @Override
+            public boolean canInsert(ItemStack stack) {
+                return false;
+            }
+        });
         // player inventory
         for (int y = 0; y < 3; ++y) {
             for (int x = 0; x < 9; ++x) {
