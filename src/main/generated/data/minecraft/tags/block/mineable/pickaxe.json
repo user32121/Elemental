@@ -8,6 +8,7 @@
     "elemental:condenser",
     "elemental:catalyst",
     "elemental:extractor",
-    "elemental:dark_block"
+    "elemental:dark_block",
+    "elemental:light_crystal"
   ]
 }

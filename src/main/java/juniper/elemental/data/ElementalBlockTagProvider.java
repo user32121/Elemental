@@ -19,7 +19,8 @@ public class ElementalBlockTagProvider extends BlockTagProvider {
     protected void configure(WrapperLookup wrapperLookup) {
         getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE).add(ElementalBlocks.CONDUIT,
                 ElementalBlocks.OVERGROWN_CONDUIT, ElementalBlocks.CLOGGED_CONDUIT,
-                ElementalBlocks.MELTED_CONDUIT, ElementalBlocks.BLOWN_OUT_CONDUIT, ElementalBlocks.CONDENSER, ElementalBlocks.CATALYST, ElementalBlocks.EXTRACTOR, ElementalBlocks.DARK_BLOCK);
+                ElementalBlocks.MELTED_CONDUIT, ElementalBlocks.BLOWN_OUT_CONDUIT, ElementalBlocks.CONDENSER, ElementalBlocks.CATALYST, ElementalBlocks.EXTRACTOR, ElementalBlocks.DARK_BLOCK,
+                ElementalBlocks.LIGHT_CRYSTAL);
         getOrCreateTagBuilder(BlockTags.SHOVEL_MINEABLE).add(ElementalBlocks.DUST, ElementalBlocks.RICH_SOIL);
         getOrCreateTagBuilder(BlockTags.DIRT).add(ElementalBlocks.RICH_SOIL);
     }

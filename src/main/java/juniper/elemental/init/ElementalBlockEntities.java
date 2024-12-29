@@ -3,6 +3,7 @@ package juniper.elemental.init;
 import juniper.elemental.Elemental;
 import juniper.elemental.blockEntities.CondenserBlockEntity;
 import juniper.elemental.blockEntities.ExtractorBlockEntity;
+import juniper.elemental.blockEntities.LightCrystalBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder.Factory;
 import net.minecraft.block.Block;
@@ -15,6 +16,7 @@ import net.minecraft.util.Identifier;
 public class ElementalBlockEntities {
     public static final BlockEntityType<CondenserBlockEntity> CONDENSER = register("condenser", CondenserBlockEntity::new, ElementalBlocks.CONDENSER);
     public static final BlockEntityType<ExtractorBlockEntity> EXTRACTOR = register("extractor", ExtractorBlockEntity::new, ElementalBlocks.EXTRACTOR);
+    public static final BlockEntityType<LightCrystalBlockEntity> LIGHT_CRYSTAL = register("light_crystal", LightCrystalBlockEntity::new, ElementalBlocks.LIGHT_CRYSTAL);
 
     public static void init() {
     }
