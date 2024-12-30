@@ -45,7 +45,7 @@ public class ElementalBlocks {
     public static Block DARK_BLOCK = register("dark_block", Block::new, AbstractBlock.Settings.create().strength(1.5f).requiresTool().dropsNothing(), true);
     public static Block DARK_PORTAL = register("dark_portal", DarkPortalBlock::new,
             AbstractBlock.Settings.create().noCollision().strength(-1.0f, 3600000.0f).dropsNothing().pistonBehavior(PistonBehavior.BLOCK), false);
-    public static Block LIGHT_CRYSTAL = register("light_crystal", LightCrystalBlock::new, AbstractBlock.Settings.create().strength(1.5f).requiresTool(), true);
+    public static Block LIGHT_CRYSTAL = register("light_crystal", LightCrystalBlock::new, AbstractBlock.Settings.create().strength(1.5f).requiresTool().luminance(state -> 15), true);
 
     public static void init() {
     }
