@@ -23,7 +23,6 @@ import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.TeleportTarget.PostDimensionTransition;
 import net.minecraft.world.World;
 
-//TODO natural spawning
 public class LightCrystalBlock extends BlockWithEntity implements Portal {
     public static final VoxelShape SHAPE = VoxelShapes.cuboid(1 / 5.0, 1 / 5.0, 1 / 5.0, 4 / 5.0, 4 / 5.0, 4 / 5.0);
 

@@ -11,5 +11,5 @@
   "spawners": {},
   "spawn_costs": {},
   "carvers": "minecraft:cave",
-  "features": []
+  "features": [["elemental:light_crystal"]]
 }
