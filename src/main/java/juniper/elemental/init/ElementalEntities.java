@@ -3,7 +3,9 @@ package juniper.elemental.init;
 import java.util.function.UnaryOperator;
 
 import juniper.elemental.Elemental;
+import juniper.elemental.entities.DarkGhostEntity;
 import juniper.elemental.entities.ReactionCraftingEntity;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EntityType.Builder;
@@ -20,8 +22,10 @@ public class ElementalEntities {
             builder -> builder.dimensions(0.5f, 0.5f));
     public static final EntityType<ReactionCraftingEntity> REACTION_CRAFTING_FIRE_WATER = register("reaction_crafting_fire_water", ReactionCraftingEntity::new, SpawnGroup.MISC,
             builder -> builder.dimensions(0.5f, 0.5f));
+    public static final EntityType<DarkGhostEntity> DARK_GHOST = register("dark_ghost", DarkGhostEntity::new, SpawnGroup.MONSTER, builder -> builder.dimensions(0.5f, 1.975f));
 
     public static void init() {
+        FabricDefaultAttributeRegistry.register(DARK_GHOST, DarkGhostEntity.createArmorStandAttributes());
     }
 
     private static <T extends Entity> EntityType<T> register(String name, EntityFactory<T> factory, SpawnGroup spawnGroup, UnaryOperator<Builder<T>> builder) {
