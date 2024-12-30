@@ -5,6 +5,11 @@
 uniform sampler2D gtexture;
 uniform int worldTime;
 uniform vec3 pulse_col = vec3(0, 1, 0);
+uniform vec3 entity_col = vec3(1, 0, 0);
+uniform vec3 light_col = vec3(1, 1, 1);
+uniform int entityId;
+uniform int blockEntityId;
+uniform int currentRenderedItemId;
 
 in vec2 texcoord;
 in vec4 glcolor;
@@ -28,6 +33,12 @@ void main() {
     intensity += getIntensityFromPulse(frag_dist, pulse_start_times[i]);
   }
 
-  color.rgb = pulse_col;
+  if (entityId != 0 && currentRenderedItemId == 0) {
+    color.rgb = entity_col;
+  } else if (blockEntityId == 12 && currentRenderedItemId == 0) {
+    color.rgb = light_col;
+  } else {
+    color.rgb = pulse_col;
+  }
   color.a *= intensity;
 }
