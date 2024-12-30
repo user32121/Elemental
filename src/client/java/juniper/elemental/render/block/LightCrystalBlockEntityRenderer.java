@@ -12,7 +12,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class LightCrystalBlockEntityRenderer implements BlockEntityRenderer<LightCrystalBlockEntity> {
-    private static final Identifier TEXTURE = Identifier.of(Elemental.MOD_ID, "textures/entity/light_crystal.png");
+    private static final Identifier TEXTURE = Identifier.of(Elemental.MOD_ID, "textures/block/light_crystal.png");
     private static final RenderLayer RENDER_LAYER = RenderLayer.getEntityCutout(TEXTURE);
     private final LightCrystalBlockEntityModel model;
 

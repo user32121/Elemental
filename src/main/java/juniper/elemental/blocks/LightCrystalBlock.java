@@ -12,7 +12,6 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 
-//TODO item not rendering
 //TODO radar render
 public class LightCrystalBlock extends BlockWithEntity {
     public static final VoxelShape SHAPE = VoxelShapes.cuboid(1 / 5.0, 1 / 5.0, 1 / 5.0, 4 / 5.0, 4 / 5.0, 4 / 5.0);
