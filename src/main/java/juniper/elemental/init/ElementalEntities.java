@@ -25,7 +25,7 @@ public class ElementalEntities {
     public static final EntityType<DarkGhostEntity> DARK_GHOST = register("dark_ghost", DarkGhostEntity::new, SpawnGroup.MONSTER, builder -> builder.dimensions(0.5f, 1.975f));
 
     public static void init() {
-        FabricDefaultAttributeRegistry.register(DARK_GHOST, DarkGhostEntity.createArmorStandAttributes());
+        FabricDefaultAttributeRegistry.register(DARK_GHOST, DarkGhostEntity.createMobAttributes());
     }
 
     private static <T extends Entity> EntityType<T> register(String name, EntityFactory<T> factory, SpawnGroup spawnGroup, UnaryOperator<Builder<T>> builder) {

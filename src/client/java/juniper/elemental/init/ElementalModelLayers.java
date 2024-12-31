@@ -18,7 +18,11 @@ public class ElementalModelLayers {
     }
 
     private static EntityModelLayer register(String name, TexturedModelDataProvider provider) {
-        EntityModelLayer modelLayer = new EntityModelLayer(Identifier.of(Elemental.MOD_ID, name), "main");
+        return register(name, provider, "main");
+    }
+
+    private static EntityModelLayer register(String name, TexturedModelDataProvider provider, String layer) {
+        EntityModelLayer modelLayer = new EntityModelLayer(Identifier.of(Elemental.MOD_ID, name), layer);
         EntityModelLayerRegistry.registerModelLayer(modelLayer, provider);
         return modelLayer;
     }
