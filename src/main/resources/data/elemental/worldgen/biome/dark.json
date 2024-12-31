@@ -8,8 +8,22 @@
     "water_color": 0,
     "water_fog_color": 0
   },
-  "spawners": {},
-  "spawn_costs": {},
+  "spawners": {
+    "monster": [
+      {
+        "type": "elemental:dark_ghost",
+        "weight": 1,
+        "minCount": 1,
+        "maxCount": 1
+      }
+    ]
+  },
+  "spawn_costs": {
+    "elemental:dark_ghost": {
+      "energy_budget": 0.1,
+      "charge": 1
+    }
+  },
   "carvers": "minecraft:cave",
   "features": [["elemental:light_crystal"]]
 }
