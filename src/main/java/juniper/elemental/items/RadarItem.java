@@ -10,7 +10,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.world.World;
 
 public class RadarItem extends Item {
-    public final int MAX_COOLDOWN = 5 * 20;
+    public static final int MAX_COOLDOWN = 5 * 20;
 
     public RadarItem(Settings settings) {
         super(settings);
