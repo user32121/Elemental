@@ -27,4 +27,10 @@ public class DarkGhostEntityRenderer extends BipedEntityRenderer<DarkGhostEntity
     public DarkGhostEntityRenderState createRenderState() {
         return new DarkGhostEntityRenderState();
     }
+
+    @Override
+    public void updateRenderState(DarkGhostEntity entity, DarkGhostEntityRenderState state, float tickDelta) {
+        super.updateRenderState(entity, state, tickDelta);
+        state.armAngle = entity.getDataTracker().get(DarkGhostEntity.ARM_ANGLE);
+    }
 }
