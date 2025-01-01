@@ -8,15 +8,16 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.DataTracker.Builder;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 
 //doesn't move, disappears when player gets near
-public class DarkGhostEntity extends PathAwareEntity {
+public class DarkGhostEntity extends MobEntity {
     public static final String ARM_ANGLE_KEY = "ArmAngle";
     public static final TrackedData<Float> ARM_ANGLE = DataTracker.registerData(DarkGhostEntity.class, TrackedDataHandlerRegistry.FLOAT);
 
@@ -52,5 +53,13 @@ public class DarkGhostEntity extends PathAwareEntity {
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
         getDataTracker().set(ARM_ANGLE, nbt.getFloat(ARM_ANGLE_KEY));
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        float armAngle = getDataTracker().get(ARM_ANGLE);
+        armAngle += getPos().distanceTo(new Vec3d(prevX, prevY, prevZ));
+        getDataTracker().set(ARM_ANGLE, armAngle);
     }
 }

@@ -15,11 +15,21 @@
         "weight": 1,
         "minCount": 1,
         "maxCount": 1
+      },
+      {
+        "type": "elemental:dark_follower",
+        "weight": 1,
+        "minCount": 1,
+        "maxCount": 1
       }
     ]
   },
   "spawn_costs": {
     "elemental:dark_ghost": {
+      "energy_budget": 0.1,
+      "charge": 1
+    },
+    "elemental:dark_follower": {
       "energy_budget": 0.1,
       "charge": 1
     }
