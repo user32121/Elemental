@@ -3,7 +3,6 @@ package juniper.elemental.screens;
 import org.apache.commons.lang3.NotImplementedException;
 
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 
 public class DrawingUtil {
@@ -48,7 +47,6 @@ public class DrawingUtil {
             default:
                 throw new NotImplementedException("Unhandled enum: " + start);
         }
-        context.drawGuiTexture(RenderLayer::getGuiTextured, texture, textureWidth, textureHeight, u, v, x, y, width,
-                height);
+        context.drawGuiTexture(texture, textureWidth, textureHeight, u, v, x, y, width, height);
     }
 }

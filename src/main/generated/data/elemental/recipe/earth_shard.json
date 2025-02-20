@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": "elemental:earth_fragment"
+    "#": {
+      "item": "elemental:earth_fragment"
+    }
   },
   "pattern": [
     "##",

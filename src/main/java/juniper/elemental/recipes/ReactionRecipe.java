@@ -5,11 +5,9 @@ import java.util.List;
 import juniper.elemental.init.ElementalRecipes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.IngredientPlacement;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
-import net.minecraft.recipe.book.RecipeBookCategory;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.world.World;
 
@@ -18,7 +16,6 @@ public class ReactionRecipe implements Recipe<ReactionRecipeInput> {
     public final float cost;
     public final ItemStack result;
     public final boolean isFireWater;
-    private IngredientPlacement ingredientPlacement;
 
     public ReactionRecipe(List<Ingredient> ingredients, float cost, ItemStack result, boolean isFireWater) {
         this.ingredients = ingredients;
@@ -35,7 +32,7 @@ public class ReactionRecipe implements Recipe<ReactionRecipeInput> {
         if (input.reactionProgress < cost) {
             return false;
         }
-        if (input.size() != ingredients.size()) {
+        if (input.getSize() != ingredients.size()) {
             return false;
         }
         //check that each ingredient is satisfied
@@ -43,7 +40,7 @@ public class ReactionRecipe implements Recipe<ReactionRecipeInput> {
         //this will still miss some edge cases (e.g. 1 and 2 satisfy A, and 3 satisfies B and C), but is likely sufficient
         for (Ingredient ingredient : ingredients) {
             boolean match = false;
-            for (int i = 0; i < input.size(); i++) {
+            for (int i = 0; i < input.getSize(); i++) {
                 if (ingredient.test(input.getStackInSlot(i))) {
                     match = true;
                     break;
@@ -53,7 +50,7 @@ public class ReactionRecipe implements Recipe<ReactionRecipeInput> {
                 return false;
             }
         }
-        for (int i = 0; i < input.size(); i++) {
+        for (int i = 0; i < input.getSize(); i++) {
             boolean match = false;
             for (Ingredient ingredient : ingredients) {
                 if (ingredient.test(input.getStackInSlot(i))) {
@@ -83,16 +80,14 @@ public class ReactionRecipe implements Recipe<ReactionRecipeInput> {
         return ElementalRecipes.REACTION;
     }
 
+
     @Override
-    public IngredientPlacement getIngredientPlacement() {
-        if (this.ingredientPlacement == null) {
-            this.ingredientPlacement = IngredientPlacement.forShapeless(this.ingredients);
-        }
-        return this.ingredientPlacement;
+    public boolean fits(int width, int height) {
+        return true;
     }
 
     @Override
-    public RecipeBookCategory getRecipeBookCategory() {
-        return ElementalRecipes.REACTION_CATEGORY;
+    public ItemStack getResult(WrapperLookup registriesLookup) {
+        return result.copy();
     }
 }

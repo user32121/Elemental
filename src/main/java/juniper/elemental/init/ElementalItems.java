@@ -39,7 +39,7 @@ public class ElementalItems {
     public static Item register(String name, Function<Item.Settings, Item> factory, Item.Settings settings) {
         Identifier id = Identifier.of(Elemental.MOD_ID, name);
         RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, id);
-        Item item = factory.apply(settings.registryKey(key));
+        Item item = factory.apply(settings);
         if (item instanceof BlockItem) {
             BlockItem blockItem = (BlockItem) item;
             blockItem.appendBlocks(Item.BLOCK_ITEMS, item);

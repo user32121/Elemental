@@ -5,7 +5,6 @@ import juniper.elemental.blockEntities.ExtractorBlockEntity;
 import juniper.elemental.screens.DrawingUtil.Direction;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -23,15 +22,15 @@ public class ExtractorScreen extends HandledScreen<ExtractorScreenHandler> {
 
     @Override
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
-        context.drawTexture(RenderLayer::getGuiTextured, BACKGROUND_TEXTURE, this.x, this.y, 0.0f, 0.0f, this.backgroundWidth, this.backgroundHeight, 256, 256);
+        context.drawTexture(BACKGROUND_TEXTURE, this.x, this.y, 0.0f, 0.0f, this.backgroundWidth, this.backgroundHeight, 256, 256);
         int flags = handler.propertyDelegate.get(0);
         if ((flags & 1) == 0) {
-            context.drawGuiTexture(RenderLayer::getGuiTextured, INVALID_TEXTURE, 22, 15, 0, 0, this.x + 86, this.y + 35, 22, 15);
+            context.drawGuiTexture(INVALID_TEXTURE, 22, 15, 0, 0, this.x + 86, this.y + 35, 22, 15);
             context.drawText(textRenderer, INVALID_STRING, this.x + backgroundWidth / 2 - textRenderer.getWidth(INVALID_STRING) / 2, this.y + 64, 0xFF6060, false);
         }
         for (int i = 0; i < 4; ++i) {
             if ((flags & (1 << (i + 1))) != 0) {
-                context.drawGuiTexture(RenderLayer::getGuiTextured, ELEMENTS_TEXTURE, 16, 64, 0, 16 * i, this.x + 42 + i % 2 * 18, this.y + 26 + i / 2 * 18, 16, 16);
+                context.drawGuiTexture(ELEMENTS_TEXTURE, 16, 64, 0, 16 * i, this.x + 42 + i % 2 * 18, this.y + 26 + i / 2 * 18, 16, 16);
             }
         }
         int progress = handler.propertyDelegate.get(1);

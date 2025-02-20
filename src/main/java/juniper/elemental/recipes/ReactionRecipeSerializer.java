@@ -13,8 +13,8 @@ import net.minecraft.recipe.RecipeSerializer;
 
 public class ReactionRecipeSerializer implements RecipeSerializer<ReactionRecipe> {
     private static final MapCodec<ReactionRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance
-            .group(Ingredient.CODEC.listOf().fieldOf("ingredients").forGetter(recipe -> recipe.ingredients), Codec.FLOAT.fieldOf("cost").forGetter(recipe -> recipe.cost),
-                    ItemStack.CODEC.fieldOf("result").forGetter(recipe -> recipe.result), Codec.BOOL.fieldOf("isFireWater").forGetter(recipe -> recipe.isFireWater))
+            .group(Ingredient.DISALLOW_EMPTY_CODEC.listOf().fieldOf("ingredients").forGetter(recipe -> recipe.ingredients), Codec.FLOAT.fieldOf("cost").forGetter(recipe -> recipe.cost),
+                            ItemStack.CODEC.fieldOf("result").forGetter(recipe -> recipe.result), Codec.BOOL.fieldOf("isFireWater").forGetter(recipe -> recipe.isFireWater))
             .apply(instance, ReactionRecipe::new));
     private static final PacketCodec<RegistryByteBuf, ReactionRecipe> PACKET_CODEC = PacketCodec.tuple(Ingredient.PACKET_CODEC.collect(PacketCodecs.toList()), recipe -> recipe.ingredients,
             PacketCodecs.FLOAT, recipe -> recipe.cost, ItemStack.PACKET_CODEC, recipe -> recipe.result, PacketCodecs.BOOL, recipe -> recipe.isFireWater, ReactionRecipe::new);

@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": "elemental:fire_fragment"
+    "#": {
+      "item": "elemental:fire_fragment"
+    }
   },
   "pattern": [
     "##",

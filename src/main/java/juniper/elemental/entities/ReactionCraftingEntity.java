@@ -43,12 +43,12 @@ public class ReactionCraftingEntity extends Entity {
     }
 
     @Override
-    public boolean damage(ServerWorld world, DamageSource source, float amount) {
-        if (isAlwaysInvulnerableTo(source)) {
+    public boolean damage(DamageSource source, float amount) {
+        if (isInvulnerableTo(source)) {
             return false;
         }
         if (!isRemoved()) {
-            kill(world);
+            kill();
         }
         return true;
     }
@@ -96,12 +96,12 @@ public class ReactionCraftingEntity extends Entity {
                     entity.setStack(stack);
                 }
                 ItemScatterer.spawn(world, getBlockX(), getBlockY(), getBlockZ(), match.get().value().result.copy());
-                kill(world);
+                kill();
             }
             //decay
             craftProgress *= PROGRESS_DECAY_RATE;
             if (craftProgress < MINIMUM_PROGRESS) {
-                kill(world);
+                kill();
             }
             getDataTracker().set(CRAFT_PROGRESS, craftProgress);
         }

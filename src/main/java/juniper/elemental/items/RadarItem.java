@@ -28,12 +28,12 @@ public class RadarItem extends Item {
         if (!world.getRegistryKey().getValue().equals(ElementalDimensions.DARK_ID)) {
             return;
         }
-        if (entity instanceof PlayerEntity pe && pe.getItemCooldownManager().getCooldownProgress(stack, 0) > 0) {
+        if (entity instanceof PlayerEntity pe && pe.getItemCooldownManager().getCooldownProgress(stack.getItem(), 0) > 0) {
             return;
         }
         world.playSound(null, entity.getBlockPos(), ElementalSounds.RADAR_PING, SoundCategory.BLOCKS, 1, 1);
         if (entity instanceof PlayerEntity pe) {
-            pe.getItemCooldownManager().set(stack, MAX_COOLDOWN);
+            pe.getItemCooldownManager().set(stack.getItem(), MAX_COOLDOWN);
         }
     }
 }

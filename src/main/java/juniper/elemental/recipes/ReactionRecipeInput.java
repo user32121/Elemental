@@ -22,7 +22,7 @@ public class ReactionRecipeInput implements RecipeInput {
     }
 
     @Override
-    public int size() {
+    public int getSize() {
         return stacks.size();
     }
 }

@@ -6,7 +6,6 @@ import juniper.elemental.elements.ElementSignal;
 import juniper.elemental.screens.DrawingUtil.Direction;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -30,8 +29,7 @@ public class CondenserScreen extends HandledScreen<CondenserScreenHandler> {
 
     @Override
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
-        context.drawTexture(RenderLayer::getGuiTextured, BACKGROUND_TEXTURE, this.x, this.y, 0.0f, 0.0f,
-                this.backgroundWidth, this.backgroundHeight, 256, 256);
+        context.drawTexture(BACKGROUND_TEXTURE, this.x, this.y, 0, 0, this.backgroundWidth, this.backgroundHeight, 256, 256);
         int progress = handler.propertyDelegate.get(0);
         int idx = propertyTypeToIndex(handler.propertyDelegate.get(1));
         DrawingUtil.drawGuiPartial(context, FUEL_PROGRESS_TEXTURE, Direction.BOTTOM, 16, 19, idx * 4, 0, 4, 19,

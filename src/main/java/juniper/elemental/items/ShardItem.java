@@ -30,7 +30,7 @@ public class ShardItem extends Item {
             }
             world.setBlockState(pos, state.with(ElementHolder.SIGNAL, signal));
             stack.decrement(1);
-            return ActionResult.SUCCESS_SERVER;
+            return ActionResult.SUCCESS;
         }
         return super.useOnBlock(context);
     }

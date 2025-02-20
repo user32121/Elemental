@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": "elemental:water_fragment"
+    "#": {
+      "item": "elemental:water_fragment"
+    }
   },
   "pattern": [
     "##",

@@ -21,7 +21,7 @@ public class DarkFollowerEntity extends DarkGhostEntity {
     }
 
     public static Builder createFollowerAttributes() {
-        return createMobAttributes().add(EntityAttributes.ATTACK_DAMAGE, 5).add(EntityAttributes.MOVEMENT_SPEED, 0.4).add(EntityAttributes.FOLLOW_RANGE, 35);
+        return createMobAttributes().add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.4).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35);
     }
 
     @Override

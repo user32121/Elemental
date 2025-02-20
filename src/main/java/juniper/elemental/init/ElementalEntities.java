@@ -14,8 +14,6 @@ import net.minecraft.entity.EntityType.EntityFactory;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
 public class ElementalEntities {
@@ -32,7 +30,6 @@ public class ElementalEntities {
     }
 
     private static <T extends Entity> EntityType<T> register(String name, EntityFactory<T> factory, SpawnGroup spawnGroup, UnaryOperator<Builder<T>> builder) {
-        return Registry.register(Registries.ENTITY_TYPE, Identifier.of(Elemental.MOD_ID, name),
-                builder.apply(Builder.create(factory, spawnGroup)).build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(name))));
+        return Registry.register(Registries.ENTITY_TYPE, Identifier.of(Elemental.MOD_ID, name), builder.apply(Builder.create(factory, spawnGroup)).build(name));
     }
 }

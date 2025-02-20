@@ -128,7 +128,7 @@ public class ElementReactions {
             List<Entity> entities = world.getOtherEntities(null, Box.of(pos.toCenterPos(), 10, 10, 10));
             for (Entity entity : entities) {
                 float damage = (float) (1 / (1 + entity.getPos().subtract(pos.toCenterPos()).distanceTo(Vec3d.ZERO)));
-                entity.damage(world, world.getDamageSources().inFire(), damage);
+                entity.damage(world.getDamageSources().inFire(), damage);
             }
             if (world.getRandom().nextFloat() < 0.1) {
                 if (world.getBlockState(pos).getBlock() instanceof TriAxisBlock) {
