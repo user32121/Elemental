@@ -2,9 +2,9 @@
   "type": "elemental:reaction",
   "cost": 10,
   "ingredients": [
-    "minecraft:lily_of_the_valley",
-    "minecraft:iron_block",
-    "minecraft:wind_charge"
+    { "item": "minecraft:lily_of_the_valley" },
+    { "item": "minecraft:iron_block" },
+    { "item": "minecraft:wind_charge" }
   ],
   "result": {
     "id": "elemental:air_fragment"

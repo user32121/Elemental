@@ -2,9 +2,9 @@
   "type": "elemental:reaction",
   "cost": 10,
   "ingredients": [
-    "minecraft:iron_ingot",
-    "minecraft:gold_ingot",
-    "minecraft:copper_ingot"
+    { "item": "minecraft:iron_ingot" },
+    { "item": "minecraft:gold_ingot" },
+    { "item": "minecraft:copper_ingot" }
   ],
   "result": {
     "id": "elemental:conduit"

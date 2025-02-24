@@ -2,9 +2,9 @@
   "type": "elemental:reaction",
   "cost": 10,
   "ingredients": [
-    "minecraft:big_dripleaf",
-    "minecraft:copper_block",
-    "minecraft:golden_carrot"
+    { "item": "minecraft:big_dripleaf" },
+    { "item": "minecraft:copper_block" },
+    { "item": "minecraft:golden_carrot" }
   ],
   "result": {
     "id": "elemental:earth_fragment"

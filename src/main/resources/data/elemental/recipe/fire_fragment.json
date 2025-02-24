@@ -2,9 +2,9 @@
   "type": "elemental:reaction",
   "cost": 10,
   "ingredients": [
-    "minecraft:poppy",
-    "minecraft:coal_block",
-    "minecraft:fire_charge"
+    { "item": "minecraft:poppy" },
+    { "item": "minecraft:coal_block" },
+    { "item": "minecraft:fire_charge" }
   ],
   "result": {
     "id": "elemental:fire_fragment"

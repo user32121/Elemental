@@ -2,11 +2,11 @@
   "type": "elemental:reaction",
   "cost": 30,
   "ingredients": [
-    "elemental:conduit",
-    "elemental:condenser",
-    "minecraft:chain",
-    "minecraft:obsidian",
-    "minecraft:diamond_block"
+    { "item": "elemental:conduit" },
+    { "item": "elemental:condenser" },
+    { "item": "minecraft:chain" },
+    { "item": "minecraft:obsidian" },
+    { "item": "minecraft:diamond_block" }
   ],
   "result": {
     "id": "elemental:catalyst"

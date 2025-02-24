@@ -2,9 +2,9 @@
   "type": "elemental:reaction",
   "cost": 50,
   "ingredients": [
-    "elemental:conduit",
-    "elemental:catalyst",
-    "minecraft:netherite_ingot"
+    { "item": "elemental:conduit" },
+    { "item": "elemental:catalyst" },
+    { "item": "minecraft:netherite_ingot" }
   ],
   "result": {
     "id": "elemental:extractor"
