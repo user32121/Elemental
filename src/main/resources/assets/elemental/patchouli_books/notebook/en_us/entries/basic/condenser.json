@@ -2,6 +2,7 @@
   "name": "Obtaining Elements",
   "icon": "elemental:condenser",
   "category": "elemental:basic",
+  "advancement": "elemental:items/condenser",
   "pages": [
     {
       "type": "patchouli:text",

@@ -2,6 +2,7 @@
   "name": "First Discovery",
   "icon": "minecraft:paper",
   "category": "elemental:lore",
+  "advancement": "elemental:structures/house",
   "pages": [
     {
       "type": "patchouli:text",

@@ -2,6 +2,7 @@
   "name": "Transporting Elements",
   "icon": "elemental:conduit",
   "category": "elemental:basic",
+  "advancement": "elemental:items/conduit",
   "pages": [
     {
       "type": "patchouli:text",

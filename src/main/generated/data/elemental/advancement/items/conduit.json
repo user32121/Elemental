@@ -1,0 +1,19 @@
+{
+  "criteria": {
+    "item": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elemental:conduit"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "item"
+    ]
+  ]
+}
