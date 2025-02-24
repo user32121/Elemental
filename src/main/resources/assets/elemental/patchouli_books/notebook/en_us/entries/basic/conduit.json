@@ -1,0 +1,15 @@
+{
+  "name": "Transporting Elements",
+  "icon": "elemental:conduit",
+  "category": "elemental:basic",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(item)Conduits/$ can transport $(thing)elements/$ from one place to another, and can even duplicate them if the $(thing)element/$ travels through a branch."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "These $(thing)elements/$ behave in a manner similar to a cellular automata called $(l:https://en.wikipedia.org/wiki/Wireworld)Wireworld/$.$(br2)In short, $(thing)elements/$ will spread to adjacent conduits, and are followed by a \"tail\". If three of the same $(thing)element/$ meet, they cancel each other out. Be careful, though; if different $(thing)elements/$ meet, a (possibly destructive) reaction occurs."
+    }
+  ]
+}

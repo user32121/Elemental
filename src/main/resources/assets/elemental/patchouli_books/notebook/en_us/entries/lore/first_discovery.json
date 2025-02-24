@@ -1,0 +1,11 @@
+{
+  "name": "First Discovery",
+  "icon": "minecraft:paper",
+  "category": "elemental:lore",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "I seem to have stumbled upon something arcane in an abandoned building. Who knows what the previous resident used it for, but now it is severely decrepit."
+    }
+  ]
+}

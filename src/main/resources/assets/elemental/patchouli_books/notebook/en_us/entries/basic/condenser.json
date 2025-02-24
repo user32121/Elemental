@@ -1,0 +1,15 @@
+{
+  "name": "Obtaining Elements",
+  "icon": "elemental:condenser",
+  "category": "elemental:basic",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(item)Condensers/$ can put $(thing)elements/$ into $(item)Conduits/$ by consuming items of a similar alignment."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The materials for $(thing)elements/$ are:$(br2)Earth: $(item)Big Dripleaf/$, $(item)Copper Block/$, and $(item)Golden Carrot/$$(br2)Water: $(item)Blue Orchid/$, $(item)Lapis Block/$, and $(item)Prismarine Shard/$$(br2)Air: $(item)Lily of the Valley/$, $(item)Iron Block/$, and $(item)Wind Charge/$$(br2)Fire: $(item)Poppy/$, $(item)Coal Block/$, and $(item)Fire Charge/$"
+    }
+  ]
+}
