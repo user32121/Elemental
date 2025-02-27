@@ -23,6 +23,7 @@ public class ElementalAdvancementProvider extends FabricAdvancementProvider {
     public void generateAdvancement(WrapperLookup registryLookup, Consumer<AdvancementEntry> consumer) {
         generateItemAdvancement(consumer, ElementalBlocks.CONDUIT, "conduit");
         generateItemAdvancement(consumer, ElementalBlocks.CONDENSER, "condenser");
+        generateItemAdvancement(consumer, ElementalBlocks.CATALYST, "catalyst");
     }
 
     private void generateItemAdvancement(Consumer<AdvancementEntry> consumer, ItemConvertible item, String name) {

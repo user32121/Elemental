@@ -1,0 +1,16 @@
+{
+  "name": "Underground Facility",
+  "icon": "minecraft:paper",
+  "category": "elemental:lore",
+  "advancement": "elemental:structures/lab",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "I discovered a hidden underground facility, but whoever hid it did a pretty bad job at hiding it."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The rooms are relatively compartmentalized except for some pipes running about in the ceiling. Some rooms even featured the aftermath of seemingly unsuccessful experiments.$(br2)Despite having water and power, I couldn't find any signs of recent human activity, but I should probably stay cautious just in case."
+    }
+  ]
+}

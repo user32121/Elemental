@@ -1,0 +1,16 @@
+{
+  "name": "Reactions",
+  "icon": "elemental:catalyst",
+  "category": "elemental:basic",
+  "advancement": "elemental:items/catalyst",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "You may have noticed that allowing $(thing)elements/$ to mix is a pretty bad idea. However, if they make contact in a $(item)Catalyst/$, the reactions can have much more controlled effects. Just make sure they're meeting only at a $(item)Catalyst/$, and not any adjacent $(item)Conduits/$. Or make your entire pipe out of $(item)Catalysts/$. I can't stop you."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The $(item)Catalyst/$ enables $(l:basic/reaction_crafting)reaction crafting/$ either via $(thing)air/$+$(thing)earth/$ or $(thing)fire/$+$(thing)water/$ reactions."
+    }
+  ]
+}

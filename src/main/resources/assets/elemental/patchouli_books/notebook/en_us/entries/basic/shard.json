@@ -1,0 +1,12 @@
+{
+  "name": "Fragments And Shards",
+  "icon": "elemental:earth_shard",
+  "category": "elemental:basic",
+  "advancement": "elemental:items/catalyst",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "TODO shard description"
+    }
+  ]
+}
