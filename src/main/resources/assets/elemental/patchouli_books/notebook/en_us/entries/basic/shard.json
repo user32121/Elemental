@@ -6,7 +6,30 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "TODO shard description"
+      "text": "$(item)Shards/$ allow you to store $(thing)elements/$ in item form, where they can be readily inserted into $(item)Conduits/$. To do so, simply use a $(item)Shard/$ on a $(item)Conduit/$."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "To make $(item)Shards/$, you'll need 4 $(item)Fragments/$, which can be made using $(thing)reaction crafting/$ with the 3 ingredients that you would typically put into a $(item)Condenser/$."
+    },
+    {
+      "type": "elemental:reaction_crafting",
+      "title": "elemental:earth_fragment",
+      "item1": "minecraft:big_dripleaf",
+      "item2": "minecraft:copper_block",
+      "item3": "minecraft:golden_carrot",
+      "output": "elemental:earth_fragment",
+      "recipe": "elemental:earth_fragment"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "elemental:earth_shard",
+      "recipe2": "elemental:water_shard"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "elemental:air_shard",
+      "recipe2": "elemental:fire_shard"
     }
   ]
 }
