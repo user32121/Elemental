@@ -9,6 +9,7 @@ import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 public class ReactionRecipe implements Recipe<ReactionRecipeInput> {
@@ -89,5 +90,10 @@ public class ReactionRecipe implements Recipe<ReactionRecipeInput> {
     @Override
     public ItemStack getResult(WrapperLookup registriesLookup) {
         return result.copy();
+    }
+
+    @Override
+    public DefaultedList<Ingredient> getIngredients() {
+        return DefaultedList.copyOf(Ingredient.EMPTY, ingredients.toArray(new Ingredient[0]));
     }
 }

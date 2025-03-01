@@ -11,6 +11,10 @@
     {
       "type": "patchouli:text",
       "text": "The $(item)Catalyst/$ enables $(l:basic/reaction_crafting)reaction crafting/$ either via $(thing)air/$+$(thing)earth/$ or $(thing)fire/$+$(thing)water/$ reactions."
+    },
+    {
+      "type": "elemental:reaction_crafting",
+      "recipe": "elemental:catalyst"
     }
   ]
 }

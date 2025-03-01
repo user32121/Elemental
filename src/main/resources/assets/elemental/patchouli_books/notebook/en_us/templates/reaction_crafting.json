@@ -1,0 +1,95 @@
+{
+  "processor": "juniper.elemental.book.ReactionCraftingProcessor",
+  "components": [
+    {
+      "type": "patchouli:header",
+      "text": "#title",
+      "x": -1,
+      "y": -6,
+      "TODO": "cost desription"
+    },
+    {
+      "type": "patchouli:image",
+      "image": "patchouli:textures/gui/crafting.png",
+      "width": 102,
+      "height": 64,
+      "texture_width": 128,
+      "texture_height": 256,
+      "x": 5,
+      "y": 2
+    },
+    {
+      "type": "patchouli:image",
+      "image": "elemental:textures/gui/reaction_crafting.png",
+      "width": 32,
+      "height": 32,
+      "texture_width": 32,
+      "texture_height": 64,
+      "x": 86,
+      "y": 45,
+      "scale": 0.5,
+      "TODO": "icon and hover text"
+    },
+    {
+      "type": "patchouli:item",
+      "item": "#item0",
+      "x": 10,
+      "y": 7
+    },
+    {
+      "type": "patchouli:item",
+      "item": "#item1",
+      "x": 29,
+      "y": 7
+    },
+    {
+      "type": "patchouli:item",
+      "item": "#item2",
+      "x": 48,
+      "y": 7
+    },
+    {
+      "type": "patchouli:item",
+      "item": "#item3",
+      "x": 10,
+      "y": 26
+    },
+    {
+      "type": "patchouli:item",
+      "item": "#item4",
+      "x": 29,
+      "y": 26
+    },
+    {
+      "type": "patchouli:item",
+      "item": "#item5",
+      "x": 48,
+      "y": 26
+    },
+    {
+      "type": "patchouli:item",
+      "item": "#item6",
+      "x": 10,
+      "y": 45
+    },
+    {
+      "type": "patchouli:item",
+      "item": "#item7",
+      "x": 29,
+      "y": 45
+    },
+    {
+      "type": "patchouli:item",
+      "item": "#item8",
+      "x": 48,
+      "y": 45
+    },
+    {
+      "type": "patchouli:item",
+      "item": "#output",
+      "x": 86,
+      "y": 26
+    }
+  ],
+  "TODO": "second recipe"
+}

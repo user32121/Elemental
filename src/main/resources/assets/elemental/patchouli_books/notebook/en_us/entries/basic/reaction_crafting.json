@@ -6,16 +6,11 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(thing)Reaction crafting/$ gives a way to create more components like $(item)Conduits/$ and $(item)Condensers/$, as well as portable elements in the form of $(l:basic/shard)Shards/$"
+      "text": "$(thing)Reaction crafting/$ gives a way to create more components like $(l:basic/conduit#craft)Conduits/$ and $(l:basic/condenser#craft)Condensers/$, as well as portable elements in the form of $(l:basic/shard#craft)Shards/$"
     },
     {
       "type": "patchouli:text",
-      "text": "To start $(thing)reaction crafting/$, make an $(thing)air/$+$(thing)earth/$ or $(thing)fire/$+$(thing)water/$ reaction in the catalyst, and a magic circle will appear. The rate it spins depends on how much charge it has. More reactions will give it more charge, but the higher the charge, the quicker it will decay."
-    },
-    {
-      "type": "patchouli:crafting",
-      "recipe": "elemental:conduit",
-      "text": "$(thing)earth/$+$(thing)air/$<br>TODO get recipe rendering"
+      "text": "To start $(thing)reaction crafting/$, make an $(thing)air/$+$(thing)earth/$ or $(thing)fire/$+$(thing)water/$ reaction in the catalyst, and a magic circle will appear. The rate it spins depends on how much $(thing)charge/$ it has. More reactions will give it more $(thing)charge/$, but the higher the $(thing)charge/$, the quicker it will decay. Higher tier recipes will require more $(thing)charge/$, and you will find you may need more advanced setups."
     }
   ]
 }

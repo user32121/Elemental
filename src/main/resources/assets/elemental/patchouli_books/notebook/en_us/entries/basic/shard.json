@@ -14,12 +14,15 @@
     },
     {
       "type": "elemental:reaction_crafting",
-      "title": "elemental:earth_fragment",
-      "item1": "minecraft:big_dripleaf",
-      "item2": "minecraft:copper_block",
-      "item3": "minecraft:golden_carrot",
-      "output": "elemental:earth_fragment",
-      "recipe": "elemental:earth_fragment"
+      "recipe": "elemental:earth_fragment",
+      "recipe2": "elemental:water_fragment",
+      "anchor": "craft"
+    },
+    {
+      "type": "elemental:reaction_crafting",
+      "recipe": "elemental:air_fragment",
+      "recipe2": "elemental:fire_fragment",
+      "anchor": "craft"
     },
     {
       "type": "patchouli:crafting",
