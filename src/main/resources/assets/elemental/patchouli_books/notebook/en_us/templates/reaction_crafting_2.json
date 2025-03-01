@@ -1,0 +1,15 @@
+{
+  "include": [
+    {
+      "template": "elemental:reaction_crafting",
+      "as": "recipe1",
+      "using": { "recipe": "#recipe" }
+    },
+    {
+      "template": "elemental:reaction_crafting",
+      "as": "recipe1",
+      "using": { "recipe": "#recipe2" },
+      "y": 78
+    }
+  ]
+}

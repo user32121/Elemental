@@ -10,7 +10,7 @@
     {
       "type": "patchouli:text",
       "text": "Charge:<br>#charge#",
-      "x": 83,
+      "x": 85,
       "y": 5
     },
     {
@@ -20,7 +20,7 @@
       "height": 64,
       "texture_width": 128,
       "texture_height": 256,
-      "x": 5,
+      "x": 7,
       "y": 2
     },
     {
@@ -30,9 +30,9 @@
       "height": 16,
       "texture_width": 16,
       "texture_height": 32,
-      "x": 86,
+      "x": 88,
       "y": 45,
-      "group": "airEarth"
+      "guard": "#fireWater->inv"
     },
     {
       "type": "patchouli:image",
@@ -42,88 +42,87 @@
       "texture_width": 16,
       "texture_height": 32,
       "v": 16,
-      "x": 86,
+      "x": 88,
       "y": 45,
-      "group": "fireWater"
+      "guard": "#fireWater"
     },
     {
       "type": "patchouli:tooltip",
       "tooltip": ["Air+Earth"],
       "width": 16,
       "height": 16,
-      "x": 86,
+      "x": 88,
       "y": 45,
-      "group": "airEarth"
+      "guard": "#fireWater->inv"
     },
     {
       "type": "patchouli:tooltip",
       "tooltip": ["Fire+Water"],
       "width": 16,
       "height": 16,
-      "x": 86,
+      "x": 88,
       "y": 45,
-      "group": "fireWater"
+      "guard": "#fireWater"
     },
     {
       "type": "patchouli:item",
       "item": "#item0",
-      "x": 10,
+      "x": 12,
       "y": 7
     },
     {
       "type": "patchouli:item",
       "item": "#item1",
-      "x": 29,
+      "x": 31,
       "y": 7
     },
     {
       "type": "patchouli:item",
       "item": "#item2",
-      "x": 48,
+      "x": 50,
       "y": 7
     },
     {
       "type": "patchouli:item",
       "item": "#item3",
-      "x": 10,
+      "x": 12,
       "y": 26
     },
     {
       "type": "patchouli:item",
       "item": "#item4",
-      "x": 29,
+      "x": 31,
       "y": 26
     },
     {
       "type": "patchouli:item",
       "item": "#item5",
-      "x": 48,
+      "x": 50,
       "y": 26
     },
     {
       "type": "patchouli:item",
       "item": "#item6",
-      "x": 10,
+      "x": 12,
       "y": 45
     },
     {
       "type": "patchouli:item",
       "item": "#item7",
-      "x": 29,
+      "x": 31,
       "y": 45
     },
     {
       "type": "patchouli:item",
       "item": "#item8",
-      "x": 48,
+      "x": 50,
       "y": 45
     },
     {
       "type": "patchouli:item",
       "item": "#output",
-      "x": 86,
+      "x": 88,
       "y": 26
     }
-  ],
-  "TODO": "second recipe"
+  ]
 }

@@ -36,20 +36,12 @@ public class ReactionCraftingProcessor implements IComponentProcessor {
             return IVariable.from(recipe.getResult(world.getRegistryManager()).getName(), world.getRegistryManager());
         } else if (key.equals("charge")) {
             return IVariable.wrap(recipe.cost, world.getRegistryManager());
+        } else if (key.equals("fireWater")) {
+            return IVariable.wrap(recipe.isFireWater, world.getRegistryManager());
         } else if (key.equals("output")) {
             return IVariable.from(recipe.getResult(world.getRegistryManager()), world.getRegistryManager());
         } else {
             return null;
         }
-    }
-
-    @Override
-    public boolean allowRender(String group) {
-        if (group.equals("airEarth")) {
-            return !recipe.isFireWater;
-        } else if (group.equals("fireWater")) {
-            return recipe.isFireWater;
-        }
-        return IComponentProcessor.super.allowRender(group);
     }
 }

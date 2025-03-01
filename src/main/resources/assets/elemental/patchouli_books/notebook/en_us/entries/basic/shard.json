@@ -13,13 +13,13 @@
       "text": "To make $(item)Shards/$, you'll need 4 $(item)Fragments/$, which can be made using $(thing)reaction crafting/$ with the 3 ingredients that you would typically put into a $(item)Condenser/$."
     },
     {
-      "type": "elemental:reaction_crafting",
+      "type": "elemental:reaction_crafting_2",
       "recipe": "elemental:earth_fragment",
       "recipe2": "elemental:water_fragment",
       "anchor": "craft"
     },
     {
-      "type": "elemental:reaction_crafting",
+      "type": "elemental:reaction_crafting_2",
       "recipe": "elemental:air_fragment",
       "recipe2": "elemental:fire_fragment",
       "anchor": "craft"
