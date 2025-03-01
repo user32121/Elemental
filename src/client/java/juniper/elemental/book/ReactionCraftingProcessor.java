@@ -34,6 +34,8 @@ public class ReactionCraftingProcessor implements IComponentProcessor {
             return IVariable.from(stack, world.getRegistryManager());
         } else if (key.equals("title")) {
             return IVariable.from(recipe.getResult(world.getRegistryManager()).getName(), world.getRegistryManager());
+        } else if (key.equals("charge")) {
+            return IVariable.wrap(recipe.cost, world.getRegistryManager());
         } else if (key.equals("output")) {
             return IVariable.from(recipe.getResult(world.getRegistryManager()), world.getRegistryManager());
         } else {

@@ -5,8 +5,13 @@
       "type": "patchouli:header",
       "text": "#title",
       "x": -1,
-      "y": -6,
-      "TODO": "cost desription"
+      "y": -6
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Charge:<br>#charge#",
+      "x": 83,
+      "y": 5
     },
     {
       "type": "patchouli:image",
