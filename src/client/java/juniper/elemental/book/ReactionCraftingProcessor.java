@@ -40,4 +40,14 @@ public class ReactionCraftingProcessor implements IComponentProcessor {
             return null;
         }
     }
+
+    @Override
+    public boolean allowRender(String group) {
+        if (group.equals("airEarth")) {
+            return !recipe.isFireWater;
+        } else if (group.equals("fireWater")) {
+            return recipe.isFireWater;
+        }
+        return IComponentProcessor.super.allowRender(group);
+    }
 }

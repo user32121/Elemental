@@ -20,15 +20,44 @@
     },
     {
       "type": "patchouli:image",
-      "image": "elemental:textures/gui/reaction_crafting.png",
-      "width": 32,
-      "height": 32,
-      "texture_width": 32,
-      "texture_height": 64,
+      "image": "elemental:textures/gui/sprites/container/reaction_crafting/reaction_crafting.png",
+      "width": 16,
+      "height": 16,
+      "texture_width": 16,
+      "texture_height": 32,
       "x": 86,
       "y": 45,
-      "scale": 0.5,
-      "TODO": "icon and hover text"
+      "group": "airEarth"
+    },
+    {
+      "type": "patchouli:image",
+      "image": "elemental:textures/gui/sprites/container/reaction_crafting/reaction_crafting.png",
+      "width": 16,
+      "height": 16,
+      "texture_width": 16,
+      "texture_height": 32,
+      "v": 16,
+      "x": 86,
+      "y": 45,
+      "group": "fireWater"
+    },
+    {
+      "type": "patchouli:tooltip",
+      "tooltip": ["Air+Earth"],
+      "width": 16,
+      "height": 16,
+      "x": 86,
+      "y": 45,
+      "group": "airEarth"
+    },
+    {
+      "type": "patchouli:tooltip",
+      "tooltip": ["Fire+Water"],
+      "width": 16,
+      "height": 16,
+      "x": 86,
+      "y": 45,
+      "group": "fireWater"
     },
     {
       "type": "patchouli:item",
