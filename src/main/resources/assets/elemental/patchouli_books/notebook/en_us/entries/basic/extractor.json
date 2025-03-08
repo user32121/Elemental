@@ -1,0 +1,46 @@
+{
+  "name": "Extracting Alkahest",
+  "icon": "elemental:extractor",
+  "category": "elemental:basic",
+  "advancement": "elemental:items/catalyst",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(item)Extractors/$ allow you to obtain $(item)Alkahest/$ through a lengthy process. You will need to construct the $(item)Extractor/$ multiblock and then supply it with 2048 of each $(thing)element/$: half in shard form and half via $(item)Catalysts/$.$(br2)However, due to how unstable this process is, $(thing)elements/$ cannot differ by more than 1 (but it's ok to have extra shards)."
+    },
+    {
+      "type": "elemental:reaction_crafting",
+      "recipe": "elemental:extractor"
+    },
+    {
+      "type": "patchouli:multiblock",
+      "name": "Extractor",
+      "multiblock": {
+        "mapping": {
+          "X": "elemental:extractor",
+          "C": "elemental:catalyst",
+          "+": "elemental:conduit[axis_x=true]",
+          "|": "elemental:conduit[axis_y=true]",
+          "-": "elemental:conduit[axis_z=true]",
+          "N": "minecraft:stone_stairs[facing=south,half=bottom,shape=straight]",
+          "n": "minecraft:stone_stairs[facing=south,half=bottom,shape=outer_right],minecraft:stone_stairs[facing=east,half=bottom,shape=outer_left]",
+          "E": "minecraft:stone_stairs[facing=west,half=bottom,shape=straight]",
+          "e": "minecraft:stone_stairs[facing=west,half=bottom,shape=outer_right],minecraft:stone_stairs[facing=south,half=bottom,shape=outer_left]",
+          "S": "minecraft:stone_stairs[facing=north,half=bottom,shape=straight]",
+          "s": "minecraft:stone_stairs[facing=north,half=bottom,shape=outer_right],minecraft:stone_stairs[facing=west,half=bottom,shape=outer_left]",
+          "W": "minecraft:stone_stairs[facing=east,half=bottom,shape=straight]",
+          "w": "minecraft:stone_stairs[facing=east,half=bottom,shape=outer_right],minecraft:stone_stairs[facing=north,half=bottom,shape=outer_left]"
+        },
+        "pattern": [
+          ["C---C", "+___+", "+___+", "+___+", "C---C"],
+          ["|___|", "_____", "_____", "_____", "|___|"],
+          ["|___|", "_____", "__X__", "_____", "|___|"],
+          ["|___|", "_wWs_", "_N_S_", "_nEe_", "|___|"],
+          ["CWWWC", "N___S", "N_0_S", "N___S", "CEEEC"]
+        ],
+        "symmetrical": true
+      },
+      "text": "Any stair type works."
+    }
+  ]
+}

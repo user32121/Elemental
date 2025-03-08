@@ -1,0 +1,16 @@
+{
+  "name": "The Search For Alkahest",
+  "icon": "minecraft:paper",
+  "category": "elemental:lore",
+  "advancement": "elemental:items/extractor",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "I found some notes about a magical substance called $(item)Alkahest/$. They kept going on and on about how it's the \"universal solvent\" and how it would revolutionize all of alchemy. They even left instructions for a device that can make $(item)Alkahest/$ by interacting with the aether, whatever that means, but left no mention of whether they were successful or what $(item)Alkahest/$ does."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The notes also mentioned needing a $(item)Divining Stone/$ but not what for."
+    }
+  ]
+}
