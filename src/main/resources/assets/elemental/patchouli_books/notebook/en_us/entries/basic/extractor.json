@@ -41,6 +41,10 @@
         "symmetrical": true
       },
       "text": "Any stair type works."
+    },
+    {
+      "type": "elemental:reaction_crafting",
+      "recipe": "elemental:radar"
     }
   ]
 }

@@ -1,0 +1,13 @@
+{
+  "type": "elemental:reaction",
+  "cost": 20,
+  "ingredients": [
+    { "item": "minecraft:smooth_stone" },
+    { "item": "minecraft:prismarine" },
+    { "item": "elemental:blown_out_conduit" }
+  ],
+  "result": {
+    "id": "elemental:radar"
+  },
+  "isFireWater": false
+}
