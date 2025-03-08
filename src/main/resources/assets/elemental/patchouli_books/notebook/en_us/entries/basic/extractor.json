@@ -6,7 +6,11 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "$(item)Extractors/$ allow you to obtain $(item)Alkahest/$ through a lengthy process. You will need to construct the $(item)Extractor/$ multiblock and then supply it with 2048 of each $(thing)element/$: half in shard form and half via $(item)Catalysts/$.$(br2)However, due to how unstable this process is, $(thing)elements/$ cannot differ by more than 1 (but it's ok to have extra shards)."
+      "text": "$(item)Extractors/$ allow you to obtain $(item)Alkahest/$ through a lengthy process. You will need to construct the $(item)Extractor/$ multiblock and then supply it with 2048 of each $(thing)element/$: half in shard form and half via $(item)Catalysts/$."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Due to how unstable this process is, $(thing)elements/$ cannot differ by more than 1 (but it's ok to have extra shards)."
     },
     {
       "type": "elemental:reaction_crafting",

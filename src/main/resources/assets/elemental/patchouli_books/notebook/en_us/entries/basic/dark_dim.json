@@ -1,0 +1,18 @@
+{
+  "name": "A Dark Place",
+  "icon": "elemental:dark_block",
+  "category": "elemental:dark",
+  "advancement": "elemental:dimensions/dark_dim",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Hopefully, you jumped right in the ominous portal, and hopefully, you brought your $(item)Divining Stone/$ with you.$(br2)It is highly recommended to turn on shaders for this."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "elemental:light_crystal",
+      "link_recipe": true,
+      "text": "You're looking for $(item)Light Crystals/$, which spawn at y=128 or lower. These will show up as white on the $(item)Divining Stone/$."
+    }
+  ]
+}

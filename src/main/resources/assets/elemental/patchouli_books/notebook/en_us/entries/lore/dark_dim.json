@@ -1,0 +1,16 @@
+{
+  "name": "A Dark Place",
+  "icon": "minecraft:paper",
+  "category": "elemental:lore",
+  "advancement": "elemental:dimensions/dark_dim",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Intead of getting $(item)Alkahest/$ from that $(item)Extractor/$, what I got was transported to this strange place. It's so dark I can't even see my own hands, but I hope that $(item)Divining Stone/$ has some use, if I still have it around somewhere."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The locals don't seem too keen on interacting with me, but I swear I catch glimpses of them from time to time. I really need to find someone to explain to me what all this is about."
+    }
+  ]
+}
