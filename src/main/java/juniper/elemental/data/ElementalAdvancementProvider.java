@@ -24,6 +24,7 @@ public class ElementalAdvancementProvider extends FabricAdvancementProvider {
         generateItemAdvancement(consumer, ElementalBlocks.CONDUIT, "conduit");
         generateItemAdvancement(consumer, ElementalBlocks.CONDENSER, "condenser");
         generateItemAdvancement(consumer, ElementalBlocks.CATALYST, "catalyst");
+        generateItemAdvancement(consumer, ElementalBlocks.LIGHT_CRYSTAL, "light_crystal");
     }
 
     private void generateItemAdvancement(Consumer<AdvancementEntry> consumer, ItemConvertible item, String name) {

@@ -1,0 +1,12 @@
+{
+  "name": "Light Crystals",
+  "icon": "elemental:light_crystal",
+  "category": "elemental:dark",
+  "advancement": "elemental:items/light_crystal",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(item)Light Crystals/$ are the primary ingredient for the next tier, which includes QOL and automation. TODO more description and item recipes"
+    }
+  ]
+}

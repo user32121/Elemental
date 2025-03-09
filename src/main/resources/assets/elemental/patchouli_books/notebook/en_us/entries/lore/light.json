@@ -1,0 +1,12 @@
+{
+  "name": "A Light In A",
+  "icon": "minecraft:paper",
+  "category": "elemental:lore",
+  "advancement": "elemental:items/light_crystal",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "I found some light in this abysmal place. Upon touching it, I awoke in my home, as if it was all a bad dream, except I now possessed a strange light source."
+    }
+  ]
+}

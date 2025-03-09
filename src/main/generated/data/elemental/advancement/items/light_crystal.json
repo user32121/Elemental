@@ -1,0 +1,19 @@
+{
+  "criteria": {
+    "item": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elemental:light_crystal"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "item"
+    ]
+  ]
+}
