@@ -1,7 +1,0 @@
-{
-  "parent": "elemental:block/template_triaxis_axis",
-  "textures": {
-    "end": "elemental:block/conduit_face_cooldown",
-    "side": "elemental:block/conduit_axis_cooldown"
-  }
-}

@@ -1,0 +1,6 @@
+{
+  "parent": "elemental:block/template_triaxis_axis",
+  "textures": {
+    "texture": "elemental:block/conduit_fire"
+  }
+}

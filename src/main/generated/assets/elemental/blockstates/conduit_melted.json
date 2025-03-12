@@ -1,0 +1,35 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "elemental:block/conduit_melted_core"
+      }
+    },
+    {
+      "apply": {
+        "model": "elemental:block/conduit_melted_axis",
+        "y": 90
+      },
+      "when": {
+        "axis_x": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "elemental:block/conduit_melted_axis",
+        "x": 90
+      },
+      "when": {
+        "axis_y": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "elemental:block/conduit_melted_axis"
+      },
+      "when": {
+        "axis_z": "true"
+      }
+    }
+  ]
+}

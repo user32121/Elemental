@@ -1,10 +1,10 @@
 {
   "values": [
     "elemental:conduit",
-    "elemental:overgrown_conduit",
-    "elemental:clogged_conduit",
-    "elemental:melted_conduit",
-    "elemental:blown_out_conduit",
+    "elemental:conduit_overgrown",
+    "elemental:conduit_clogged",
+    "elemental:conduit_melted",
+    "elemental:conduit_blown_out",
     "elemental:condenser",
     "elemental:catalyst",
     "elemental:extractor",

@@ -26,16 +26,12 @@ import net.minecraft.util.Identifier;
 public class ElementalBlocks {
     public static Block CONDUIT = register("conduit", ConduitBlock::new,
             AbstractBlock.Settings.create().strength(1.5f).requiresTool(), true);
-    public static Block OVERGROWN_CONDUIT = register("overgrown_conduit", TriAxisBlock::new,
-            AbstractBlock.Settings.create().strength(1.5f).requiresTool(), true);
-    public static Block CLOGGED_CONDUIT = register("clogged_conduit", TriAxisBlock::new,
-            AbstractBlock.Settings.create().strength(1.5f).requiresTool(), true);
+    public static Block OVERGROWN_CONDUIT = register("conduit_overgrown", TriAxisBlock::new, AbstractBlock.Settings.create().strength(1.5f).requiresTool(), true);
+    public static Block CLOGGED_CONDUIT = register("conduit_clogged", TriAxisBlock::new, AbstractBlock.Settings.create().strength(1.5f).requiresTool(), true);
     public static Block DUST = register("dust", SnowBlock::new,
                     AbstractBlock.Settings.create().strength(0.5f), true);
-    public static Block MELTED_CONDUIT = register("melted_conduit", TriAxisBlock::new,
-            AbstractBlock.Settings.create().strength(1.5f).requiresTool(), true);
-    public static Block BLOWN_OUT_CONDUIT = register("blown_out_conduit", TriAxisBlock::new,
-                    AbstractBlock.Settings.create().strength(1.5f).requiresTool(), true);
+    public static Block MELTED_CONDUIT = register("conduit_melted", TriAxisBlock::new, AbstractBlock.Settings.create().strength(1.5f).requiresTool(), true);
+    public static Block BLOWN_OUT_CONDUIT = register("conduit_blown_out", TriAxisBlock::new, AbstractBlock.Settings.create().strength(1.5f).requiresTool(), true);
     public static Block CONDENSER = register("condenser", CondenserBlock::new,
                     AbstractBlock.Settings.create().strength(1.5f).requiresTool(), true);
     public static Block CATALYST = register("catalyst", CatalystBlock::new,

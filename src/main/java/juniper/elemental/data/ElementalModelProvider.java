@@ -50,9 +50,7 @@ public class ElementalModelProvider extends FabricModelProvider {
     }
 
     private void registerTriAxisBlock(BlockStateModelGenerator bsmg, Block block) {
-        TextureMap tm = new TextureMap().put(TextureKey.TEXTURE, ModelIds.getBlockSubModelId(block, "_core"))
-                .put(TextureKey.SIDE, ModelIds.getBlockSubModelId(block, "_axis"))
-                .put(TextureKey.END, ModelIds.getBlockSubModelId(block, "_face"));
+        TextureMap tm = new TextureMap().put(TextureKey.TEXTURE, ModelIds.getBlockModelId(block));
         Identifier idCore = ElementalModels.TriAxisBlockCore.upload(ModelIds.getBlockSubModelId(block, "_core"), tm,
                 bsmg.modelCollector);
         Identifier idAxis = ElementalModels.TriAxisBlockAxis.upload(ModelIds.getBlockSubModelId(block, "_axis"), tm,
@@ -84,13 +82,11 @@ public class ElementalModelProvider extends FabricModelProvider {
                 complementarySignal = ElementSignal.valueOf(signalStr.substring(0, signalStr.length() - 1) + "2");
             }
             TextureMap tm = new TextureMap()
-                    .put(TextureKey.TEXTURE, ModelIds.getBlockSubModelId(block, "_core_" + signalName))
-                    .put(TextureKey.SIDE, ModelIds.getBlockSubModelId(block, "_axis_" + signalName))
-                    .put(TextureKey.END, ModelIds.getBlockSubModelId(block, "_face_" + signalName));
+                    .put(TextureKey.TEXTURE, ModelIds.getBlockSubModelId(block, "_" + signalName));
             Identifier idCore = ElementalModels.TriAxisBlockCore
-                    .upload(ModelIds.getBlockSubModelId(block, "_core_" + signalName), tm, bsmg.modelCollector);
+                    .upload(ModelIds.getBlockSubModelId(block, "_" + signalName + "_core"), tm, bsmg.modelCollector);
             Identifier idAxis = ElementalModels.TriAxisBlockAxis
-                    .upload(ModelIds.getBlockSubModelId(block, "_axis_" + signalName), tm, bsmg.modelCollector);
+                    .upload(ModelIds.getBlockSubModelId(block, "_" + signalName + "_axis"), tm, bsmg.modelCollector);
             if (signal.equals(ElementSignal.OFF)) {
                 idItem = idAxis;
             }
