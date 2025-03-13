@@ -150,5 +150,6 @@ public class ElementalModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ElementalItems.AIR_SHARD, Models.GENERATED);
         itemModelGenerator.register(ElementalItems.FIRE_SHARD, Models.GENERATED);
         itemModelGenerator.register(ElementalItems.RADAR, Models.GENERATED);
+        itemModelGenerator.register(ElementalItems.DARK_SHARD, Models.GENERATED);
     }
 }

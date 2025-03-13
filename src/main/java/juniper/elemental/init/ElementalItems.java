@@ -24,6 +24,7 @@ public class ElementalItems {
     public static final Item AIR_SHARD = register("air_shard", settings -> new ShardItem(settings, ElementSignal.AIR1));
     public static final Item FIRE_SHARD = register("fire_shard", settings -> new ShardItem(settings, ElementSignal.FIRE1));
     public static final Item RADAR = register("radar", RadarItem::new, new Item.Settings().maxCount(1));
+    public static final Item DARK_SHARD = register("dark_shard");
 
     public static void init() {
     }

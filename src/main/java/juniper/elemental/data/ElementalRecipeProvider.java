@@ -3,6 +3,7 @@ package juniper.elemental.data;
 import java.util.concurrent.CompletableFuture;
 
 import juniper.elemental.Elemental;
+import juniper.elemental.init.ElementalBlocks;
 import juniper.elemental.init.ElementalItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
@@ -30,6 +31,7 @@ public class ElementalRecipeProvider extends FabricRecipeProvider {
                 offer2x2CompactingRecipe(RecipeCategory.MISC, ElementalItems.WATER_SHARD, ElementalItems.WATER_FRAGMENT);
                 offer2x2CompactingRecipe(RecipeCategory.MISC, ElementalItems.AIR_SHARD, ElementalItems.AIR_FRAGMENT);
                 offer2x2CompactingRecipe(RecipeCategory.MISC, ElementalItems.FIRE_SHARD, ElementalItems.FIRE_FRAGMENT);
+                offer2x2CompactingRecipe(RecipeCategory.MISC, ElementalItems.DARK_SHARD, ElementalBlocks.DARK_BLOCK);
             }
         };
     }
