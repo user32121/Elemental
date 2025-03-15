@@ -8,7 +8,9 @@ import juniper.elemental.blocks.CondenserBlock;
 import juniper.elemental.blocks.ConduitBlock;
 import juniper.elemental.blocks.DarkPortalBlock;
 import juniper.elemental.blocks.ExtractorBlock;
+import juniper.elemental.blocks.LightBallBlock;
 import juniper.elemental.blocks.LightCrystalBlock;
+import juniper.elemental.blocks.PackedLightCrystalBlock;
 import juniper.elemental.blocks.RichSoilBlock;
 import juniper.elemental.blocks.TriAxisBlock;
 import net.minecraft.block.AbstractBlock;
@@ -42,6 +44,9 @@ public class ElementalBlocks {
     public static Block DARK_PORTAL = register("dark_portal", DarkPortalBlock::new,
             AbstractBlock.Settings.create().noCollision().strength(-1.0f, 3600000.0f).dropsNothing().pistonBehavior(PistonBehavior.BLOCK), false);
     public static Block LIGHT_CRYSTAL = register("light_crystal", LightCrystalBlock::new, AbstractBlock.Settings.create().strength(1.5f).requiresTool().luminance(state -> 15), true);
+    public static Block PACKED_LIGHT_CRYSTAL = register("packed_light_crystal", PackedLightCrystalBlock::new, AbstractBlock.Settings.create().strength(1.5f).requiresTool().luminance(state -> 15),
+            true);
+    public static Block LIGHT_BALL = register("light_ball", LightBallBlock::new, AbstractBlock.Settings.create().strength(1.5f).requiresTool().luminance(state -> 15), true);
 
     public static void init() {
     }
