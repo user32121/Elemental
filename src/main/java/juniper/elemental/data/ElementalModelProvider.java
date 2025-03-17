@@ -47,8 +47,8 @@ public class ElementalModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerSimpleCubeAll(ElementalBlocks.DARK_BLOCK);
         blockStateModelGenerator.registerSimpleCubeAll(ElementalBlocks.DARK_PORTAL);
         blockStateModelGenerator.registerBuiltin(ElementalBlocks.LIGHT_CRYSTAL, ElementalBlocks.LIGHT_CRYSTAL).includeWithoutItem(ElementalBlocks.LIGHT_CRYSTAL);
-        blockStateModelGenerator.registerBuiltin(ElementalBlocks.PACKED_LIGHT_CRYSTAL, ElementalBlocks.PACKED_LIGHT_CRYSTAL).includeWithoutItem(ElementalBlocks.PACKED_LIGHT_CRYSTAL);
-        blockStateModelGenerator.registerBuiltin(ElementalBlocks.LIGHT_BALL, ElementalBlocks.LIGHT_BALL).includeWithoutItem(ElementalBlocks.LIGHT_BALL);
+        blockStateModelGenerator.registerBuiltin(ElementalBlocks.PACKED_LIGHT_CRYSTAL, ElementalBlocks.LIGHT_CRYSTAL).includeWithoutItem(ElementalBlocks.PACKED_LIGHT_CRYSTAL);
+        blockStateModelGenerator.registerBuiltin(ElementalBlocks.LIGHT_BALL, ElementalBlocks.LIGHT_CRYSTAL).includeWithoutItem(ElementalBlocks.LIGHT_BALL);
     }
 
     private void registerTriAxisBlock(BlockStateModelGenerator bsmg, Block block) {

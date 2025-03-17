@@ -1,5 +1,5 @@
 {
   "textures": {
-    "particle": "elemental:block/packed_light_crystal"
+    "particle": "elemental:block/light_crystal"
   }
 }
