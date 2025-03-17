@@ -23,6 +23,6 @@ public class PackedLightCrystalBlockEntityRenderer implements BlockEntityRendere
     @Override
     public void render(PackedLightCrystalBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         model.setAngles(entity, tickDelta);
-        model.render(matrices, vertexConsumers.getBuffer(RENDER_LAYER), light, OverlayTexture.DEFAULT_UV);
+        model.render(matrices, vertexConsumers.getBuffer(RENDER_LAYER), 255, OverlayTexture.getUv(1, false));
     }
 }
