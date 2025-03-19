@@ -1,7 +1,11 @@
 package juniper.elemental.blocks;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager.Builder;
 import net.minecraft.state.property.IntProperty;
@@ -9,12 +13,24 @@ import net.minecraft.state.property.Property;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.block.WireOrientation;
 
 public class AlkahestBlock extends Block {
     public static final Property<Integer> LAYERS = IntProperty.of("level", 1, 16);
     public static final int TICK_RATE = 5;
+    public static final VoxelShape[] SHAPES;
+
+    static {
+        List<VoxelShape> shapes = new ArrayList<>();
+        for (int i = 0; i <= 16; ++i) {
+            shapes.add(VoxelShapes.cuboid(0, 0, 0, 1, i / 16.0, 1));
+        }
+        SHAPES = shapes.toArray(VoxelShape[]::new);
+    }
 
     public AlkahestBlock(Settings settings) {
         super(settings);
@@ -27,10 +43,10 @@ public class AlkahestBlock extends Block {
         builder.add(LAYERS);
     }
 
-    // @Override
-    // protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-    //     return VoxelShapes.empty();
-    // }
+    @Override
+    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return SHAPES[state.get(LAYERS)];
+    }
 
     @Override
     protected void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, WireOrientation wireOrientation, boolean notify) {
