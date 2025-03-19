@@ -3,6 +3,7 @@ package juniper.elemental.init;
 import java.util.function.Function;
 
 import juniper.elemental.Elemental;
+import juniper.elemental.blocks.AlkahestBlock;
 import juniper.elemental.blocks.CatalystBlock;
 import juniper.elemental.blocks.CondenserBlock;
 import juniper.elemental.blocks.ConduitBlock;
@@ -47,6 +48,7 @@ public class ElementalBlocks {
     public static Block PACKED_LIGHT_CRYSTAL = register("packed_light_crystal", PackedLightCrystalBlock::new, AbstractBlock.Settings.create().strength(1.5f).requiresTool().luminance(state -> 15),
             true);
     public static Block LIGHT_BALL = register("light_ball", LightBallBlock::new, AbstractBlock.Settings.create().strength(1.5f).requiresTool().luminance(state -> 15), true);
+    public static Block ALKAHEST = register("alkahest", AlkahestBlock::new, AbstractBlock.Settings.create().replaceable().noCollision().dropsNothing(), false);
 
     public static void init() {
     }

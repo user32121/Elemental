@@ -2,6 +2,8 @@ package juniper.elemental.data;
 
 import java.util.Optional;
 
+import juniper.elemental.Elemental;
+import juniper.elemental.blocks.AlkahestBlock;
 import juniper.elemental.blocks.ConduitBlock;
 import juniper.elemental.blocks.ElementHolder;
 import juniper.elemental.blocks.TriAxisBlock;
@@ -37,7 +39,7 @@ public class ElementalModelProvider extends FabricModelProvider {
         registerConduit(blockStateModelGenerator, ElementalBlocks.CONDUIT);
         registerTriAxisBlock(blockStateModelGenerator, ElementalBlocks.CLOGGED_CONDUIT);
         registerTriAxisBlock(blockStateModelGenerator, ElementalBlocks.OVERGROWN_CONDUIT);
-        registerSnow(blockStateModelGenerator, ElementalBlocks.DUST);
+        registerLayers8(blockStateModelGenerator, ElementalBlocks.DUST);
         registerTriAxisBlock(blockStateModelGenerator, ElementalBlocks.MELTED_CONDUIT);
         registerTriAxisBlock(blockStateModelGenerator, ElementalBlocks.BLOWN_OUT_CONDUIT);
         registerSignalHolder(blockStateModelGenerator, ElementalBlocks.CONDENSER);
@@ -49,6 +51,7 @@ public class ElementalModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerBuiltin(ElementalBlocks.LIGHT_CRYSTAL, ElementalBlocks.LIGHT_CRYSTAL).includeWithoutItem(ElementalBlocks.LIGHT_CRYSTAL);
         blockStateModelGenerator.registerBuiltin(ElementalBlocks.PACKED_LIGHT_CRYSTAL, ElementalBlocks.LIGHT_CRYSTAL).includeWithoutItem(ElementalBlocks.PACKED_LIGHT_CRYSTAL);
         blockStateModelGenerator.registerBuiltin(ElementalBlocks.LIGHT_BALL, ElementalBlocks.LIGHT_CRYSTAL).includeWithoutItem(ElementalBlocks.LIGHT_BALL);
+        registerLayers16(blockStateModelGenerator, ElementalBlocks.ALKAHEST);
     }
 
     private void registerTriAxisBlock(BlockStateModelGenerator bsmg, Block block) {
@@ -110,7 +113,7 @@ public class ElementalModelProvider extends FabricModelProvider {
         bsmg.registerParentedItemModel(block, idItem);
     }
 
-    private void registerSnow(BlockStateModelGenerator bsmg, Block block) {
+    private void registerLayers8(BlockStateModelGenerator bsmg, Block block) {
         TextureMap tm = TextureMap.all(block);
         Identifier idCubeAll = Models.CUBE_ALL.upload(block, tm, bsmg.modelCollector);
         bsmg.blockStateCollector.accept(VariantsBlockStateSupplier.create(block)
@@ -122,6 +125,16 @@ public class ElementalModelProvider extends FabricModelProvider {
                     return BlockStateVariant.create().put(VariantSettings.MODEL, height < 8 ? id : idCubeAll);
                 })));
         bsmg.registerParentedItemModel(block, ModelIds.getBlockSubModelId(block, "_height2"));
+    }
+
+    private void registerLayers16(BlockStateModelGenerator bsmg, Block block) {
+        TextureMap tm = TextureMap.all(block);
+        bsmg.blockStateCollector.accept(VariantsBlockStateSupplier.create(block).coordinate(BlockStateVariantMap.create(AlkahestBlock.LAYERS).register(height -> {
+            Model m = new Model(Optional.of(Identifier.of(Elemental.MOD_ID, "block/layers_height" + height)), Optional.empty(), TextureKey.TEXTURE);
+            Identifier id = ModelIds.getBlockSubModelId(block, "_height" + height);
+            id = m.upload(id, tm, bsmg.modelCollector);
+            return BlockStateVariant.create().put(VariantSettings.MODEL, id);
+        })));
     }
 
     private void registerSignalHolder(BlockStateModelGenerator bsmg, Block block) {

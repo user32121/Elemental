@@ -1,0 +1,6 @@
+{
+  "parent": "elemental:block/layers_height14",
+  "textures": {
+    "texture": "elemental:block/alkahest"
+  }
+}
