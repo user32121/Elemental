@@ -6,6 +6,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
+import net.minecraft.entity.Entity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager.Builder;
 import net.minecraft.state.property.IntProperty;
@@ -58,6 +59,14 @@ public class AlkahestBlock extends Block {
     protected void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
         super.onBlockAdded(state, world, pos, oldState, notify);
         world.scheduleBlockTick(pos, state.getBlock(), TICK_RATE);
+    }
+
+    @Override
+    protected void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+        super.onEntityCollision(state, world, pos, entity);
+        if (world instanceof ServerWorld serverWorld) {
+            entity.damage(serverWorld, world.getDamageSources().magic(), 1.0f);
+        }
     }
 
     @Override
