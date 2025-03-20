@@ -24,6 +24,7 @@ public class AlkahestBlock extends Block {
     public static final Property<Integer> LAYERS = IntProperty.of("level", 1, 16);
     public static final int TICK_RATE = 5;
     public static final VoxelShape[] SHAPES;
+    public static final double dissolveRate = 0.1;
 
     static {
         List<VoxelShape> shapes = new ArrayList<>();
@@ -72,7 +73,9 @@ public class AlkahestBlock extends Block {
     @Override
     protected void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         super.scheduledTick(state, world, pos, random);
+        dissolve(state, world, pos, random);
         spread(state, world, pos, random);
+        world.scheduleBlockTick(pos, state.getBlock(), TICK_RATE);
     }
 
     protected void spread(BlockState state, ServerWorld world, BlockPos pos, Random random) {
@@ -120,12 +123,6 @@ public class AlkahestBlock extends Block {
         }
     }
 
-    @Override
-    protected void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        super.randomTick(state, world, pos, random);
-        dissolve(state, world, pos, random);
-    }
-
     private void dissolve(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         //random chance to dissolve adjacent block, depending on fluid level and block hardness
         Direction dir = Direction.random(random);
@@ -136,7 +133,7 @@ public class AlkahestBlock extends Block {
         BlockState targetState = world.getBlockState(pos.offset(dir));
         float hardness = targetState.getHardness(world, pos.offset(dir));
         hardness = hardness < 0 ? Float.POSITIVE_INFINITY : hardness;
-        double dissolveChance = surfaceArea * Math.exp(-hardness);
+        double dissolveChance = surfaceArea * Math.exp(-hardness) * dissolveRate;
         if (random.nextDouble() < dissolveChance) {
             world.breakBlock(pos.offset(dir), true);
             if (random.nextDouble() < 0.1) {
