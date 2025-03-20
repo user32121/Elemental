@@ -130,7 +130,8 @@ public class AlkahestBlock extends Block implements FluidDrainable {
         if (dir.equals(Direction.UP)) {
             return;
         }
-        double surfaceArea = dir.equals(Direction.DOWN) ? 1 : state.get(LAYERS) / (float) MAX_HEIGHT;
+        Integer layer = state.get(LAYERS);
+        double surfaceArea = dir.equals(Direction.DOWN) ? 1 : layer / (float) MAX_HEIGHT;
         BlockState targetState = world.getBlockState(pos.offset(dir));
         float hardness = targetState.getHardness(world, pos.offset(dir));
         hardness = hardness < 0 ? Float.POSITIVE_INFINITY : hardness;
@@ -138,7 +139,11 @@ public class AlkahestBlock extends Block implements FluidDrainable {
         if (random.nextDouble() < dissolveChance) {
             world.breakBlock(pos.offset(dir), true);
             if (random.nextDouble() < 0.1) {
-                world.setBlockState(pos, Blocks.AIR.getDefaultState());
+                if (layer <= 1) {
+                    world.setBlockState(pos, Blocks.AIR.getDefaultState());
+                } else {
+                    world.setBlockState(pos, state.with(LAYERS, layer - 1));
+                }
             }
         }
     }
