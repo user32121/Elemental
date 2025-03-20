@@ -7,6 +7,7 @@ import juniper.elemental.elements.ElementSignal;
 import juniper.elemental.items.AlkahestBucketItem;
 import juniper.elemental.items.RadarItem;
 import juniper.elemental.items.ShardItem;
+import net.minecraft.block.DispenserBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -30,6 +31,7 @@ public class ElementalItems {
     public static final Item ALKAHEST_BUCKET = register("alkahest_bucket", AlkahestBucketItem::new, new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1));
 
     public static void init() {
+        DispenserBlock.registerBehavior(ALKAHEST_BUCKET, AlkahestBucketItem.dispenserBehavior);
     }
 
     public static Item register(String name) {
@@ -40,10 +42,10 @@ public class ElementalItems {
         return register(name, factory, new Item.Settings());
     }
 
-    public static Item register(String name, Function<Item.Settings, Item> factory, Item.Settings settings) {
+    public static <T extends Item> T register(String name, Function<Item.Settings, T> factory, Item.Settings settings) {
         Identifier id = Identifier.of(Elemental.MOD_ID, name);
         RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, id);
-        Item item = factory.apply(settings.registryKey(key));
+        T item = factory.apply(settings.registryKey(key));
         if (item instanceof BlockItem) {
             BlockItem blockItem = (BlockItem) item;
             blockItem.appendBlocks(Item.BLOCK_ITEMS, item);

@@ -2,14 +2,16 @@ package juniper.elemental.blocks;
 
 import java.util.Optional;
 
-import juniper.elemental.Elemental;
+import juniper.elemental.init.ElementalFluids;
 import juniper.elemental.init.ElementalItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.FluidDrainable;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
@@ -86,7 +88,7 @@ public class AlkahestBlock extends Block implements FluidDrainable {
             if (MAX_HEIGHT - belowLayer >= layer) {
                 //all fluid can flow to below block
                 world.setBlockState(pos.down(), belowState.with(LAYERS, belowLayer + layer));
-                world.removeBlock(pos, false);
+                world.setBlockState(pos, Blocks.AIR.getDefaultState());
                 return;
             } else {
                 //only some fluid can flow to below block
@@ -96,7 +98,7 @@ public class AlkahestBlock extends Block implements FluidDrainable {
         } else if (belowState.isReplaceable()) {
             world.breakBlock(pos.down(), true);
             world.setBlockState(pos.down(), state);
-            world.removeBlock(pos, false);
+            world.setBlockState(pos, Blocks.AIR.getDefaultState());
             return;
         }
         //spread
@@ -136,16 +138,15 @@ public class AlkahestBlock extends Block implements FluidDrainable {
         if (random.nextDouble() < dissolveChance) {
             world.breakBlock(pos.offset(dir), true);
             if (random.nextDouble() < 0.1) {
-                world.removeBlock(pos, false);
+                world.setBlockState(pos, Blocks.AIR.getDefaultState());
             }
         }
     }
 
     @Override
     public ItemStack tryDrainFluid(PlayerEntity player, WorldAccess world, BlockPos pos, BlockState state) {
-        Elemental.LOGGER.info("trydrain({}, {}, {}, {})", player, world, pos, state);
         if (state.get(LAYERS) == MAX_HEIGHT) {
-            world.removeBlock(pos, false);
+            world.setBlockState(pos, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL);
             return new ItemStack(ElementalItems.ALKAHEST_BUCKET);
         }
         return ItemStack.EMPTY;
@@ -154,5 +155,10 @@ public class AlkahestBlock extends Block implements FluidDrainable {
     @Override
     public Optional<SoundEvent> getBucketFillSound() {
         return Optional.of(SoundEvents.ITEM_BUCKET_FILL);
+    }
+
+    @Override
+    protected FluidState getFluidState(BlockState state) {
+        return ElementalFluids.ALKAHEST.getDefaultState().with(LAYERS, state.get(LAYERS));
     }
 }

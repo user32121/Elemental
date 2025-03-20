@@ -46,7 +46,7 @@ public class AlkahestFluid extends Fluid {
 
     @Override
     public int getTickRate(WorldView var1) {
-        return AlkahestBlock.TICK_RATE;
+        return Integer.MAX_VALUE;
     }
 
     @Override
@@ -81,7 +81,7 @@ public class AlkahestFluid extends Fluid {
 
     @Override
     public VoxelShape getShape(FluidState state, BlockView world, BlockPos pos) {
-        return this.shapeCache.computeIfAbsent(state, state2 -> VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, state2.getHeight(world, pos), 1.0));
+        return shapeCache.computeIfAbsent(state, state2 -> VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, state2.getHeight(world, pos), 1.0));
     }
 
     @Override
