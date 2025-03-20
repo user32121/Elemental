@@ -1,5 +1,3 @@
 fix light crystal textures
-switch alkahest to blockentity renderer
 alkahest fluid tag
 see if radar can use ActionResult.SUCCESS.withNewHandStack
-alkahest model culling

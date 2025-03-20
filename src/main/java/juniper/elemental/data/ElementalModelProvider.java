@@ -2,8 +2,6 @@ package juniper.elemental.data;
 
 import java.util.Optional;
 
-import juniper.elemental.Elemental;
-import juniper.elemental.blocks.AlkahestBlock;
 import juniper.elemental.blocks.ConduitBlock;
 import juniper.elemental.blocks.ElementHolder;
 import juniper.elemental.blocks.TriAxisBlock;
@@ -51,7 +49,6 @@ public class ElementalModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerBuiltin(ElementalBlocks.LIGHT_CRYSTAL, ElementalBlocks.LIGHT_CRYSTAL).includeWithoutItem(ElementalBlocks.LIGHT_CRYSTAL);
         blockStateModelGenerator.registerBuiltin(ElementalBlocks.PACKED_LIGHT_CRYSTAL, ElementalBlocks.LIGHT_CRYSTAL).includeWithoutItem(ElementalBlocks.PACKED_LIGHT_CRYSTAL);
         blockStateModelGenerator.registerBuiltin(ElementalBlocks.LIGHT_BALL, ElementalBlocks.LIGHT_CRYSTAL).includeWithoutItem(ElementalBlocks.LIGHT_BALL);
-        registerLayers16(blockStateModelGenerator, ElementalBlocks.ALKAHEST);
     }
 
     private void registerTriAxisBlock(BlockStateModelGenerator bsmg, Block block) {
@@ -125,16 +122,6 @@ public class ElementalModelProvider extends FabricModelProvider {
                     return BlockStateVariant.create().put(VariantSettings.MODEL, height < 8 ? id : idCubeAll);
                 })));
         bsmg.registerParentedItemModel(block, ModelIds.getBlockSubModelId(block, "_height2"));
-    }
-
-    private void registerLayers16(BlockStateModelGenerator bsmg, Block block) {
-        TextureMap tm = TextureMap.all(block);
-        bsmg.blockStateCollector.accept(VariantsBlockStateSupplier.create(block).coordinate(BlockStateVariantMap.create(AlkahestBlock.LAYERS).register(height -> {
-            Model m = new Model(Optional.of(Identifier.of(Elemental.MOD_ID, "block/layers_height" + height)), Optional.empty(), TextureKey.TEXTURE);
-            Identifier id = ModelIds.getBlockSubModelId(block, "_height" + height);
-            id = m.upload(id, tm, bsmg.modelCollector);
-            return BlockStateVariant.create().put(VariantSettings.MODEL, id);
-        })));
     }
 
     private void registerSignalHolder(BlockStateModelGenerator bsmg, Block block) {

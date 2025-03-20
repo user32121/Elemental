@@ -3,6 +3,7 @@ package juniper.elemental;
 import juniper.elemental.init.ElementalModelLayers;
 import juniper.elemental.init.ElementalBlockEntityRenderers;
 import juniper.elemental.init.ElementalEntityRenderers;
+import juniper.elemental.init.ElementalFluidRenderers;
 import juniper.elemental.init.ElementalScreens;
 import net.fabricmc.api.ClientModInitializer;
 
@@ -16,5 +17,6 @@ public class ElementalClient implements ClientModInitializer {
         ElementalEntityRenderers.init();
         ElementalModelLayers.init();
         ElementalBlockEntityRenderers.init();
+        ElementalFluidRenderers.init();
 	}
 }

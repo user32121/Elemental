@@ -5,6 +5,7 @@ import java.util.Optional;
 import juniper.elemental.init.ElementalFluids;
 import juniper.elemental.init.ElementalItems;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FluidDrainable;
@@ -165,5 +166,10 @@ public class AlkahestBlock extends Block implements FluidDrainable {
     @Override
     protected FluidState getFluidState(BlockState state) {
         return ElementalFluids.ALKAHEST.getDefaultState().with(LAYERS, state.get(LAYERS));
+    }
+
+    @Override
+    protected BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.INVISIBLE;
     }
 }
