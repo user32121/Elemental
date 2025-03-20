@@ -3,3 +3,4 @@ switch alkahest to blockentity renderer
 alkahest fluid tag
 bucket of alkahest
 see if radar can use ActionResult.SUCCESS.withNewHandStack
+alkahest model culling

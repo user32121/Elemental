@@ -4,10 +4,12 @@ import java.util.function.Function;
 
 import juniper.elemental.Elemental;
 import juniper.elemental.elements.ElementSignal;
+import juniper.elemental.items.AlkahestBucketItem;
 import juniper.elemental.items.RadarItem;
 import juniper.elemental.items.ShardItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -25,6 +27,7 @@ public class ElementalItems {
     public static final Item FIRE_SHARD = register("fire_shard", settings -> new ShardItem(settings, ElementSignal.FIRE1));
     public static final Item RADAR = register("radar", RadarItem::new, new Item.Settings().maxCount(1));
     public static final Item DARK_SHARD = register("dark_shard");
+    public static final Item ALKAHEST_BUCKET = register("alkahest_bucket", AlkahestBucketItem::new, new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1));
 
     public static void init() {
     }

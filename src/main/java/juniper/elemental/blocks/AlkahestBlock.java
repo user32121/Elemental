@@ -1,13 +1,19 @@
 package juniper.elemental.blocks;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
+import juniper.elemental.Elemental;
+import juniper.elemental.init.ElementalItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.FluidDrainable;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager.Builder;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Property;
@@ -18,25 +24,18 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.block.WireOrientation;
 
-public class AlkahestBlock extends Block {
-    public static final Property<Integer> LAYERS = IntProperty.of("level", 1, 16);
+public class AlkahestBlock extends Block implements FluidDrainable {
+    public static final int MAX_HEIGHT = 16;
+    public static final Property<Integer> LAYERS = IntProperty.of("level", 1, MAX_HEIGHT);
     public static final int TICK_RATE = 5;
-    public static final VoxelShape[] SHAPES;
     public static final double dissolveRate = 0.1;
-
-    static {
-        List<VoxelShape> shapes = new ArrayList<>();
-        for (int i = 0; i <= 16; ++i) {
-            shapes.add(VoxelShapes.cuboid(0, 0, 0, 1, i / 16.0, 1));
-        }
-        SHAPES = shapes.toArray(VoxelShape[]::new);
-    }
 
     public AlkahestBlock(Settings settings) {
         super(settings);
-        setDefaultState(getDefaultState().with(LAYERS, 16));
+        setDefaultState(getDefaultState().with(LAYERS, MAX_HEIGHT));
     }
 
     @Override
@@ -47,7 +46,7 @@ public class AlkahestBlock extends Block {
 
     @Override
     protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return SHAPES[state.get(LAYERS)];
+        return VoxelShapes.empty();
     }
 
     @Override
@@ -84,15 +83,15 @@ public class AlkahestBlock extends Block {
         BlockState belowState = world.getBlockState(pos.down());
         if (belowState.isOf(state.getBlock())) {
             int belowLayer = belowState.get(LAYERS);
-            if (16 - belowLayer >= layer) {
+            if (MAX_HEIGHT - belowLayer >= layer) {
                 //all fluid can flow to below block
                 world.setBlockState(pos.down(), belowState.with(LAYERS, belowLayer + layer));
                 world.removeBlock(pos, false);
                 return;
             } else {
                 //only some fluid can flow to below block
-                world.setBlockState(pos.down(), belowState.with(LAYERS, 16));
-                world.setBlockState(pos, state.with(LAYERS, layer = layer - (16 - belowLayer)));
+                world.setBlockState(pos.down(), belowState.with(LAYERS, MAX_HEIGHT));
+                world.setBlockState(pos, state.with(LAYERS, layer = layer - (MAX_HEIGHT - belowLayer)));
             }
         } else if (belowState.isReplaceable()) {
             world.breakBlock(pos.down(), true);
@@ -129,7 +128,7 @@ public class AlkahestBlock extends Block {
         if (dir.equals(Direction.UP)) {
             return;
         }
-        double surfaceArea = dir.equals(Direction.DOWN) ? 1 : state.get(LAYERS) / 16.0;
+        double surfaceArea = dir.equals(Direction.DOWN) ? 1 : state.get(LAYERS) / (float) MAX_HEIGHT;
         BlockState targetState = world.getBlockState(pos.offset(dir));
         float hardness = targetState.getHardness(world, pos.offset(dir));
         hardness = hardness < 0 ? Float.POSITIVE_INFINITY : hardness;
@@ -140,5 +139,20 @@ public class AlkahestBlock extends Block {
                 world.removeBlock(pos, false);
             }
         }
+    }
+
+    @Override
+    public ItemStack tryDrainFluid(PlayerEntity player, WorldAccess world, BlockPos pos, BlockState state) {
+        Elemental.LOGGER.info("trydrain({}, {}, {}, {})", player, world, pos, state);
+        if (state.get(LAYERS) == MAX_HEIGHT) {
+            world.removeBlock(pos, false);
+            return new ItemStack(ElementalItems.ALKAHEST_BUCKET);
+        }
+        return ItemStack.EMPTY;
+    }
+
+    @Override
+    public Optional<SoundEvent> getBucketFillSound() {
+        return Optional.of(SoundEvents.ITEM_BUCKET_FILL);
     }
 }
