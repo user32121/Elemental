@@ -71,7 +71,7 @@ public class AlkahestFluid extends Fluid {
 
     @Override
     public boolean isStill(FluidState state) {
-        return true;
+        return state.get(AlkahestBlock.LAYERS) == AlkahestBlock.MAX_HEIGHT;
     }
 
     @Override
