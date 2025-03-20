@@ -72,6 +72,10 @@ public class AlkahestBlock extends Block {
     @Override
     protected void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         super.scheduledTick(state, world, pos, random);
+        spread(state, world, pos, random);
+    }
+
+    protected void spread(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         //fall
         int layer = state.get(LAYERS);
         BlockState belowState = world.getBlockState(pos.down());
@@ -88,6 +92,7 @@ public class AlkahestBlock extends Block {
                 world.setBlockState(pos, state.with(LAYERS, layer = layer - (16 - belowLayer)));
             }
         } else if (belowState.isReplaceable()) {
+            world.breakBlock(pos.down(), true);
             world.setBlockState(pos.down(), state);
             world.removeBlock(pos, false);
             return;
@@ -108,8 +113,34 @@ public class AlkahestBlock extends Block {
                     world.setBlockState(pos, state.with(LAYERS, --layer));
                 }
             } else if (sideState.isReplaceable()) {
+                world.breakBlock(pos.offset(dir), true);
                 world.setBlockState(pos.offset(dir), state.with(LAYERS, 1));
                 world.setBlockState(pos, state.with(LAYERS, --layer));
+            }
+        }
+    }
+
+    @Override
+    protected void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        super.randomTick(state, world, pos, random);
+        dissolve(state, world, pos, random);
+    }
+
+    private void dissolve(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        //random chance to dissolve adjacent block, depending on fluid level and block hardness
+        Direction dir = Direction.random(random);
+        if (dir.equals(Direction.UP)) {
+            return;
+        }
+        double surfaceArea = dir.equals(Direction.DOWN) ? 1 : state.get(LAYERS) / 16.0;
+        BlockState targetState = world.getBlockState(pos.offset(dir));
+        float hardness = targetState.getHardness(world, pos.offset(dir));
+        hardness = hardness < 0 ? Float.POSITIVE_INFINITY : hardness;
+        double dissolveChance = surfaceArea * Math.exp(-hardness);
+        if (random.nextDouble() < dissolveChance) {
+            world.breakBlock(pos.offset(dir), true);
+            if (random.nextDouble() < 0.1) {
+                world.removeBlock(pos, false);
             }
         }
     }
