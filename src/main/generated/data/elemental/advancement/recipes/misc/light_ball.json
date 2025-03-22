@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_packed_light_crystal": {
+      "conditions": {
+        "items": [
+          {
+            "items": "elemental:packed_light_crystal"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "elemental:light_ball"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_packed_light_crystal"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "elemental:light_ball"
+    ]
+  }
+}

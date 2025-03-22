@@ -31,7 +31,9 @@ public class ElementalRecipeProvider extends FabricRecipeProvider {
                 offer2x2CompactingRecipe(RecipeCategory.MISC, ElementalItems.WATER_SHARD, ElementalItems.WATER_FRAGMENT);
                 offer2x2CompactingRecipe(RecipeCategory.MISC, ElementalItems.AIR_SHARD, ElementalItems.AIR_FRAGMENT);
                 offer2x2CompactingRecipe(RecipeCategory.MISC, ElementalItems.FIRE_SHARD, ElementalItems.FIRE_FRAGMENT);
-                offer2x2CompactingRecipe(RecipeCategory.MISC, ElementalItems.DARK_SHARD, ElementalBlocks.DARK_BLOCK);
+                offer2x2CompactingRecipe(RecipeCategory.MISC, ElementalBlocks.DARK_BLOCK, ElementalItems.DARK_SHARD);
+                offerCompactingRecipe(RecipeCategory.MISC, ElementalBlocks.PACKED_LIGHT_CRYSTAL, ElementalBlocks.LIGHT_CRYSTAL);
+                offerCompactingRecipe(RecipeCategory.MISC, ElementalBlocks.LIGHT_BALL, ElementalBlocks.PACKED_LIGHT_CRYSTAL);
             }
         };
     }

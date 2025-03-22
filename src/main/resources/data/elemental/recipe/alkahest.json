@@ -1,0 +1,17 @@
+{
+  "type": "elemental:reaction",
+  "cost": 30,
+  "ingredients": [
+    "elemental:dark_block",
+    "elemental:light_crystal",
+    "elemental:earth_shard",
+    "elemental:water_shard",
+    "elemental:air_shard",
+    "elemental:fire_shard",
+    "minecraft:bucket"
+  ],
+  "result": {
+    "id": "elemental:alkahest_bucket"
+  },
+  "isFireWater": true
+}

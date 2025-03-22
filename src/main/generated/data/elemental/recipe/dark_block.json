@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": "elemental:dark_block"
+    "#": "elemental:dark_shard"
   },
   "pattern": [
     "##",
@@ -10,6 +10,6 @@
   ],
   "result": {
     "count": 1,
-    "id": "elemental:dark_shard"
+    "id": "elemental:dark_block"
   }
 }

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "elemental:light_crystal",
+    "elemental:light_crystal",
+    "elemental:light_crystal",
+    "elemental:light_crystal",
+    "elemental:light_crystal",
+    "elemental:light_crystal",
+    "elemental:light_crystal",
+    "elemental:light_crystal",
+    "elemental:light_crystal"
+  ],
+  "result": {
+    "count": 1,
+    "id": "elemental:packed_light_crystal"
+  }
+}
