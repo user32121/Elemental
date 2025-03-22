@@ -156,5 +156,6 @@ public class ElementalModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ElementalBlocks.LIGHT_CRYSTAL.asItem(), Models.GENERATED);
         itemModelGenerator.register(ElementalBlocks.PACKED_LIGHT_CRYSTAL.asItem(), Models.GENERATED);
         itemModelGenerator.register(ElementalBlocks.LIGHT_BALL.asItem(), Models.GENERATED);
+        itemModelGenerator.register(ElementalItems.ALKAHEST_BUCKET, Models.GENERATED);
     }
 }
