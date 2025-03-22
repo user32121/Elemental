@@ -139,7 +139,7 @@ public class AlkahestBlock extends Block implements FluidDrainable {
         double dissolveChance = surfaceArea * Math.exp(-hardness) * dissolveRate;
         if (random.nextDouble() < dissolveChance) {
             world.breakBlock(pos.offset(dir), true);
-            if (random.nextDouble() < 0.1) {
+            if (random.nextDouble() < 0.5) {
                 if (layer <= 1) {
                     world.setBlockState(pos, Blocks.AIR.getDefaultState());
                 } else {
