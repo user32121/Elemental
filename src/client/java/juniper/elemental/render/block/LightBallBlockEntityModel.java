@@ -15,6 +15,7 @@ public class LightBallBlockEntityModel extends Model {
     private static final float PI_4 = MathHelper.PI / 4;
     private static final float PI_6 = MathHelper.PI / 6;
     private static final float TAN_PI_12 = (float) Math.tan(Math.PI / 12);
+    private static final float ATAN_R_1_2 = (float) Math.atan(Math.sqrt(0.5f));
     private static final float ATAN_R2_TP12 = (float) Math.atan(Math.sqrt(2) * TAN_PI_12);
 
     public LightBallBlockEntityModel(ModelPart root) {
@@ -24,7 +25,7 @@ public class LightBallBlockEntityModel extends Model {
     public static TexturedModelData getTexturedModelData() {
         ModelData modelData = new ModelData();
         ModelPartData root = modelData.getRoot();
-        ModelPartData core = root.addChild("core", ModelPartBuilder.create(), ModelTransform.NONE);
+        ModelPartData core = root.addChild("core", ModelPartBuilder.create(), ModelTransform.of(0, 0, 0, PI_4, 0, ATAN_R_1_2));
 
         int quads = 0;
         int groups = 0;
