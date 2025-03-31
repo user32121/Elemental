@@ -7,6 +7,7 @@ import juniper.elemental.elements.ElementSignal;
 import juniper.elemental.items.AlkahestBucketItem;
 import juniper.elemental.items.RadarItem;
 import juniper.elemental.items.ShardItem;
+import juniper.elemental.items.WandItem;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -29,6 +30,7 @@ public class ElementalItems {
     public static final Item RADAR = register("radar", RadarItem::new, new Item.Settings().maxCount(1));
     public static final Item DARK_SHARD = register("dark_shard");
     public static final Item ALKAHEST_BUCKET = register("alkahest_bucket", AlkahestBucketItem::new, new Item.Settings().recipeRemainder(Items.BUCKET).maxCount(1));
+    public static final Item WAND = register("wand", WandItem::new, new Item.Settings().maxCount(1));
 
     public static void init() {
         DispenserBlock.registerBehavior(ALKAHEST_BUCKET, AlkahestBucketItem.dispenserBehavior);
