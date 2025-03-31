@@ -8,8 +8,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 
 public class WandScreenHandler extends ScreenHandler {
+    public final String data;
+
     public WandScreenHandler(int syncId, PlayerInventory playerInventory, String data) {
         super(ElementalScreenHandlers.WAND, syncId);
+        this.data = data;
         Elemental.LOGGER.info(data);
     }
 
