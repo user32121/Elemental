@@ -1,6 +1,7 @@
 package juniper.elemental.screens;
 
 import juniper.elemental.Elemental;
+import juniper.elemental.init.ElementalItems;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.RenderLayer;
@@ -22,7 +23,8 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
     @Override
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
         context.drawTexture(RenderLayer::getGuiTextured, BACKGROUND_TEXTURE, x, y, 0.0f, 0.0f, backgroundWidth, backgroundHeight, 256, 256);
-        context.drawText(textRenderer, handler.data, x + backgroundWidth / 2 - textRenderer.getWidth(handler.data) / 2, y + backgroundHeight / 2 - textRenderer.fontHeight / 2, 0, false);
+        String spell = ElementalItems.WAND.getSpell(handler.getSlot(0).getStack());
+        context.drawText(textRenderer, spell, x + backgroundWidth / 2 - textRenderer.getWidth(spell) / 2, y + backgroundHeight / 2 - textRenderer.fontHeight / 2, 0, false);
     }
 
     @Override

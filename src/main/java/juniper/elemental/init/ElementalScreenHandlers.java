@@ -20,7 +20,7 @@ import net.minecraft.util.Identifier;
 public class ElementalScreenHandlers {
     public static final ScreenHandlerType<CondenserScreenHandler> CONDENSER = register("condenser", CondenserScreenHandler::new);
     public static final ScreenHandlerType<ExtractorScreenHandler> EXTRACTOR = register("extractor", ExtractorScreenHandler::new);
-    public static final ExtendedScreenHandlerType<WandScreenHandler, String> WAND = registerExtended("wand", WandScreenHandler::new, PacketCodecs.STRING);
+    public static final ExtendedScreenHandlerType<WandScreenHandler, Integer> WAND = registerExtended("wand", WandScreenHandler::new, PacketCodecs.INTEGER);
 
     public static void init() {
     }

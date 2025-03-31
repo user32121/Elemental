@@ -1,6 +1,5 @@
 package juniper.elemental.screens;
 
-import juniper.elemental.Elemental;
 import juniper.elemental.init.ElementalScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -8,12 +7,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 
 public class WandScreenHandler extends ScreenHandler {
-    public final String data;
-
-    public WandScreenHandler(int syncId, PlayerInventory playerInventory, String data) {
+    public WandScreenHandler(int syncId, PlayerInventory playerInventory, int selectedSlot) {
         super(ElementalScreenHandlers.WAND, syncId);
-        this.data = data;
-        Elemental.LOGGER.info(data);
+        this.addSlot(new DisabledSlot(playerInventory, selectedSlot, 0, 0));
     }
 
     @Override
@@ -23,6 +19,6 @@ public class WandScreenHandler extends ScreenHandler {
 
     @Override
     public boolean canUse(PlayerEntity player) {
-        return true;
+        return !getSlot(0).getStack().isEmpty();
     }
 }

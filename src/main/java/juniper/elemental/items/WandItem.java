@@ -1,5 +1,6 @@
 package juniper.elemental.items;
 
+import juniper.elemental.init.ElementalComponents;
 import juniper.elemental.init.ElementalScreenHandlers;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.entity.player.PlayerEntity;
@@ -30,8 +31,9 @@ public class WandItem extends Item {
         }
     }
 
-    public ExtendedScreenHandlerFactory<String> createScreenHandlerFactory(ItemStack stack) {
-        return new ExtendedScreenHandlerFactory<String>() {
+    public ActionResult configure(World world, PlayerEntity user, Hand hand) {
+        ItemStack stack = user.getStackInHand(hand);
+        user.openHandledScreen(new ExtendedScreenHandlerFactory<Integer>() {
             @Override
             public Text getDisplayName() {
                 return stack.getName();
@@ -39,18 +41,14 @@ public class WandItem extends Item {
 
             @Override
             public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-                return ElementalScreenHandlers.WAND.create(syncId, playerInventory, "TODO spells (server)");
+                return ElementalScreenHandlers.WAND.create(syncId, playerInventory, playerInventory.selectedSlot);
             }
 
             @Override
-            public String getScreenOpeningData(ServerPlayerEntity player) {
-                return "TODO encode spells (client)";
+            public Integer getScreenOpeningData(ServerPlayerEntity player) {
+                return player.getInventory().selectedSlot;
             }
-        };
-    }
-
-    public ActionResult configure(World world, PlayerEntity user, Hand hand) {
-        user.openHandledScreen(createScreenHandlerFactory(user.getStackInHand(hand)));
+        });
         return ActionResult.SUCCESS;
     }
 
@@ -58,5 +56,16 @@ public class WandItem extends Item {
         //TODO
         user.sendMessage(Text.of("TODO cast"), false);
         return ActionResult.SUCCESS;
+    }
+
+    public String getSpell(ItemStack stack) {
+        if (!stack.contains(ElementalComponents.SPELL)) {
+            stack.set(ElementalComponents.SPELL, "TODO");
+        }
+        return stack.get(ElementalComponents.SPELL);
+    }
+
+    public void setSpell(ItemStack stack, String value) {
+        stack.set(ElementalComponents.SPELL, value);
     }
 }
