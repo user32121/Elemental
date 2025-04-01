@@ -51,4 +51,44 @@ public class DrawingUtil {
         context.drawGuiTexture(RenderLayer::getGuiTextured, texture, textureWidth, textureHeight, u, v, x, y, width,
                 height);
     }
+
+    /**
+     * Helper function for drawing an image inside a bounded area (inclusive)
+     * @param textureWidth width of the texture
+     * @param textureHeight height of the texture
+     * @param u starting x of the texture
+     * @param v starting y of the texture
+     * @param width width of the item to draw
+     * @param height height of the item to draw
+     * @param x screen space x to draw at
+     * @param y screen space y to draw at
+     * @param minX minimum x that can be drawn to
+     * @param maxX maximum x that can be drawn to
+     * @param minY minimum y that can be drawn to
+     * @param maxY maximum y that can be drawn to
+     */
+    public static void drawGuiBounded(DrawContext context, Identifier texture, int textureWidth, int textureHeight, int u, int v, int width, int height, int x, int y, int minX, int maxX, int minY,
+            int maxY) {
+        if (x < minX) {
+            int over = minX - x;
+            x += over;
+            u += over;
+            width -= over;
+        }
+        if (y < minY) {
+            int over = minY - y;
+            y += over;
+            v += over;
+            height -= over;
+        }
+        if (x + width > maxX) {
+            int over = x + width - maxX;
+            width -= over;
+        }
+        if (y + height > maxY) {
+            int over = y + height - maxY;
+            height -= over;
+        }
+        context.drawGuiTexture(RenderLayer::getGuiTextured, texture, textureWidth, textureHeight, u, v, x, y, width, height);
+    }
 }

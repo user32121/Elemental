@@ -53,9 +53,8 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
             for (double y = MathHelper.floorMod(offsetY, 16) - 8; y < 168; y += 16) {
                 int tileX = posToTileX(x);
                 int tileY = posToTileY(y);
-                //TODO stuff going off edge of screen
                 if (spell.steps.containsKey(new Vector2i(tileX, tileY))) {
-                    context.drawGuiTexture(RenderLayer::getGuiTextured, NOP_TEXTURE, MathHelper.floor(x) + 1, MathHelper.floor(y) + 1, 16, 16);
+                    DrawingUtil.drawGuiBounded(context, NOP_TEXTURE, 16, 16, 0, 0, 15, 15, MathHelper.floor(x) + 1, MathHelper.floor(y) + 1, 8, 167, 8, 167);
                 }
             }
         }
@@ -81,7 +80,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
                         default:
                             throw new NotImplementedException("Unhandled enum: " + spell.steps.get(new Vector2i(tileX, tileY)).next);
                     }
-                    context.drawGuiTexture(RenderLayer::getGuiTexturedOverlay, ARROW_TEXTURE, 32, 128, 0, v, MathHelper.floor(x) - 3, MathHelper.floor(y) - 3, 23, 23);
+                    DrawingUtil.drawGuiBounded(context, ARROW_TEXTURE, 32, 128, 0, v, 23, 23, MathHelper.floor(x) - 3, MathHelper.floor(y) - 3, 8, 167, 8, 167);
                 }
             }
         }
