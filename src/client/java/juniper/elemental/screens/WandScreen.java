@@ -1,5 +1,6 @@
 package juniper.elemental.screens;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.joml.Vector2i;
 
 import juniper.elemental.Elemental;
@@ -17,6 +18,8 @@ import net.minecraft.util.math.MathHelper;
 
 public class WandScreen extends HandledScreen<WandScreenHandler> {
     private static final Identifier BACKGROUND_TEXTURE = Identifier.of(Elemental.MOD_ID, "textures/gui/item/wand.png");
+    private static final Identifier ARROW_TEXTURE = Identifier.of(Elemental.MOD_ID, "item/wand/arrows");
+    private static final Identifier NOP_TEXTURE = Identifier.of(Elemental.MOD_ID, "item/wand/nop");
 
     private double offsetX = -1;
     private double offsetY = -1;
@@ -38,24 +41,54 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
 
     @Override
     protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
+        //lines
         for (double x = MathHelper.floorMod(offsetX, 16) + 8; x < 168; x += 16) {
             context.drawVerticalLine((int) x, 7, 168, 0xFF373737);
         }
         for (double y = MathHelper.floorMod(offsetY, 16) + 8; y < 168; y += 16) {
             context.drawHorizontalLine(8, 167, (int) y, 0xFF373737);
         }
+        //actual tiles
         for (double x = MathHelper.floorMod(offsetX, 16) - 8; x < 168; x += 16) {
             for (double y = MathHelper.floorMod(offsetY, 16) - 8; y < 168; y += 16) {
-                int tileX = getTileX(x);
-                int tileY = getTileY(y);
+                int tileX = posToTileX(x);
+                int tileY = posToTileY(y);
                 //TODO stuff going off edge of screen
                 if (spell.steps.containsKey(new Vector2i(tileX, tileY))) {
-                    context.drawText(textRenderer, "S", (int) x, (int) y, 0xFFFFFFFF, false);
-                }
-                if (isHovering && hoverTileX == tileX && hoverTileY == tileY) {
-                    context.fill(RenderLayer.getGuiOverlay(), (int) x + 1, (int) y + 1, (int) x + 16, (int) y + 16, 0x52FFFFFF);
+                    context.drawGuiTexture(RenderLayer::getGuiTextured, NOP_TEXTURE, MathHelper.floor(x) + 1, MathHelper.floor(y) + 1, 16, 16);
                 }
             }
+        }
+        for (double x = MathHelper.floorMod(offsetX, 16) - 8; x < 168; x += 16) {
+            for (double y = MathHelper.floorMod(offsetY, 16) - 8; y < 168; y += 16) {
+                int tileX = posToTileX(x);
+                int tileY = posToTileY(y);
+                if (spell.steps.containsKey(new Vector2i(tileX, tileY))) {
+                    int v;
+                    switch (spell.steps.get(new Vector2i(tileX, tileY)).next) {
+                        case UP:
+                            v = 23;
+                            break;
+                        case DOWN:
+                            v = 69;
+                            break;
+                        case LEFT:
+                            v = 46;
+                            break;
+                        case RIGHT:
+                            v = 0;
+                            break;
+                        default:
+                            throw new NotImplementedException("Unhandled enum: " + spell.steps.get(new Vector2i(tileX, tileY)).next);
+                    }
+                    context.drawGuiTexture(RenderLayer::getGuiTexturedOverlay, ARROW_TEXTURE, 32, 128, 0, v, MathHelper.floor(x) - 3, MathHelper.floor(y) - 3, 23, 23);
+                }
+            }
+        }
+        if (isHovering && hoverTileX >= posToTileX(8) && hoverTileX <= posToTileX(168) && hoverTileY >= posToTileY(8) && hoverTileY <= posToTileY(168)) {
+            double x = tileToPosX(hoverTileX);
+            double y = tileToPosY(hoverTileY);
+            context.fill(RenderLayer.getGuiOverlay(), MathHelper.floor(x) + 1, MathHelper.floor(y) + 1, MathHelper.floor(x) + 16, MathHelper.floor(y) + 16, 0x52FFFFFF);
         }
     }
 
@@ -78,8 +111,8 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
             return;
         }
         isHovering = true;
-        hoverTileX = getTileX(mouseX2);
-        hoverTileY = getTileY(mouseY2);
+        hoverTileX = posToTileX(mouseX2);
+        hoverTileY = posToTileY(mouseY2);
     }
 
     @Override
@@ -99,11 +132,19 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
         return true;
     }
 
-    public int getTileX(double posX) {
+    public int posToTileX(double posX) {
         return MathHelper.floorDiv((int) (posX - offsetX - 8), 16);
     }
 
-    public int getTileY(double posY) {
+    public int posToTileY(double posY) {
         return MathHelper.floorDiv((int) (posY - offsetY - 8), 16);
+    }
+
+    public double tileToPosX(int tileX) {
+        return tileX * 16 + offsetX + 8;
+    }
+
+    public double tileToPosY(int tileY) {
+        return tileY * 16 + offsetY + 8;
     }
 }
