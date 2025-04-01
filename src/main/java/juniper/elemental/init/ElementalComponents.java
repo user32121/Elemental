@@ -2,17 +2,15 @@ package juniper.elemental.init;
 
 import java.util.function.UnaryOperator;
 
-import com.mojang.serialization.Codec;
-
 import juniper.elemental.Elemental;
+import juniper.elemental.spells.WandSpell;
 import net.minecraft.component.ComponentType;
-import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class ElementalComponents {
-    public static final ComponentType<String> SPELL = register("Spell", builder -> builder.codec(Codec.STRING).packetCodec(PacketCodecs.STRING));
+    public static final ComponentType<WandSpell> SPELL = register("Spell", builder -> builder.codec(WandSpell.CODEC));
 
     public static void init() {
     }

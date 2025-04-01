@@ -2,6 +2,7 @@ package juniper.elemental.items;
 
 import juniper.elemental.init.ElementalComponents;
 import juniper.elemental.init.ElementalScreenHandlers;
+import juniper.elemental.spells.WandSpell;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -58,14 +59,14 @@ public class WandItem extends Item {
         return ActionResult.SUCCESS;
     }
 
-    public String getSpell(ItemStack stack) {
+    public WandSpell getSpell(ItemStack stack) {
         if (!stack.contains(ElementalComponents.SPELL)) {
-            stack.set(ElementalComponents.SPELL, "TODO");
+            stack.set(ElementalComponents.SPELL, new WandSpell());
         }
         return stack.get(ElementalComponents.SPELL);
     }
 
-    public void setSpell(ItemStack stack, String value) {
+    public void setSpell(ItemStack stack, WandSpell value) {
         stack.set(ElementalComponents.SPELL, value);
     }
 }
