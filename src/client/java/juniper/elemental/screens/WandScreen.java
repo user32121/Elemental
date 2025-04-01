@@ -21,8 +21,8 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
     private static final Identifier ARROW_TEXTURE = Identifier.of(Elemental.MOD_ID, "item/wand/arrows");
     private static final Identifier NOP_TEXTURE = Identifier.of(Elemental.MOD_ID, "item/wand/nop");
 
-    private double offsetX = -1;
-    private double offsetY = -1;
+    private double offsetX = 72;
+    private double offsetY = 72;
     private boolean isHovering = false;
     private int hoverTileX;
     private int hoverTileY;
@@ -62,9 +62,10 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
             for (double y = MathHelper.floorMod(offsetY, 16) - 8; y < 168; y += 16) {
                 int tileX = posToTileX(x);
                 int tileY = posToTileY(y);
-                if (spell.steps.containsKey(new Vector2i(tileX, tileY))) {
+                SpellStep step = spell.steps.get(new Vector2i(tileX, tileY));
+                if (step != null) {
                     int v;
-                    switch (spell.steps.get(new Vector2i(tileX, tileY)).next) {
+                    switch (step.next) {
                         case UP:
                             v = 23;
                             break;
@@ -78,7 +79,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
                             v = 0;
                             break;
                         default:
-                            throw new NotImplementedException("Unhandled enum: " + spell.steps.get(new Vector2i(tileX, tileY)).next);
+                            throw new NotImplementedException("Unhandled enum: " + step.next);
                     }
                     DrawingUtil.drawGuiBounded(context, ARROW_TEXTURE, 32, 128, 0, v, 23, 23, MathHelper.floor(x) - 3, MathHelper.floor(y) - 3, 8, 167, 8, 167);
                 }
@@ -116,7 +117,6 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        //TODO save back to itemstack
         if (button != 0 && button != 1) {
             return super.mouseClicked(mouseX, mouseY, button);
         }
@@ -145,5 +145,11 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
 
     public double tileToPosY(int tileY) {
         return tileY * 16 + offsetY + 8;
+    }
+
+    @Override
+    public void close() {
+        //TODO send packet
+        super.close();
     }
 }
