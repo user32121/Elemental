@@ -12,6 +12,7 @@ import juniper.elemental.init.ElementalDimensions;
 import juniper.elemental.init.ElementalEntities;
 import juniper.elemental.init.ElementalItemGroups;
 import juniper.elemental.init.ElementalItems;
+import juniper.elemental.init.ElementalPackets;
 import juniper.elemental.init.ElementalRecipes;
 import juniper.elemental.init.ElementalSounds;
 
@@ -39,5 +40,6 @@ public class Elemental implements ModInitializer {
         ElementalComponents.init();
         ElementalSounds.init();
         ElementalDimensions.init();
+        ElementalPackets.init();
 	}
 }

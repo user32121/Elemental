@@ -4,11 +4,11 @@ import juniper.elemental.Elemental;
 import juniper.elemental.screens.CondenserScreenHandler;
 import juniper.elemental.screens.ExtractorScreenHandler;
 import juniper.elemental.screens.WandScreenHandler;
+import juniper.elemental.spells.WandSpell;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType.ExtendedFactory;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.resource.featuretoggle.FeatureSet;
@@ -20,7 +20,7 @@ import net.minecraft.util.Identifier;
 public class ElementalScreenHandlers {
     public static final ScreenHandlerType<CondenserScreenHandler> CONDENSER = register("condenser", CondenserScreenHandler::new);
     public static final ScreenHandlerType<ExtractorScreenHandler> EXTRACTOR = register("extractor", ExtractorScreenHandler::new);
-    public static final ExtendedScreenHandlerType<WandScreenHandler, Integer> WAND = registerExtended("wand", WandScreenHandler::new, PacketCodecs.INTEGER);
+    public static final ExtendedScreenHandlerType<WandScreenHandler, WandSpell> WAND = registerExtended("wand", WandScreenHandler::new, WandSpell.PACKET_CODEC);
 
     public static void init() {
     }

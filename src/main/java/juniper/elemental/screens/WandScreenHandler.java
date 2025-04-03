@@ -1,15 +1,19 @@
 package juniper.elemental.screens;
 
+import juniper.elemental.init.ElementalItems;
 import juniper.elemental.init.ElementalScreenHandlers;
+import juniper.elemental.spells.WandSpell;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 
 public class WandScreenHandler extends ScreenHandler {
-    public WandScreenHandler(int syncId, PlayerInventory playerInventory, int selectedSlot) {
+    WandSpell spell;
+
+    public WandScreenHandler(int syncId, PlayerInventory playerInventory, WandSpell spell) {
         super(ElementalScreenHandlers.WAND, syncId);
-        this.addSlot(new DisabledSlot(playerInventory, selectedSlot, 0, 0));
+        this.spell = spell;
     }
 
     @Override
@@ -19,6 +23,6 @@ public class WandScreenHandler extends ScreenHandler {
 
     @Override
     public boolean canUse(PlayerEntity player) {
-        return !getSlot(0).getStack().isEmpty();
+        return player.getInventory().getStack(player.getInventory().selectedSlot).isOf(ElementalItems.WAND);
     }
 }

@@ -1,6 +1,7 @@
 package juniper.elemental.items;
 
 import juniper.elemental.init.ElementalComponents;
+import juniper.elemental.init.ElementalItems;
 import juniper.elemental.init.ElementalScreenHandlers;
 import juniper.elemental.spells.WandSpell;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -34,7 +35,7 @@ public class WandItem extends Item {
 
     public ActionResult configure(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
-        user.openHandledScreen(new ExtendedScreenHandlerFactory<Integer>() {
+        user.openHandledScreen(new ExtendedScreenHandlerFactory<WandSpell>() {
             @Override
             public Text getDisplayName() {
                 return stack.getName();
@@ -42,12 +43,12 @@ public class WandItem extends Item {
 
             @Override
             public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-                return ElementalScreenHandlers.WAND.create(syncId, playerInventory, playerInventory.selectedSlot);
+                return ElementalScreenHandlers.WAND.create(syncId, playerInventory, ElementalItems.WAND.getSpell(stack));
             }
 
             @Override
-            public Integer getScreenOpeningData(ServerPlayerEntity player) {
-                return player.getInventory().selectedSlot;
+            public WandSpell getScreenOpeningData(ServerPlayerEntity player) {
+                return ElementalItems.WAND.getSpell(stack);
             }
         });
         return ActionResult.SUCCESS;

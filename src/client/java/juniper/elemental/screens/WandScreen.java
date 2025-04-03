@@ -4,10 +4,10 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.joml.Vector2i;
 
 import juniper.elemental.Elemental;
-import juniper.elemental.init.ElementalItems;
+import juniper.elemental.network.SaveSpellPayload;
 import juniper.elemental.spells.SpellStep;
 import juniper.elemental.spells.SpellStep.Direction;
-import juniper.elemental.spells.WandSpell;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.RenderLayer;
@@ -26,12 +26,10 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
     private boolean isHovering = false;
     private int hoverTileX;
     private int hoverTileY;
-    private WandSpell spell;
 
     public WandScreen(WandScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
         this.backgroundHeight = this.backgroundWidth = 176;
-        this.spell = ElementalItems.WAND.getSpell(handler.getSlot(0).getStack());
     }
 
     @Override
@@ -53,7 +51,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
             for (double y = MathHelper.floorMod(offsetY, 16) - 8; y < 168; y += 16) {
                 int tileX = posToTileX(x);
                 int tileY = posToTileY(y);
-                if (spell.steps.containsKey(new Vector2i(tileX, tileY))) {
+                if (handler.spell.steps.containsKey(new Vector2i(tileX, tileY))) {
                     DrawingUtil.drawGuiBounded(context, NOP_TEXTURE, 16, 16, 0, 0, 15, 15, MathHelper.floor(x) + 1, MathHelper.floor(y) + 1, 8, 167, 8, 167);
                 }
             }
@@ -62,7 +60,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
             for (double y = MathHelper.floorMod(offsetY, 16) - 8; y < 168; y += 16) {
                 int tileX = posToTileX(x);
                 int tileY = posToTileY(y);
-                SpellStep step = spell.steps.get(new Vector2i(tileX, tileY));
+                SpellStep step = handler.spell.steps.get(new Vector2i(tileX, tileY));
                 if (step != null) {
                     int v;
                     switch (step.next) {
@@ -124,9 +122,9 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
             return super.mouseClicked(mouseX, mouseY, button);
         }
         if (button == 0) {
-            spell.steps.put(new Vector2i(hoverTileX, hoverTileY), new SpellStep(hoverTileX, hoverTileY, Direction.RIGHT));
+            handler.spell.steps.put(new Vector2i(hoverTileX, hoverTileY), new SpellStep(hoverTileX, hoverTileY, Direction.RIGHT));
         } else if (button == 1) {
-            spell.steps.remove(new Vector2i(hoverTileX, hoverTileY));
+            handler.spell.steps.remove(new Vector2i(hoverTileX, hoverTileY));
         }
         return true;
     }
@@ -149,7 +147,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
 
     @Override
     public void close() {
-        //TODO send packet
+        ClientPlayNetworking.send(new SaveSpellPayload(handler.spell));
         super.close();
     }
 }
