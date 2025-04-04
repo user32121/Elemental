@@ -172,32 +172,32 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
             if ((modifiers & GLFW.GLFW_MOD_CONTROL) == 0) {
                 ++selectTileX;
             } else {
-                offsetX += 16;
-                --hoverTileX;
+                offsetX -= 16;
+                ++hoverTileX;
             }
             return true;
         } else if (keyCode == GLFW.GLFW_KEY_LEFT) {
             if ((modifiers & GLFW.GLFW_MOD_CONTROL) == 0) {
                 --selectTileX;
             } else {
-                offsetX -= 16;
-                ++hoverTileX;
+                offsetX += 16;
+                --hoverTileX;
             }
             return true;
         } else if (keyCode == GLFW.GLFW_KEY_DOWN) {
             if ((modifiers & GLFW.GLFW_MOD_CONTROL) == 0) {
                 ++selectTileY;
             } else {
-                offsetY += 16;
-                --hoverTileY;
+                offsetY -= 16;
+                ++hoverTileY;
             }
             return true;
         } else if (keyCode == GLFW.GLFW_KEY_UP) {
             if ((modifiers & GLFW.GLFW_MOD_CONTROL) == 0) {
                 --selectTileY;
             } else {
-                offsetY -= 16;
-                ++hoverTileY;
+                offsetY += 16;
+                --hoverTileY;
             }
             return true;
         } else {
