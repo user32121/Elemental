@@ -2,11 +2,11 @@ package juniper.elemental.screens;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.joml.Vector2i;
+import org.lwjgl.glfw.GLFW;
 
 import juniper.elemental.Elemental;
 import juniper.elemental.network.SaveSpellPayload;
 import juniper.elemental.spells.SpellStep;
-import juniper.elemental.spells.SpellStep.Direction;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -19,6 +19,7 @@ import net.minecraft.util.math.MathHelper;
 public class WandScreen extends HandledScreen<WandScreenHandler> {
     private static final Identifier BACKGROUND_TEXTURE = Identifier.of(Elemental.MOD_ID, "textures/gui/item/wand.png");
     private static final Identifier ARROW_TEXTURE = Identifier.of(Elemental.MOD_ID, "item/wand/arrows");
+    private static final Identifier SELECT_TEXTURE = Identifier.of(Elemental.MOD_ID, "item/wand/select");
     private static final Identifier NOP_TEXTURE = Identifier.of(Elemental.MOD_ID, "item/wand/nop");
 
     private double offsetX = 72;
@@ -26,6 +27,8 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
     private boolean isHovering = false;
     private int hoverTileX;
     private int hoverTileY;
+    private int selectTileX = 0;
+    private int selectTileY = 0;
 
     public WandScreen(WandScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -83,25 +86,36 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
                 }
             }
         }
+        if (selectTileX >= posToTileX(8) && selectTileX <= posToTileX(168) && selectTileY >= posToTileY(8) && selectTileY <= posToTileY(168)) {
+            double x = tileToPosX(selectTileX);
+            double y = tileToPosY(selectTileY);
+            DrawingUtil.drawGuiBounded(context, SELECT_TEXTURE, 16, 16, 0, 0, 15, 15, MathHelper.floor(x) + 1, MathHelper.floor(y) + 1, 8, 167, 8, 167);
+        }
         if (isHovering && hoverTileX >= posToTileX(8) && hoverTileX <= posToTileX(168) && hoverTileY >= posToTileY(8) && hoverTileY <= posToTileY(168)) {
             double x = tileToPosX(hoverTileX);
             double y = tileToPosY(hoverTileY);
-            context.fill(RenderLayer.getGuiOverlay(), MathHelper.floor(x) + 1, MathHelper.floor(y) + 1, MathHelper.floor(x) + 16, MathHelper.floor(y) + 16, 0x52FFFFFF);
+            context.fill(RenderLayer.getGuiOverlay(), Math.max(MathHelper.floor(x) + 1, 8), Math.max(MathHelper.floor(y) + 1, 8), Math.min(MathHelper.floor(x) + 16, 168),
+                    Math.min(MathHelper.floor(y) + 16, 168), 0x52FFFFFF);
         }
     }
 
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-        if (button == 2) {
-            offsetX += deltaX;
-            offsetY += deltaY;
+        if (button != 2) {
+            return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
         }
+        offsetX += deltaX;
+        offsetY += deltaY;
         return true;
     }
 
     @Override
     public void mouseMoved(double mouseX, double mouseY) {
         super.mouseMoved(mouseX, mouseY);
+        checkHover(mouseX, mouseY);
+    }
+
+    private void checkHover(double mouseX, double mouseY) {
         double mouseX2 = mouseX - x;
         double mouseY2 = mouseY - y;
         if (mouseX2 < 8 || mouseX2 >= 168 || mouseY2 < 8 || mouseY2 >= 168) {
@@ -118,13 +132,14 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
         if (button != 0 && button != 1) {
             return super.mouseClicked(mouseX, mouseY, button);
         }
+        checkHover(mouseX, mouseY);
         if (!isHovering) {
             return super.mouseClicked(mouseX, mouseY, button);
         }
-        if (button == 0) {
-            handler.spell.steps.put(new Vector2i(hoverTileX, hoverTileY), new SpellStep(hoverTileX, hoverTileY, Direction.RIGHT));
-        } else if (button == 1) {
-            handler.spell.steps.remove(new Vector2i(hoverTileX, hoverTileY));
+        selectTileX = hoverTileX;
+        selectTileY = hoverTileY;
+        if (button == 1) {
+            //TODO
         }
         return true;
     }
@@ -149,5 +164,44 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
     public void close() {
         ClientPlayNetworking.send(new SaveSpellPayload(handler.spell));
         super.close();
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (keyCode == GLFW.GLFW_KEY_RIGHT) {
+            if ((modifiers & GLFW.GLFW_MOD_CONTROL) == 0) {
+                ++selectTileX;
+            } else {
+                offsetX += 16;
+                --hoverTileX;
+            }
+            return true;
+        } else if (keyCode == GLFW.GLFW_KEY_LEFT) {
+            if ((modifiers & GLFW.GLFW_MOD_CONTROL) == 0) {
+                --selectTileX;
+            } else {
+                offsetX -= 16;
+                ++hoverTileX;
+            }
+            return true;
+        } else if (keyCode == GLFW.GLFW_KEY_DOWN) {
+            if ((modifiers & GLFW.GLFW_MOD_CONTROL) == 0) {
+                ++selectTileY;
+            } else {
+                offsetY += 16;
+                --hoverTileY;
+            }
+            return true;
+        } else if (keyCode == GLFW.GLFW_KEY_UP) {
+            if ((modifiers & GLFW.GLFW_MOD_CONTROL) == 0) {
+                --selectTileY;
+            } else {
+                offsetY -= 16;
+                ++hoverTileY;
+            }
+            return true;
+        } else {
+            return super.keyPressed(keyCode, scanCode, modifiers);
+        }
     }
 }
