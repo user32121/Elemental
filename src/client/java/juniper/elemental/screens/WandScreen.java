@@ -24,6 +24,8 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
 
     private double offsetX = 72;
     private double offsetY = 72;
+    private double lastMouseX;
+    private double lastMouseY;
     private boolean isHovering = false;
     private int hoverTileX;
     private int hoverTileY;
@@ -116,8 +118,14 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
     }
 
     private void checkHover(double mouseX, double mouseY) {
-        double mouseX2 = mouseX - x;
-        double mouseY2 = mouseY - y;
+        lastMouseX = mouseX;
+        lastMouseY = mouseY;
+        checkHover();
+    }
+
+    private void checkHover() {
+        double mouseX2 = lastMouseX - x;
+        double mouseY2 = lastMouseY - y;
         if (mouseX2 < 8 || mouseX2 >= 168 || mouseY2 < 8 || mouseY2 >= 168) {
             isHovering = false;
             return;
@@ -171,34 +179,38 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
         if (keyCode == GLFW.GLFW_KEY_RIGHT) {
             if ((modifiers & GLFW.GLFW_MOD_CONTROL) == 0) {
                 ++selectTileX;
+                offsetX -= Math.max(0, tileToPosX(selectTileX) + 16 - 151);
             } else {
                 offsetX -= 16;
-                ++hoverTileX;
             }
+            checkHover();
             return true;
         } else if (keyCode == GLFW.GLFW_KEY_LEFT) {
             if ((modifiers & GLFW.GLFW_MOD_CONTROL) == 0) {
                 --selectTileX;
+                offsetX -= Math.min(0, tileToPosX(selectTileX) - 23);
             } else {
                 offsetX += 16;
-                --hoverTileX;
             }
+            checkHover();
             return true;
         } else if (keyCode == GLFW.GLFW_KEY_DOWN) {
             if ((modifiers & GLFW.GLFW_MOD_CONTROL) == 0) {
                 ++selectTileY;
+                offsetY -= Math.max(0, tileToPosY(selectTileY) + 16 - 151);
             } else {
                 offsetY -= 16;
-                ++hoverTileY;
             }
+            checkHover();
             return true;
         } else if (keyCode == GLFW.GLFW_KEY_UP) {
             if ((modifiers & GLFW.GLFW_MOD_CONTROL) == 0) {
                 --selectTileY;
+                offsetY -= Math.min(0, tileToPosY(selectTileY) - 23);
             } else {
                 offsetY += 16;
-                --hoverTileY;
             }
+            checkHover();
             return true;
         } else {
             return super.keyPressed(keyCode, scanCode, modifiers);
