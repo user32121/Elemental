@@ -7,6 +7,8 @@ import org.lwjgl.glfw.GLFW;
 import juniper.elemental.Elemental;
 import juniper.elemental.network.SaveSpellPayload;
 import juniper.elemental.spells.SpellStep;
+import juniper.elemental.spells.SpellStep.Direction;
+import juniper.elemental.widgets.StepSelectWidget;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -20,7 +22,6 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
     private static final Identifier BACKGROUND_TEXTURE = Identifier.of(Elemental.MOD_ID, "textures/gui/item/wand.png");
     private static final Identifier ARROW_TEXTURE = Identifier.of(Elemental.MOD_ID, "item/wand/arrows");
     private static final Identifier SELECT_TEXTURE = Identifier.of(Elemental.MOD_ID, "item/wand/select");
-    private static final Identifier NOP_TEXTURE = Identifier.of(Elemental.MOD_ID, "item/wand/nop");
 
     private double offsetX = 72;
     private double offsetY = 72;
@@ -31,6 +32,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
     private int hoverTileY;
     private int selectTileX = 0;
     private int selectTileY = 0;
+    private StepSelectWidget stepSelectWidget = new StepSelectWidget();
 
     public WandScreen(WandScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -38,33 +40,36 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
     }
 
     @Override
-    protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
-        context.drawTexture(RenderLayer::getGuiTextured, BACKGROUND_TEXTURE, x, y, 0.0f, 0.0f, backgroundWidth, backgroundHeight, 256, 256);
+    protected void init() {
+        super.init();
+        addDrawable(stepSelectWidget);
     }
 
     @Override
-    protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
+    protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
+        context.drawTexture(RenderLayer::getGuiTextured, BACKGROUND_TEXTURE, x, y, 0.0f, 0.0f, backgroundWidth, backgroundHeight, 256, 256);
         //lines
-        for (double x = MathHelper.floorMod(offsetX, 16) + 8; x < 168; x += 16) {
-            context.drawVerticalLine((int) x, 7, 168, 0xFF373737);
+        for (double x2 = MathHelper.floorMod(offsetX, 16) + 8; x2 < 168; x2 += 16) {
+            context.drawVerticalLine((int) x2 + x, 7 + y, 168 + y, 0xFF373737);
         }
-        for (double y = MathHelper.floorMod(offsetY, 16) + 8; y < 168; y += 16) {
-            context.drawHorizontalLine(8, 167, (int) y, 0xFF373737);
+        for (double y2 = MathHelper.floorMod(offsetY, 16) + 8; y2 < 168; y2 += 16) {
+            context.drawHorizontalLine(8 + x, 167 + x, (int) y2 + y, 0xFF373737);
         }
         //actual tiles
-        for (double x = MathHelper.floorMod(offsetX, 16) - 8; x < 168; x += 16) {
-            for (double y = MathHelper.floorMod(offsetY, 16) - 8; y < 168; y += 16) {
-                int tileX = posToTileX(x);
-                int tileY = posToTileY(y);
-                if (handler.spell.steps.containsKey(new Vector2i(tileX, tileY))) {
-                    DrawingUtil.drawGuiBounded(context, NOP_TEXTURE, 16, 16, 0, 0, 15, 15, MathHelper.floor(x) + 1, MathHelper.floor(y) + 1, 8, 167, 8, 167);
+        for (double x2 = MathHelper.floorMod(offsetX, 16) - 8; x2 < 168; x2 += 16) {
+            for (double y2 = MathHelper.floorMod(offsetY, 16) - 8; y2 < 168; y2 += 16) {
+                int tileX = posToTileX(x2);
+                int tileY = posToTileY(y2);
+                SpellStep step = handler.spell.steps.get(new Vector2i(tileX, tileY));
+                if (step != null) {
+                    DrawingUtil.drawGuiBounded(context, step.type.texture(), 16, 16, 0, 0, 15, 15, MathHelper.floor(x2) + 1 + x, MathHelper.floor(y2) + 1 + y, 8 + x, 167 + x, 8 + y, 167 + y);
                 }
             }
         }
-        for (double x = MathHelper.floorMod(offsetX, 16) - 8; x < 168; x += 16) {
-            for (double y = MathHelper.floorMod(offsetY, 16) - 8; y < 168; y += 16) {
-                int tileX = posToTileX(x);
-                int tileY = posToTileY(y);
+        for (double x2 = MathHelper.floorMod(offsetX, 16) - 8; x2 < 168; x2 += 16) {
+            for (double y2 = MathHelper.floorMod(offsetY, 16) - 8; y2 < 168; y2 += 16) {
+                int tileX = posToTileX(x2);
+                int tileY = posToTileY(y2);
                 SpellStep step = handler.spell.steps.get(new Vector2i(tileX, tileY));
                 if (step != null) {
                     int v;
@@ -84,21 +89,26 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
                         default:
                             throw new NotImplementedException("Unhandled enum: " + step.next);
                     }
-                    DrawingUtil.drawGuiBounded(context, ARROW_TEXTURE, 32, 128, 0, v, 23, 23, MathHelper.floor(x) - 3, MathHelper.floor(y) - 3, 8, 167, 8, 167);
+                    DrawingUtil.drawGuiBounded(context, ARROW_TEXTURE, 32, 128, 0, v, 23, 23, MathHelper.floor(x2) - 3 + x, MathHelper.floor(y2) - 3 + y, 8 + x, 167 + x, 8 + y, 167 + y);
                 }
             }
         }
         if (selectTileX >= posToTileX(8) && selectTileX <= posToTileX(168) && selectTileY >= posToTileY(8) && selectTileY <= posToTileY(168)) {
-            double x = tileToPosX(selectTileX);
-            double y = tileToPosY(selectTileY);
-            DrawingUtil.drawGuiBounded(context, SELECT_TEXTURE, 16, 16, 0, 0, 15, 15, MathHelper.floor(x) + 1, MathHelper.floor(y) + 1, 8, 167, 8, 167);
+            double x2 = tileToPosX(selectTileX);
+            double y2 = tileToPosY(selectTileY);
+            DrawingUtil.drawGuiBounded(context, SELECT_TEXTURE, 16, 16, 0, 0, 15, 15, MathHelper.floor(x2) + 1 + x, MathHelper.floor(y2) + 1 + y, 8 + x, 167 + x, 8 + y, 167 + y);
         }
         if (isHovering && hoverTileX >= posToTileX(8) && hoverTileX <= posToTileX(168) && hoverTileY >= posToTileY(8) && hoverTileY <= posToTileY(168)) {
-            double x = tileToPosX(hoverTileX);
-            double y = tileToPosY(hoverTileY);
-            context.fill(RenderLayer.getGuiOverlay(), Math.max(MathHelper.floor(x) + 1, 8), Math.max(MathHelper.floor(y) + 1, 8), Math.min(MathHelper.floor(x) + 16, 168),
-                    Math.min(MathHelper.floor(y) + 16, 168), 0x52FFFFFF);
+            double x2 = tileToPosX(hoverTileX);
+            double y2 = tileToPosY(hoverTileY);
+            context.fill(RenderLayer.getGuiOverlay(), Math.max(MathHelper.floor(x2) + 1, 8) + x, Math.max(MathHelper.floor(y2) + 1, 8) + y, Math.min(MathHelper.floor(x2) + 16, 168) + x,
+                    Math.min(MathHelper.floor(y2) + 16, 168) + y, 0x52FFFFFF);
         }
+    }
+
+    @Override
+    protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
+        //NO OP
     }
 
     @Override
@@ -113,6 +123,9 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
 
     @Override
     public void mouseMoved(double mouseX, double mouseY) {
+        if (stepSelectWidget.isFocused()) {
+            stepSelectWidget.mouseMoved(mouseX, mouseY);
+        }
         super.mouseMoved(mouseX, mouseY);
         checkHover(mouseX, mouseY);
     }
@@ -137,6 +150,11 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (stepSelectWidget.isFocused() && stepSelectWidget.mouseClicked(mouseX, mouseY, button)) {
+            return true;
+        } else {
+            stepSelectWidget.setFocused(false);
+        }
         if (button != 0 && button != 1) {
             return super.mouseClicked(mouseX, mouseY, button);
         }
@@ -147,7 +165,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
         selectTileX = hoverTileX;
         selectTileY = hoverTileY;
         if (button == 1) {
-            //TODO
+            openSelectSpell();
         }
         return true;
     }
@@ -176,6 +194,15 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (stepSelectWidget.isFocused()) {
+            if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+                stepSelectWidget.setFocused(false);
+                return true;
+            }
+            if (stepSelectWidget.keyPressed(keyCode, scanCode, modifiers)) {
+                return true;
+            }
+        }
         if (keyCode == GLFW.GLFW_KEY_RIGHT) {
             if ((modifiers & GLFW.GLFW_MOD_CONTROL) == 0) {
                 ++selectTileX;
@@ -212,8 +239,21 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
             }
             checkHover();
             return true;
-        } else {
-            return super.keyPressed(keyCode, scanCode, modifiers);
+        } else if (keyCode == GLFW.GLFW_KEY_ENTER) {
+            openSelectSpell();
         }
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    private void openSelectSpell() {
+        stepSelectWidget.setPosition((int) tileToPosX(selectTileX + 1) + x, (int) tileToPosY(selectTileY) + y);
+        stepSelectWidget.setFocused(true);
+        stepSelectWidget.setCallback(type -> {
+            if (type == null) {
+                handler.spell.steps.remove(new Vector2i(selectTileX, selectTileY));
+            } else {
+                handler.spell.steps.put(new Vector2i(selectTileX, selectTileY), new SpellStep(selectTileX, selectTileY, Direction.RIGHT, type));
+            }
+        });
     }
 }

@@ -25,18 +25,21 @@ public class SpellStep {
     }
 
     public static final Codec<SpellStep> CODEC = RecordCodecBuilder.create(
-            instance -> instance.group(Codec.INT.fieldOf("x").forGetter(step -> step.x), Codec.INT.fieldOf("y").forGetter(step -> step.y), Direction.CODEC.fieldOf("next").forGetter(step -> step.next))
+            instance -> instance.group(Codec.INT.fieldOf("x").forGetter(step -> step.x), Codec.INT.fieldOf("y").forGetter(step -> step.y), Direction.CODEC.fieldOf("next").forGetter(step -> step.next),
+                    SpellStepType.CODEC.fieldOf("type").forGetter(step -> step.type))
                     .apply(instance, SpellStep::new));
     public static final PacketCodec<ByteBuf, SpellStep> PACKET_CODEC = PacketCodec.tuple(PacketCodecs.INTEGER, spell -> spell.x, PacketCodecs.INTEGER, spell -> spell.y, Direction.PACKET_CODEC,
-            spell -> spell.next, SpellStep::new);
+            spell -> spell.next, SpellStepType.PACKET_CODEC, spell -> spell.type, SpellStep::new);
 
     public final int x;
     public final int y;
     public Direction next;
+    public SpellStepType type;
 
-    public SpellStep(int x, int y, Direction next) {
+    public SpellStep(int x, int y, Direction next, SpellStepType type) {
         this.x = x;
         this.y = y;
         this.next = next;
+        this.type = type;
     }
 }
