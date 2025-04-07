@@ -304,11 +304,14 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
     private void openSelectSpell() {
         stepSelectWidget.setPosition((int) tileToPosX(selectTileX + 1) + x, (int) tileToPosY(selectTileY) + y);
         stepSelectWidget.setFocused(true);
+        Vector2i pos = new Vector2i(selectTileX, selectTileY);
+        SpellStep step = handler.spell.steps.get(pos);
+        stepSelectWidget.setSelected(step);
         stepSelectWidget.setCallback(type -> {
             if (type == null) {
-                handler.spell.steps.remove(new Vector2i(selectTileX, selectTileY));
-            } else {
-                handler.spell.steps.put(new Vector2i(selectTileX, selectTileY), new SpellStep(selectTileX, selectTileY, Direction.RIGHT, type));
+                handler.spell.steps.remove(pos);
+            } else if (step == null || type != step.type) {
+                handler.spell.steps.put(pos, new SpellStep(selectTileX, selectTileY, Direction.RIGHT, type));
             }
             updateConfigWidgetStep();
         });

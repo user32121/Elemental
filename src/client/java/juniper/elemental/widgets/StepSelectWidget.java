@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 import org.lwjgl.glfw.GLFW;
 
 import juniper.elemental.Elemental;
+import juniper.elemental.spells.SpellStep;
 import juniper.elemental.spells.SpellStepType;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
@@ -183,5 +184,18 @@ public class StepSelectWidget implements Widget, Drawable, Element {
             return true;
         }
         return Element.super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    public void setSelected(SpellStep step) {
+        if (step == null) {
+            selected = 0;
+            return;
+        }
+        for (int i = 0; i < SpellStepType.ALL.length; ++i) {
+            if (step.type == SpellStepType.ALL[i]) {
+                selected = i + 1;
+                return;
+            }
+        }
     }
 }
