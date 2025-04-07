@@ -21,6 +21,7 @@ import net.minecraft.util.math.MathHelper;
 public class WandScreen extends HandledScreen<WandScreenHandler> {
     private static final Identifier BACKGROUND_TEXTURE = Identifier.of(Elemental.MOD_ID, "textures/gui/item/wand.png");
     private static final Identifier ARROW_TEXTURE = Identifier.of(Elemental.MOD_ID, "item/wand/arrows");
+    private static final Identifier HIGHLIGHT_TEXTURE = Identifier.of(Elemental.MOD_ID, "item/wand/highlights");
     private static final Identifier SELECT_TEXTURE = Identifier.of(Elemental.MOD_ID, "item/wand/select");
 
     private double offsetX = 72;
@@ -72,23 +73,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
                 int tileY = posToTileY(y2);
                 SpellStep step = handler.spell.steps.get(new Vector2i(tileX, tileY));
                 if (step != null) {
-                    int v;
-                    switch (step.next) {
-                        case UP:
-                            v = 23;
-                            break;
-                        case DOWN:
-                            v = 69;
-                            break;
-                        case LEFT:
-                            v = 46;
-                            break;
-                        case RIGHT:
-                            v = 0;
-                            break;
-                        default:
-                            throw new NotImplementedException("Unhandled enum: " + step.next);
-                    }
+                    int v = getArrowV(step.next);
                     DrawingUtil.drawGuiBounded(context, ARROW_TEXTURE, 32, 128, 0, v, 23, 23, MathHelper.floor(x2) - 3 + x, MathHelper.floor(y2) - 3 + y, 8 + x, 167 + x, 8 + y, 167 + y);
                 }
             }
@@ -104,6 +89,75 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
             context.fill(RenderLayer.getGuiOverlay(), Math.max(MathHelper.floor(x2) + 1, 8) + x, Math.max(MathHelper.floor(y2) + 1, 8) + y, Math.min(MathHelper.floor(x2) + 16, 168) + x,
                     Math.min(MathHelper.floor(y2) + 16, 168) + y, 0x52FFFFFF);
         }
+        //config
+        SpellStep step = handler.spell.steps.get(new Vector2i(selectTileX, selectTileY));
+        if (step != null) {
+            context.drawGuiTexture(RenderLayer::getGuiTextured, step.type.texture(), 16, 16, 0, 0, x - 24, y + 8, 15, 15);
+            context.drawGuiTexture(RenderLayer::getGuiTextured, ARROW_TEXTURE, 32, 128, 0, getArrowV(step.next), x - 28, y + 4, 23, 23);
+            if (mouseX >= x - 24 && mouseY >= y + 8 && mouseX < x - 8 && mouseY < y + 24) {
+                int dx = mouseX - (x - 16);
+                int dy = mouseY - (y + 16);
+                context.drawGuiTexture(RenderLayer::getGuiTexturedOverlay, HIGHLIGHT_TEXTURE, 16, 64, 0, getHighlightV(getHighlightDir(dx, dy)), x - 24, y + 8, 15, 15);
+            }
+        }
+    }
+
+    private int getArrowV(Direction dir) {
+        int v;
+        switch (dir) {
+            case UP:
+                v = 23;
+                break;
+            case DOWN:
+                v = 69;
+                break;
+            case LEFT:
+                v = 46;
+                break;
+            case RIGHT:
+                v = 0;
+                break;
+            default:
+                throw new NotImplementedException("Unhandled enum: " + dir);
+        }
+        return v;
+    }
+
+    private Direction getHighlightDir(int dx, int dy) {
+        if (dy > dx) {
+            if (dy > -dx) {
+                return Direction.DOWN;
+            } else {
+                return Direction.LEFT;
+            }
+        } else {
+            if (dy > -dx) {
+                return Direction.RIGHT;
+            } else {
+                return Direction.UP;
+            }
+        }
+    }
+
+    private int getHighlightV(Direction dir) {
+        int v;
+        switch (dir) {
+            case UP:
+                v = 15;
+                break;
+            case DOWN:
+                v = 45;
+                break;
+            case LEFT:
+                v = 30;
+                break;
+            case RIGHT:
+                v = 0;
+                break;
+            default:
+                throw new NotImplementedException("Unhandled enum: " + dir);
+        }
+        return v;
     }
 
     @Override
@@ -157,6 +211,16 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
         }
         if (button != 0 && button != 1) {
             return super.mouseClicked(mouseX, mouseY, button);
+        }
+        if (mouseX >= x - 24 && mouseY >= y + 8 && mouseX < x - 8 && mouseY < y + 24) {
+            int dx = (int) mouseX - (x - 16);
+            int dy = (int) mouseY - (y + 16);
+            Vector2i pos = new Vector2i(selectTileX, selectTileY);
+            SpellStep step = handler.spell.steps.get(pos);
+            if (step != null) {
+                step.next = getHighlightDir(dx, dy);
+            }
+            return true;
         }
         checkHover(mouseX, mouseY);
         if (!isHovering) {
