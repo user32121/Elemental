@@ -8,6 +8,7 @@ import juniper.elemental.Elemental;
 import juniper.elemental.network.SaveSpellPayload;
 import juniper.elemental.spells.SpellStep;
 import juniper.elemental.spells.SpellStep.Direction;
+import juniper.elemental.widgets.StepConfigWidget;
 import juniper.elemental.widgets.StepSelectWidget;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.DrawContext;
@@ -21,7 +22,6 @@ import net.minecraft.util.math.MathHelper;
 public class WandScreen extends HandledScreen<WandScreenHandler> {
     private static final Identifier BACKGROUND_TEXTURE = Identifier.of(Elemental.MOD_ID, "textures/gui/item/wand.png");
     private static final Identifier ARROW_TEXTURE = Identifier.of(Elemental.MOD_ID, "item/wand/arrows");
-    private static final Identifier HIGHLIGHT_TEXTURE = Identifier.of(Elemental.MOD_ID, "item/wand/highlights");
     private static final Identifier SELECT_TEXTURE = Identifier.of(Elemental.MOD_ID, "item/wand/select");
 
     private double offsetX = 72;
@@ -34,6 +34,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
     private int selectTileX = 0;
     private int selectTileY = 0;
     private StepSelectWidget stepSelectWidget = new StepSelectWidget();
+    private StepConfigWidget stepConfigWidget = new StepConfigWidget();
 
     public WandScreen(WandScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -44,6 +45,10 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
     protected void init() {
         super.init();
         addDrawable(stepSelectWidget);
+        stepConfigWidget.setX(x - 32);
+        stepConfigWidget.setY(y);
+        updateConfigWidgetStep();
+        addDrawable(stepConfigWidget);
     }
 
     @Override
@@ -89,20 +94,9 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
             context.fill(RenderLayer.getGuiOverlay(), Math.max(MathHelper.floor(x2) + 1, 8) + x, Math.max(MathHelper.floor(y2) + 1, 8) + y, Math.min(MathHelper.floor(x2) + 16, 168) + x,
                     Math.min(MathHelper.floor(y2) + 16, 168) + y, 0x52FFFFFF);
         }
-        //config
-        SpellStep step = handler.spell.steps.get(new Vector2i(selectTileX, selectTileY));
-        if (step != null) {
-            context.drawGuiTexture(RenderLayer::getGuiTextured, step.type.texture(), 16, 16, 0, 0, x - 24, y + 8, 15, 15);
-            context.drawGuiTexture(RenderLayer::getGuiTextured, ARROW_TEXTURE, 32, 128, 0, getArrowV(step.next), x - 28, y + 4, 23, 23);
-            if (mouseX >= x - 24 && mouseY >= y + 8 && mouseX < x - 8 && mouseY < y + 24) {
-                int dx = mouseX - (x - 16);
-                int dy = mouseY - (y + 16);
-                context.drawGuiTexture(RenderLayer::getGuiTexturedOverlay, HIGHLIGHT_TEXTURE, 16, 64, 0, getHighlightV(getHighlightDir(dx, dy)), x - 24, y + 8, 15, 15);
-            }
-        }
     }
 
-    private int getArrowV(Direction dir) {
+    public static int getArrowV(Direction dir) {
         int v;
         switch (dir) {
             case UP:
@@ -123,7 +117,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
         return v;
     }
 
-    private Direction getHighlightDir(int dx, int dy) {
+    public static Direction getHighlightDir(int dx, int dy) {
         if (dy > dx) {
             if (dy > -dx) {
                 return Direction.DOWN;
@@ -139,7 +133,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
         }
     }
 
-    private int getHighlightV(Direction dir) {
+    public static int getHighlightV(Direction dir) {
         int v;
         switch (dir) {
             case UP:
@@ -207,18 +201,11 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
         } else {
             stepSelectWidget.setFocused(false);
         }
+        if (stepConfigWidget.mouseClicked(mouseX, mouseY, button)) {
+            return true;
+        }
         if (button != 0 && button != 1) {
             return super.mouseClicked(mouseX, mouseY, button);
-        }
-        if (mouseX >= x - 24 && mouseY >= y + 8 && mouseX < x - 8 && mouseY < y + 24) {
-            int dx = (int) mouseX - (x - 16);
-            int dy = (int) mouseY - (y + 16);
-            Vector2i pos = new Vector2i(selectTileX, selectTileY);
-            SpellStep step = handler.spell.steps.get(pos);
-            if (step != null) {
-                step.next = getHighlightDir(dx, dy);
-            }
-            return true;
         }
         checkHover(mouseX, mouseY);
         if (!isHovering) {
@@ -226,10 +213,15 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
         }
         selectTileX = hoverTileX;
         selectTileY = hoverTileY;
+        updateConfigWidgetStep();
         if (button == 1) {
             openSelectSpell();
         }
         return true;
+    }
+
+    private void updateConfigWidgetStep() {
+        stepConfigWidget.setStep(handler.spell.steps.get(new Vector2i(selectTileX, selectTileY)));
     }
 
     public int posToTileX(double posX) {
@@ -258,11 +250,14 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (stepSelectWidget.keyPressed(keyCode, scanCode, modifiers)) {
             return true;
+        } else if (stepConfigWidget.keyPressed(keyCode, scanCode, modifiers)) {
+            return true;
         }
         if (keyCode == GLFW.GLFW_KEY_RIGHT) {
             if ((modifiers & GLFW.GLFW_MOD_CONTROL) == 0) {
                 ++selectTileX;
                 offsetX -= Math.max(0, tileToPosX(selectTileX) + 16 - 151);
+                updateConfigWidgetStep();
             } else {
                 offsetX -= 16;
             }
@@ -272,6 +267,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
             if ((modifiers & GLFW.GLFW_MOD_CONTROL) == 0) {
                 --selectTileX;
                 offsetX -= Math.min(0, tileToPosX(selectTileX) - 23);
+                updateConfigWidgetStep();
             } else {
                 offsetX += 16;
             }
@@ -281,6 +277,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
             if ((modifiers & GLFW.GLFW_MOD_CONTROL) == 0) {
                 ++selectTileY;
                 offsetY -= Math.max(0, tileToPosY(selectTileY) + 16 - 151);
+                updateConfigWidgetStep();
             } else {
                 offsetY -= 16;
             }
@@ -290,6 +287,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
             if ((modifiers & GLFW.GLFW_MOD_CONTROL) == 0) {
                 --selectTileY;
                 offsetY -= Math.min(0, tileToPosY(selectTileY) - 23);
+                updateConfigWidgetStep();
             } else {
                 offsetY += 16;
             }
@@ -297,6 +295,8 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
             return true;
         } else if (keyCode == GLFW.GLFW_KEY_ENTER) {
             openSelectSpell();
+        } else if (keyCode == GLFW.GLFW_KEY_TAB) {
+            stepConfigWidget.setFocused(true);
         }
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
@@ -310,6 +310,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
             } else {
                 handler.spell.steps.put(new Vector2i(selectTileX, selectTileY), new SpellStep(selectTileX, selectTileY, Direction.RIGHT, type));
             }
+            updateConfigWidgetStep();
         });
     }
 }

@@ -101,8 +101,8 @@ public class StepSelectWidget implements Widget, Drawable, Element {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (Element.super.keyPressed(keyCode, scanCode, modifiers)) {
-            return true;
+        if (!isFocused()) {
+            return false;
         }
         if (keyCode == GLFW.GLFW_KEY_RIGHT) {
             selected = Math.min(selected + 1, SpellStepType.ALL.length);
@@ -123,7 +123,7 @@ public class StepSelectWidget implements Widget, Drawable, Element {
             selectStep();
             return true;
         }
-        return false;
+        return Element.super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     private void selectStep() {
@@ -178,13 +178,10 @@ public class StepSelectWidget implements Widget, Drawable, Element {
         if (!isFocused()) {
             return false;
         }
-        if (Element.super.mouseClicked(mouseX, mouseY, button)) {
-            return true;
-        }
         if (isHovering) {
             selectStep();
             return true;
         }
-        return false;
+        return Element.super.mouseClicked(mouseX, mouseY, button);
     }
 }
