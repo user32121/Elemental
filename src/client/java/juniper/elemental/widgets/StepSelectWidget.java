@@ -116,6 +116,9 @@ public class StepSelectWidget implements Widget, Drawable, Element {
         } else if (keyCode == GLFW.GLFW_KEY_UP) {
             selected = Math.max(selected - 4, 0);
             return true;
+        } else if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+            setFocused(false);
+            return true;
         } else if (keyCode == GLFW.GLFW_KEY_ENTER) {
             selectStep();
             return true;
@@ -147,6 +150,9 @@ public class StepSelectWidget implements Widget, Drawable, Element {
 
     @Override
     public void mouseMoved(double mouseX, double mouseY) {
+        if (!isFocused()) {
+            return;
+        }
         Element.super.mouseMoved(mouseX, mouseY);
         checkHover(mouseX, mouseY);
     }
@@ -169,6 +175,9 @@ public class StepSelectWidget implements Widget, Drawable, Element {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (!isFocused()) {
+            return false;
+        }
         if (Element.super.mouseClicked(mouseX, mouseY, button)) {
             return true;
         }

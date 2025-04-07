@@ -177,9 +177,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
 
     @Override
     public void mouseMoved(double mouseX, double mouseY) {
-        if (stepSelectWidget.isFocused()) {
-            stepSelectWidget.mouseMoved(mouseX, mouseY);
-        }
+        stepSelectWidget.mouseMoved(mouseX, mouseY);
         super.mouseMoved(mouseX, mouseY);
         checkHover(mouseX, mouseY);
     }
@@ -204,7 +202,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (stepSelectWidget.isFocused() && stepSelectWidget.mouseClicked(mouseX, mouseY, button)) {
+        if (stepSelectWidget.mouseClicked(mouseX, mouseY, button)) {
             return true;
         } else {
             stepSelectWidget.setFocused(false);
@@ -258,14 +256,8 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (stepSelectWidget.isFocused()) {
-            if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
-                stepSelectWidget.setFocused(false);
-                return true;
-            }
-            if (stepSelectWidget.keyPressed(keyCode, scanCode, modifiers)) {
-                return true;
-            }
+        if (stepSelectWidget.keyPressed(keyCode, scanCode, modifiers)) {
+            return true;
         }
         if (keyCode == GLFW.GLFW_KEY_RIGHT) {
             if ((modifiers & GLFW.GLFW_MOD_CONTROL) == 0) {
