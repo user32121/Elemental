@@ -6,6 +6,7 @@ import juniper.elemental.render.block.LightCrystalBlockEntityModel;
 import juniper.elemental.render.block.PackedLightCrystalBlockEntityModel;
 import juniper.elemental.render.entity.DarkGhostEntityModel;
 import juniper.elemental.render.entity.ReactionCraftingEntityModel;
+import juniper.elemental.render.entity.SpellEntityModel;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry.TexturedModelDataProvider;
 import net.minecraft.client.model.Dilation;
@@ -24,6 +25,7 @@ public class ElementalModelLayers {
     public static final EntityModelLayer DARK_GHOST_OUTER_ARMOR = registerOuterArmor("dark_ghost");
     public static final EntityModelLayer PACKED_LIGHT_CRYSTAL = register("packed_light_crystal", PackedLightCrystalBlockEntityModel::getTexturedModelData);
     public static final EntityModelLayer LIGHT_BALL = register("light_ball", LightBallBlockEntityModel::getTexturedModelData);
+    public static final EntityModelLayer SPELL = register("spell", SpellEntityModel::getTexturedModelData);
 
     public static void init() {
     }

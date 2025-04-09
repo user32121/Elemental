@@ -1,10 +1,13 @@
 package juniper.elemental.items;
 
+import juniper.elemental.entities.SpellEntity;
 import juniper.elemental.init.ElementalComponents;
+import juniper.elemental.init.ElementalEntities;
 import juniper.elemental.init.ElementalItems;
 import juniper.elemental.init.ElementalScreenHandlers;
 import juniper.elemental.spells.WandSpell;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
@@ -55,8 +58,14 @@ public class WandItem extends Item {
     }
 
     public ActionResult cast(World world, PlayerEntity user, Hand hand) {
-        //TODO
-        user.sendMessage(Text.of("TODO cast"), false);
+        if (!world.isClient) {
+            SpellEntity spell = ElementalEntities.SPELL.create(world, SpawnReason.TRIGGERED);
+            spell.setPosition(user.getEyePos());
+            spell.setAngles(user.getYaw(), user.getPitch());
+            spell.setOwner(user);
+            spell.setSpell(getSpell(user.getStackInHand(hand)));
+            world.spawnEntity(spell);
+        }
         return ActionResult.SUCCESS;
     }
 
