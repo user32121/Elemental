@@ -24,12 +24,11 @@ import net.minecraft.text.Text;
 import net.minecraft.world.World;
 
 public class SpellEntity extends ProjectileEntity {
-    private static String SPELL_KEY = "Spell";
-    private static String CUR_TILE_KEY = "CurrentTile";
+    private static final String SPELL_KEY = "Spell";
+    private static final String STATE_KEY = "State";
 
     private WandSpell spell;
-    private Vector2i curTile;
-    private SpellState state;
+    private SpellState state = new SpellState();
 
     public SpellEntity(EntityType<? extends SpellEntity> entityType, World world) {
         super(entityType, world);
@@ -51,44 +50,54 @@ public class SpellEntity extends ProjectileEntity {
             DataResult<NbtElement> res = WandSpell.CODEC.encode(spell, NbtOps.INSTANCE, NbtOps.INSTANCE.empty());
             nbt.put(SPELL_KEY, res.result().get());
         }
-        if (curTile != null) {
-            nbt.putIntArray(CUR_TILE_KEY, new int[] { curTile.x, curTile.y });
-        }
+        nbt.put(STATE_KEY, state.toNbt());
     }
 
     @Override
     protected void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        NbtElement spellNbt = nbt.get(SPELL_KEY);
-        if (spellNbt != null) {
-            DataResult<Pair<WandSpell, NbtElement>> res = WandSpell.CODEC.decode(NbtOps.INSTANCE, spellNbt);
+        NbtElement nbt2 = nbt.get(SPELL_KEY);
+        if (nbt2 != null) {
+            DataResult<Pair<WandSpell, NbtElement>> res = WandSpell.CODEC.decode(NbtOps.INSTANCE, nbt2);
             spell = res.getOrThrow().getFirst();
         }
-        int[] ar = nbt.getIntArray(CUR_TILE_KEY);
-        if (ar.length >= 2) {
-            curTile = new Vector2i(ar[0], ar[1]);
+        nbt2 = nbt.get(STATE_KEY);
+        if (nbt2 != null && nbt2 instanceof NbtCompound nbt3) {
+            state = SpellState.fromNbt(nbt3);
         }
     }
 
     @Override
     public void tick() {
         super.tick();
+        //no spell, do nothing
         if (this.spell == null) {
             return;
         }
-        if (curTile == null) {
-            curTile = getStart();
+        //no more ticks, terminate
+        if (state.ticksLeft <= 0) {
+            if (getWorld() instanceof ServerWorld world) {
+                kill(world);
+            }
             return;
         }
-        SpellTile tile = spell.tiles.get(curTile);
+        //first tick spent finding start tile
+        if (state.curTile == null) {
+            state.curTile = getStart();
+            return;
+        }
+        //traveled to blank tile, terminate
+        SpellTile tile = spell.tiles.get(state.curTile);
         if (tile == null) {
             if (getWorld() instanceof ServerWorld world) {
                 kill(world);
             }
             return;
         }
+        //normal execution
         tile.type.execute().accept(state, this);
-        curTile = curTile.add(tile.next.asVec2i());
+        --state.ticksLeft;
+        state.curTile = state.curTile.add(tile.next.asVec2i());
     }
 
     private Vector2i getStart() {
