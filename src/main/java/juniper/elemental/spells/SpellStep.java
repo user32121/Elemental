@@ -1,5 +1,7 @@
 package juniper.elemental.spells;
 
+import org.joml.Vector2i;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -12,11 +14,22 @@ import net.minecraft.util.function.ValueLists.OutOfBoundsHandling;
 
 public class SpellStep {
     public enum Direction implements StringIdentifiable {
-        UP, LEFT, DOWN, RIGHT;
+        UP(0, -1), LEFT(-1, 0), DOWN(0, 1), RIGHT(1, 0);
 
         public static final Codec<Direction> CODEC = StringIdentifiable.createCodec(Direction::values);
         public static final PacketCodec<ByteBuf, Direction> PACKET_CODEC = PacketCodecs.indexed(ValueLists.createIdToValueFunction(Direction::ordinal, Direction.values(), OutOfBoundsHandling.WRAP),
                 Direction::ordinal);
+        public final int x;
+        public final int y;
+
+        Direction(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public Vector2i asVec2i() {
+            return new Vector2i(x, y);
+        }
 
         @Override
         public String asString() {
