@@ -6,10 +6,10 @@ import org.lwjgl.glfw.GLFW;
 
 import juniper.elemental.Elemental;
 import juniper.elemental.network.SaveSpellPayload;
-import juniper.elemental.spells.SpellStep;
-import juniper.elemental.spells.SpellStep.Direction;
-import juniper.elemental.widgets.StepConfigWidget;
-import juniper.elemental.widgets.StepSelectWidget;
+import juniper.elemental.spells.SpellTile;
+import juniper.elemental.spells.SpellTile.Direction;
+import juniper.elemental.widgets.SpellTileConfigWidget;
+import juniper.elemental.widgets.SpellTileSelectWidget;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -33,8 +33,8 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
     private int hoverTileY;
     private int selectTileX = 0;
     private int selectTileY = 0;
-    private StepSelectWidget stepSelectWidget = new StepSelectWidget();
-    private StepConfigWidget stepConfigWidget = new StepConfigWidget();
+    private SpellTileSelectWidget tileSelectWidget = new SpellTileSelectWidget();
+    private SpellTileConfigWidget tileConfigWidget = new SpellTileConfigWidget();
 
     public WandScreen(WandScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -44,11 +44,11 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
     @Override
     protected void init() {
         super.init();
-        addDrawable(stepSelectWidget);
-        stepConfigWidget.setX(x - 32);
-        stepConfigWidget.setY(y);
-        updateConfigWidgetStep();
-        addDrawable(stepConfigWidget);
+        addDrawable(tileSelectWidget);
+        tileConfigWidget.setX(x - 32);
+        tileConfigWidget.setY(y);
+        updateTileConfigWidget();
+        addDrawable(tileConfigWidget);
     }
 
     @Override
@@ -66,9 +66,9 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
             for (double y2 = MathHelper.floorMod(offsetY, 16) - 8; y2 < 168; y2 += 16) {
                 int tileX = posToTileX(x2);
                 int tileY = posToTileY(y2);
-                SpellStep step = handler.spell.steps.get(new Vector2i(tileX, tileY));
-                if (step != null) {
-                    DrawingUtil.drawGuiBounded(context, step.type.texture(), 16, 16, 0, 0, 15, 15, MathHelper.floor(x2) + 1 + x, MathHelper.floor(y2) + 1 + y, 8 + x, 167 + x, 8 + y, 167 + y);
+                SpellTile tile = handler.spell.tiles.get(new Vector2i(tileX, tileY));
+                if (tile != null) {
+                    DrawingUtil.drawGuiBounded(context, tile.type.texture(), 16, 16, 0, 0, 15, 15, MathHelper.floor(x2) + 1 + x, MathHelper.floor(y2) + 1 + y, 8 + x, 167 + x, 8 + y, 167 + y);
                 }
             }
         }
@@ -76,9 +76,9 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
             for (double y2 = MathHelper.floorMod(offsetY, 16) - 8; y2 < 168; y2 += 16) {
                 int tileX = posToTileX(x2);
                 int tileY = posToTileY(y2);
-                SpellStep step = handler.spell.steps.get(new Vector2i(tileX, tileY));
-                if (step != null) {
-                    int v = getArrowV(step.next);
+                SpellTile tile = handler.spell.tiles.get(new Vector2i(tileX, tileY));
+                if (tile != null) {
+                    int v = getArrowV(tile.next);
                     DrawingUtil.drawGuiBounded(context, ARROW_TEXTURE, 32, 128, 0, v, 23, 23, MathHelper.floor(x2) - 3 + x, MathHelper.floor(y2) - 3 + y, 8 + x, 167 + x, 8 + y, 167 + y);
                 }
             }
@@ -171,7 +171,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
 
     @Override
     public void mouseMoved(double mouseX, double mouseY) {
-        stepSelectWidget.mouseMoved(mouseX, mouseY);
+        tileSelectWidget.mouseMoved(mouseX, mouseY);
         super.mouseMoved(mouseX, mouseY);
         checkHover(mouseX, mouseY);
     }
@@ -196,12 +196,12 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (stepSelectWidget.mouseClicked(mouseX, mouseY, button)) {
+        if (tileSelectWidget.mouseClicked(mouseX, mouseY, button)) {
             return true;
         } else {
-            stepSelectWidget.setFocused(false);
+            tileSelectWidget.setFocused(false);
         }
-        if (stepConfigWidget.mouseClicked(mouseX, mouseY, button)) {
+        if (tileConfigWidget.mouseClicked(mouseX, mouseY, button)) {
             return true;
         }
         if (button != 0 && button != 1) {
@@ -213,15 +213,15 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
         }
         selectTileX = hoverTileX;
         selectTileY = hoverTileY;
-        updateConfigWidgetStep();
+        updateTileConfigWidget();
         if (button == 1) {
             openSelectSpell();
         }
         return true;
     }
 
-    private void updateConfigWidgetStep() {
-        stepConfigWidget.setStep(handler.spell.steps.get(new Vector2i(selectTileX, selectTileY)));
+    private void updateTileConfigWidget() {
+        tileConfigWidget.setTile(handler.spell.tiles.get(new Vector2i(selectTileX, selectTileY)));
     }
 
     public int posToTileX(double posX) {
@@ -248,16 +248,16 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (stepSelectWidget.keyPressed(keyCode, scanCode, modifiers)) {
+        if (tileSelectWidget.keyPressed(keyCode, scanCode, modifiers)) {
             return true;
-        } else if (stepConfigWidget.keyPressed(keyCode, scanCode, modifiers)) {
+        } else if (tileConfigWidget.keyPressed(keyCode, scanCode, modifiers)) {
             return true;
         }
         if (keyCode == GLFW.GLFW_KEY_RIGHT) {
             if ((modifiers & GLFW.GLFW_MOD_CONTROL) == 0) {
                 ++selectTileX;
                 offsetX -= Math.max(0, tileToPosX(selectTileX) + 16 - 151);
-                updateConfigWidgetStep();
+                updateTileConfigWidget();
             } else {
                 offsetX -= 16;
             }
@@ -267,7 +267,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
             if ((modifiers & GLFW.GLFW_MOD_CONTROL) == 0) {
                 --selectTileX;
                 offsetX -= Math.min(0, tileToPosX(selectTileX) - 23);
-                updateConfigWidgetStep();
+                updateTileConfigWidget();
             } else {
                 offsetX += 16;
             }
@@ -277,7 +277,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
             if ((modifiers & GLFW.GLFW_MOD_CONTROL) == 0) {
                 ++selectTileY;
                 offsetY -= Math.max(0, tileToPosY(selectTileY) + 16 - 151);
-                updateConfigWidgetStep();
+                updateTileConfigWidget();
             } else {
                 offsetY -= 16;
             }
@@ -287,7 +287,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
             if ((modifiers & GLFW.GLFW_MOD_CONTROL) == 0) {
                 --selectTileY;
                 offsetY -= Math.min(0, tileToPosY(selectTileY) - 23);
-                updateConfigWidgetStep();
+                updateTileConfigWidget();
             } else {
                 offsetY += 16;
             }
@@ -296,24 +296,24 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
         } else if (keyCode == GLFW.GLFW_KEY_ENTER) {
             openSelectSpell();
         } else if (keyCode == GLFW.GLFW_KEY_TAB) {
-            stepConfigWidget.setFocused(true);
+            tileConfigWidget.setFocused(true);
         }
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     private void openSelectSpell() {
-        stepSelectWidget.setPosition((int) tileToPosX(selectTileX + 1) + x, (int) tileToPosY(selectTileY) + y);
-        stepSelectWidget.setFocused(true);
+        tileSelectWidget.setPosition((int) tileToPosX(selectTileX + 1) + x, (int) tileToPosY(selectTileY) + y);
+        tileSelectWidget.setFocused(true);
         Vector2i pos = new Vector2i(selectTileX, selectTileY);
-        SpellStep step = handler.spell.steps.get(pos);
-        stepSelectWidget.setSelected(step);
-        stepSelectWidget.setCallback(type -> {
+        SpellTile tile = handler.spell.tiles.get(pos);
+        tileSelectWidget.setSelected(tile);
+        tileSelectWidget.setCallback(type -> {
             if (type == null) {
-                handler.spell.steps.remove(pos);
-            } else if (step == null || type != step.type) {
-                handler.spell.steps.put(pos, new SpellStep(selectTileX, selectTileY, Direction.RIGHT, type));
+                handler.spell.tiles.remove(pos);
+            } else if (tile == null || type != tile.type) {
+                handler.spell.tiles.put(pos, new SpellTile(selectTileX, selectTileY, Direction.RIGHT, type));
             }
-            updateConfigWidgetStep();
+            updateTileConfigWidget();
         });
     }
 }

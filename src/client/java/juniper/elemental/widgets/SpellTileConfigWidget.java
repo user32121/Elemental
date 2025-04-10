@@ -6,8 +6,8 @@ import org.lwjgl.glfw.GLFW;
 
 import juniper.elemental.Elemental;
 import juniper.elemental.screens.WandScreen;
-import juniper.elemental.spells.SpellStep;
-import juniper.elemental.spells.SpellStep.Direction;
+import juniper.elemental.spells.SpellTile;
+import juniper.elemental.spells.SpellTile.Direction;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
@@ -17,14 +17,14 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 
-public class StepConfigWidget implements Widget, Drawable, Element {
+public class SpellTileConfigWidget implements Widget, Drawable, Element {
     private static final Identifier ARROW_TEXTURE = Identifier.of(Elemental.MOD_ID, "item/wand/arrows");
     private static final Identifier HIGHLIGHT_TEXTURE = Identifier.of(Elemental.MOD_ID, "item/wand/highlights");
 
     private boolean focused;
     private int posX;
     private int posY;
-    private SpellStep step;
+    private SpellTile step;
     private int selected;
     private boolean editing;
 
@@ -41,7 +41,7 @@ public class StepConfigWidget implements Widget, Drawable, Element {
         return focused;
     }
 
-    public void setStep(SpellStep value) {
+    public void setTile(SpellTile value) {
         step = value;
         selected = 0;
         editing = false;

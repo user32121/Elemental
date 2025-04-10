@@ -9,8 +9,8 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
 
 import juniper.elemental.spells.SpellState;
-import juniper.elemental.spells.SpellStep;
-import juniper.elemental.spells.SpellStepType;
+import juniper.elemental.spells.SpellTile;
+import juniper.elemental.spells.SpellTileType;
 import juniper.elemental.spells.WandSpell;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.data.DataTracker.Builder;
@@ -25,10 +25,10 @@ import net.minecraft.world.World;
 
 public class SpellEntity extends ProjectileEntity {
     private static String SPELL_KEY = "Spell";
-    private static String CUR_STEP_KEY = "CurrentStep";
+    private static String CUR_TILE_KEY = "CurrentTile";
 
     private WandSpell spell;
-    private Vector2i curStep;
+    private Vector2i curTile;
     private SpellState state;
 
     public SpellEntity(EntityType<? extends SpellEntity> entityType, World world) {
@@ -51,8 +51,8 @@ public class SpellEntity extends ProjectileEntity {
             DataResult<NbtElement> res = WandSpell.CODEC.encode(spell, NbtOps.INSTANCE, NbtOps.INSTANCE.empty());
             nbt.put(SPELL_KEY, res.result().get());
         }
-        if (curStep != null) {
-            nbt.putIntArray(CUR_STEP_KEY, new int[] { curStep.x, curStep.y });
+        if (curTile != null) {
+            nbt.putIntArray(CUR_TILE_KEY, new int[] { curTile.x, curTile.y });
         }
     }
 
@@ -64,9 +64,9 @@ public class SpellEntity extends ProjectileEntity {
             DataResult<Pair<WandSpell, NbtElement>> res = WandSpell.CODEC.decode(NbtOps.INSTANCE, spellNbt);
             spell = res.getOrThrow().getFirst();
         }
-        int[] curStepNbt = nbt.getIntArray(CUR_STEP_KEY);
-        if (curStepNbt.length >= 2) {
-            curStep = new Vector2i(curStepNbt[0], curStepNbt[1]);
+        int[] ar = nbt.getIntArray(CUR_TILE_KEY);
+        if (ar.length >= 2) {
+            curTile = new Vector2i(ar[0], ar[1]);
         }
     }
 
@@ -76,26 +76,26 @@ public class SpellEntity extends ProjectileEntity {
         if (this.spell == null) {
             return;
         }
-        if (curStep == null) {
-            curStep = getStart();
+        if (curTile == null) {
+            curTile = getStart();
             return;
         }
-        SpellStep curSpellStep = spell.steps.get(curStep);
-        if (curSpellStep == null) {
+        SpellTile tile = spell.tiles.get(curTile);
+        if (tile == null) {
             if (getWorld() instanceof ServerWorld world) {
                 kill(world);
             }
             return;
         }
-        curSpellStep.type.execute().accept(state, this);
-        curStep = curStep.add(curSpellStep.next.asVec2i());
+        tile.type.execute().accept(state, this);
+        curTile = curTile.add(tile.next.asVec2i());
     }
 
     private Vector2i getStart() {
         List<Vector2i> starts = new ArrayList<>();
-        for (SpellStep step : spell.steps.values()) {
-            if (step.type == SpellStepType.START) {
-                starts.add(new Vector2i(step.x, step.y));
+        for (SpellTile tile : spell.tiles.values()) {
+            if (tile.type == SpellTileType.START) {
+                starts.add(new Vector2i(tile.x, tile.y));
             }
         }
         if (starts.isEmpty()) {

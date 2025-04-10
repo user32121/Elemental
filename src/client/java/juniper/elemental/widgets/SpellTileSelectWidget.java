@@ -5,8 +5,8 @@ import java.util.function.Consumer;
 import org.lwjgl.glfw.GLFW;
 
 import juniper.elemental.Elemental;
-import juniper.elemental.spells.SpellStep;
-import juniper.elemental.spells.SpellStepType;
+import juniper.elemental.spells.SpellTile;
+import juniper.elemental.spells.SpellTileType;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
@@ -17,7 +17,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
-public class StepSelectWidget implements Widget, Drawable, Element {
+public class SpellTileSelectWidget implements Widget, Drawable, Element {
     private static final Identifier BACKGROUND_TEXTURE = Identifier.of(Elemental.MOD_ID, "textures/gui/item/spells.png");
     private static final Identifier SELECT_TEXTURE = Identifier.of(Elemental.MOD_ID, "item/wand/select");
 
@@ -26,7 +26,7 @@ public class StepSelectWidget implements Widget, Drawable, Element {
     private int posY;
     private int selected;
     private boolean isHovering;
-    private Consumer<SpellStepType> callback;
+    private Consumer<SpellTileType> callback;
 
     @Override
     public void setFocused(boolean value) {
@@ -47,12 +47,12 @@ public class StepSelectWidget implements Widget, Drawable, Element {
             return;
         }
         context.drawTexture(RenderLayer::getGuiTextured, BACKGROUND_TEXTURE, getX(), getY(), 0.0f, 0.0f, getWidth(), getHeight(), 128, 128);
-        for (int i = 0; i < SpellStepType.ALL.length + 1; i++) {
+        for (int i = 0; i < SpellTileType.ALL.length + 1; i++) {
             int x = i % 4;
             int y = i / 4;
             context.drawBorder(getX() + 3 + x * 16, getY() + 3 + y * 16, 17, 17, 0xFF373737);
             if (i > 0) {
-                context.drawGuiTexture(RenderLayer::getGuiTextured, SpellStepType.ALL[i - 1].texture(), 16, 16, 0, 0, getX() + 4 + x * 16, getY() + 4 + y * 16, 15, 15);
+                context.drawGuiTexture(RenderLayer::getGuiTextured, SpellTileType.ALL[i - 1].texture(), 16, 16, 0, 0, getX() + 4 + x * 16, getY() + 4 + y * 16, 15, 15);
             }
             if (selected == i) {
                 context.drawGuiTexture(RenderLayer::getGuiTextured, SELECT_TEXTURE, 16, 16, 0, 0, getX() + 4 + x * 16, getY() + 4 + y * 16, 15, 15);
@@ -106,13 +106,13 @@ public class StepSelectWidget implements Widget, Drawable, Element {
             return false;
         }
         if (keyCode == GLFW.GLFW_KEY_RIGHT) {
-            selected = Math.min(selected + 1, SpellStepType.ALL.length);
+            selected = Math.min(selected + 1, SpellTileType.ALL.length);
             return true;
         } else if (keyCode == GLFW.GLFW_KEY_LEFT) {
             selected = Math.max(selected - 1, 0);
             return true;
         } else if (keyCode == GLFW.GLFW_KEY_DOWN) {
-            selected = Math.min(selected + 4, SpellStepType.ALL.length);
+            selected = Math.min(selected + 4, SpellTileType.ALL.length);
             return true;
         } else if (keyCode == GLFW.GLFW_KEY_UP) {
             selected = Math.max(selected - 4, 0);
@@ -131,13 +131,13 @@ public class StepSelectWidget implements Widget, Drawable, Element {
         if (selected == 0) {
             callback.accept(null);
         } else {
-            callback.accept(SpellStepType.ALL[selected - 1]);
+            callback.accept(SpellTileType.ALL[selected - 1]);
         }
         setFocused(false);
     }
 
     //called when a spell is selected, which may be null
-    public void setCallback(Consumer<SpellStepType> value) {
+    public void setCallback(Consumer<SpellTileType> value) {
         this.callback = value;
     }
 
@@ -169,7 +169,7 @@ public class StepSelectWidget implements Widget, Drawable, Element {
         int hoverTileX = posToTileX(mouseX2);
         int hoverTileY = posToTileY(mouseY2);
         int newSelected = hoverTileY * 4 + hoverTileX;
-        if (newSelected >= 0 && newSelected <= SpellStepType.ALL.length) {
+        if (newSelected >= 0 && newSelected <= SpellTileType.ALL.length) {
             selected = newSelected;
         }
     }
@@ -186,13 +186,13 @@ public class StepSelectWidget implements Widget, Drawable, Element {
         return Element.super.mouseClicked(mouseX, mouseY, button);
     }
 
-    public void setSelected(SpellStep step) {
+    public void setSelected(SpellTile step) {
         if (step == null) {
             selected = 0;
             return;
         }
-        for (int i = 0; i < SpellStepType.ALL.length; ++i) {
-            if (step.type == SpellStepType.ALL[i]) {
+        for (int i = 0; i < SpellTileType.ALL.length; ++i) {
+            if (step.type == SpellTileType.ALL[i]) {
                 selected = i + 1;
                 return;
             }

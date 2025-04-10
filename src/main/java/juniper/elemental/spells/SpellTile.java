@@ -12,7 +12,7 @@ import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.function.ValueLists;
 import net.minecraft.util.function.ValueLists.OutOfBoundsHandling;
 
-public class SpellStep {
+public class SpellTile {
     public enum Direction implements StringIdentifiable {
         UP(0, -1), LEFT(-1, 0), DOWN(0, 1), RIGHT(1, 0);
 
@@ -37,19 +37,18 @@ public class SpellStep {
         }
     }
 
-    public static final Codec<SpellStep> CODEC = RecordCodecBuilder.create(
-            instance -> instance.group(Codec.INT.fieldOf("x").forGetter(step -> step.x), Codec.INT.fieldOf("y").forGetter(step -> step.y), Direction.CODEC.fieldOf("next").forGetter(step -> step.next),
-                    SpellStepType.CODEC.fieldOf("type").forGetter(step -> step.type))
-                    .apply(instance, SpellStep::new));
-    public static final PacketCodec<ByteBuf, SpellStep> PACKET_CODEC = PacketCodec.tuple(PacketCodecs.INTEGER, spell -> spell.x, PacketCodecs.INTEGER, spell -> spell.y, Direction.PACKET_CODEC,
-            spell -> spell.next, SpellStepType.PACKET_CODEC, spell -> spell.type, SpellStep::new);
+    public static final Codec<SpellTile> CODEC = RecordCodecBuilder
+            .create(instance -> instance.group(Codec.INT.fieldOf("x").forGetter(step -> step.x), Codec.INT.fieldOf("y").forGetter(step -> step.y),
+                    Direction.CODEC.fieldOf("next").forGetter(step -> step.next), SpellTileType.CODEC.fieldOf("type").forGetter(step -> step.type)).apply(instance, SpellTile::new));
+    public static final PacketCodec<ByteBuf, SpellTile> PACKET_CODEC = PacketCodec.tuple(PacketCodecs.INTEGER, spell -> spell.x, PacketCodecs.INTEGER, spell -> spell.y, Direction.PACKET_CODEC,
+            spell -> spell.next, SpellTileType.PACKET_CODEC, spell -> spell.type, SpellTile::new);
 
     public final int x;
     public final int y;
     public Direction next;
-    public SpellStepType type;
+    public SpellTileType type;
 
-    public SpellStep(int x, int y, Direction next, SpellStepType type) {
+    public SpellTile(int x, int y, Direction next, SpellTileType type) {
         this.x = x;
         this.y = y;
         this.next = next;

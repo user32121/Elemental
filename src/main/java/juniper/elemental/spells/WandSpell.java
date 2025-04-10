@@ -15,19 +15,19 @@ import net.minecraft.network.codec.PacketCodecs;
 
 public class WandSpell {
     public static final Codec<WandSpell> CODEC = RecordCodecBuilder
-            .create(instance -> instance.group(SpellStep.CODEC.listOf().fieldOf("steps").forGetter(spell -> List.copyOf(spell.steps.values()))).apply(instance, WandSpell::new));
+            .create(instance -> instance.group(SpellTile.CODEC.listOf().fieldOf("tiles").forGetter(spell -> List.copyOf(spell.tiles.values()))).apply(instance, WandSpell::new));
     public static final PacketCodec<ByteBuf, WandSpell> PACKET_CODEC = PacketCodecs.codec(CODEC);
 
-    public Map<Vector2i, SpellStep> steps;
+    public Map<Vector2i, SpellTile> tiles;
 
     public WandSpell() {
-        this.steps = new HashMap<>();
+        this.tiles = new HashMap<>();
     }
 
-    public WandSpell(List<SpellStep> steps) {
+    public WandSpell(List<SpellTile> tiles) {
         this();
-        for (SpellStep step : steps) {
-            this.steps.put(new Vector2i(step.x, step.y), step);
+        for (SpellTile tile : tiles) {
+            this.tiles.put(new Vector2i(tile.x, tile.y), tile);
         }
     }
 }

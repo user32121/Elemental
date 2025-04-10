@@ -15,7 +15,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.StringIdentifiable;
 
-public record SpellStepType(String name, Identifier texture, BiConsumer<SpellState, SpellEntity> execute) implements StringIdentifiable {
+public record SpellTileType(String name, Identifier texture, BiConsumer<SpellState, SpellEntity> execute) implements StringIdentifiable {
 
     public static BiConsumer<SpellState, SpellEntity> NOP = (state, entity) -> {
     };
@@ -25,13 +25,13 @@ public record SpellStepType(String name, Identifier texture, BiConsumer<SpellSta
             player.sendMessage(Text.of("TODO"), false);
         }
     };
-    public static final SpellStepType START = make("start", NOP);
-    public static final SpellStepType[] ALL = new SpellStepType[] { START, make("nop", NOP), make("debug", TODO), make("add", TODO) };
-    public static final Codec<SpellStepType> CODEC = StringIdentifiable.createBasicCodec(() -> ALL);
-    public static final PacketCodec<ByteBuf, SpellStepType> PACKET_CODEC = PacketCodecs.codec(CODEC);
+    public static final SpellTileType START = make("start", NOP);
+    public static final SpellTileType[] ALL = new SpellTileType[] { START, make("nop", NOP), make("debug", TODO), make("add", TODO) };
+    public static final Codec<SpellTileType> CODEC = StringIdentifiable.createBasicCodec(() -> ALL);
+    public static final PacketCodec<ByteBuf, SpellTileType> PACKET_CODEC = PacketCodecs.codec(CODEC);
 
-    private static SpellStepType make(String name, BiConsumer<SpellState, SpellEntity> execute) {
-        return new SpellStepType(name, Identifier.of(Elemental.MOD_ID, "item/wand/" + name), execute);
+    private static SpellTileType make(String name, BiConsumer<SpellState, SpellEntity> execute) {
+        return new SpellTileType(name, Identifier.of(Elemental.MOD_ID, "item/wand/" + name), execute);
     }
 
     @Override
