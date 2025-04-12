@@ -1,5 +1,8 @@
 package juniper.elemental.spells;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.joml.Vector2i;
 
 import com.mojang.serialization.Codec;
@@ -39,19 +42,26 @@ public class SpellTile {
 
     public static final Codec<SpellTile> CODEC = RecordCodecBuilder
             .create(instance -> instance.group(Codec.INT.fieldOf("x").forGetter(tile -> tile.x), Codec.INT.fieldOf("y").forGetter(tile -> tile.y),
-                    Direction.CODEC.fieldOf("next").forGetter(tile -> tile.next), SpellTileType.CODEC.fieldOf("type").forGetter(tile -> tile.type)).apply(instance, SpellTile::new));
-    public static final PacketCodec<ByteBuf, SpellTile> PACKET_CODEC = PacketCodec.tuple(PacketCodecs.INTEGER, spell -> spell.x, PacketCodecs.INTEGER, spell -> spell.y, Direction.PACKET_CODEC,
-            spell -> spell.next, SpellTileType.PACKET_CODEC, spell -> spell.type, SpellTile::new);
+                    Direction.CODEC.fieldOf("next").forGetter(tile -> tile.next), SpellTileType.CODEC.fieldOf("type").forGetter(tile -> tile.type),
+                    Codec.unboundedMap(Codec.STRING, Codec.INT).fieldOf("properties").forGetter(tile -> tile.properties)).apply(instance, SpellTile::new));
+    public static final PacketCodec<ByteBuf, SpellTile> PACKET_CODEC = PacketCodec.tuple(PacketCodecs.INTEGER, tile -> tile.x, PacketCodecs.INTEGER, tile -> tile.y, Direction.PACKET_CODEC,
+            tile -> tile.next, SpellTileType.PACKET_CODEC, tile -> tile.type, PacketCodecs.map(HashMap::new, PacketCodecs.STRING, PacketCodecs.INTEGER), tile -> tile.properties, SpellTile::new);
 
     public final int x;
     public final int y;
     public Direction next;
     public SpellTileType type;
+    public Map<String, Integer> properties;
 
     public SpellTile(int x, int y, Direction next, SpellTileType type) {
+        this(x, y, next, type, new HashMap<>());
+    }
+
+    public SpellTile(int x, int y, Direction next, SpellTileType type, Map<String, Integer> properties) {
         this.x = x;
         this.y = y;
         this.next = next;
         this.type = type;
+        this.properties = properties;
     }
 }

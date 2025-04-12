@@ -47,12 +47,12 @@ public class SpellTileSelectWidget implements Widget, Drawable, Element {
             return;
         }
         context.drawTexture(RenderLayer::getGuiTextured, BACKGROUND_TEXTURE, getX(), getY(), 0.0f, 0.0f, getWidth(), getHeight(), 128, 128);
-        for (int i = 0; i < SpellTileType.ALL.length + 1; i++) {
+        for (int i = 0; i < SpellTileType.ALL.size() + 1; i++) {
             int x = i % 4;
             int y = i / 4;
             context.drawBorder(getX() + 3 + x * 16, getY() + 3 + y * 16, 17, 17, 0xFF373737);
             if (i > 0) {
-                context.drawGuiTexture(RenderLayer::getGuiTextured, SpellTileType.ALL[i - 1].texture(), 16, 16, 0, 0, getX() + 4 + x * 16, getY() + 4 + y * 16, 15, 15);
+                context.drawGuiTexture(RenderLayer::getGuiTextured, SpellTileType.ALL.get(i - 1).texture(), 16, 16, 0, 0, getX() + 4 + x * 16, getY() + 4 + y * 16, 15, 15);
             }
             if (selected == i) {
                 context.drawGuiTexture(RenderLayer::getGuiTextured, SELECT_TEXTURE, 16, 16, 0, 0, getX() + 4 + x * 16, getY() + 4 + y * 16, 15, 15);
@@ -106,13 +106,13 @@ public class SpellTileSelectWidget implements Widget, Drawable, Element {
             return false;
         }
         if (keyCode == GLFW.GLFW_KEY_RIGHT) {
-            selected = Math.min(selected + 1, SpellTileType.ALL.length);
+            selected = Math.min(selected + 1, SpellTileType.ALL.size());
             return true;
         } else if (keyCode == GLFW.GLFW_KEY_LEFT) {
             selected = Math.max(selected - 1, 0);
             return true;
         } else if (keyCode == GLFW.GLFW_KEY_DOWN) {
-            selected = Math.min(selected + 4, SpellTileType.ALL.length);
+            selected = Math.min(selected + 4, SpellTileType.ALL.size());
             return true;
         } else if (keyCode == GLFW.GLFW_KEY_UP) {
             selected = Math.max(selected - 4, 0);
@@ -131,7 +131,7 @@ public class SpellTileSelectWidget implements Widget, Drawable, Element {
         if (selected == 0) {
             callback.accept(null);
         } else {
-            callback.accept(SpellTileType.ALL[selected - 1]);
+            callback.accept(SpellTileType.ALL.get(selected - 1));
         }
         setFocused(false);
     }
@@ -169,7 +169,7 @@ public class SpellTileSelectWidget implements Widget, Drawable, Element {
         int hoverTileX = posToTileX(mouseX2);
         int hoverTileY = posToTileY(mouseY2);
         int newSelected = hoverTileY * 4 + hoverTileX;
-        if (newSelected >= 0 && newSelected <= SpellTileType.ALL.length) {
+        if (newSelected >= 0 && newSelected <= SpellTileType.ALL.size()) {
             selected = newSelected;
         }
     }
@@ -191,8 +191,8 @@ public class SpellTileSelectWidget implements Widget, Drawable, Element {
             selected = 0;
             return;
         }
-        for (int i = 0; i < SpellTileType.ALL.length; ++i) {
-            if (tile.type == SpellTileType.ALL[i]) {
+        for (int i = 0; i < SpellTileType.ALL.size(); ++i) {
+            if (tile.type == SpellTileType.ALL.get(i)) {
                 selected = i + 1;
                 return;
             }
