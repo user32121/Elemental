@@ -62,6 +62,6 @@ public class SpellTile {
         this.y = y;
         this.next = next;
         this.type = type;
-        this.properties = properties;
+        this.properties = new HashMap<>(properties);
     }
 }

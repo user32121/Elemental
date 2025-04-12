@@ -8,6 +8,8 @@ import juniper.elemental.Elemental;
 import juniper.elemental.screens.WandScreen;
 import juniper.elemental.spells.SpellTile;
 import juniper.elemental.spells.SpellTile.Direction;
+import juniper.elemental.spells.SpellTileType.SpellProperty;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
@@ -16,11 +18,13 @@ import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 
 public class SpellTileConfigWidget implements Widget, Drawable, Element {
     private static final Identifier ARROW_TEXTURE = Identifier.of(Elemental.MOD_ID, "item/wand/arrows");
     private static final Identifier HIGHLIGHT_TEXTURE = Identifier.of(Elemental.MOD_ID, "item/wand/highlights");
 
+    public TextRenderer textRenderer;
     private boolean focused;
     private int posX;
     private int posY;
@@ -53,6 +57,7 @@ public class SpellTileConfigWidget implements Widget, Drawable, Element {
         if (tile == null) {
             return;
         }
+        //next tile property
         context.drawGuiTexture(RenderLayer::getGuiTextured, tile.type.texture(), 16, 16, 0, 0, getX() + 8, getY() + 8, 15, 15);
         context.drawGuiTexture(RenderLayer::getGuiTextured, ARROW_TEXTURE, 32, 128, 0, WandScreen.getArrowV(tile.next), getX() + 4, getY() + 4, 23, 23);
         if (mouseX >= getX() + 8 && mouseY >= getY() + 8 && mouseX < getX() + 24 && mouseY < getY() + 24) {
@@ -60,11 +65,18 @@ public class SpellTileConfigWidget implements Widget, Drawable, Element {
             int dy = mouseY - (getY() + 16);
             context.drawGuiTexture(RenderLayer::getGuiTexturedOverlay, HIGHLIGHT_TEXTURE, 16, 64, 0, WandScreen.getHighlightV(WandScreen.getHighlightDir(dx, dy)), getX() + 8, getY() + 8, 15, 15);
         }
-        if (selected == 0) {
-            context.drawBorder(getX(), getY(), 31, 31, editing ? 0xFFFFFFFF : 0xFFAAAAAA);
+        //rest of properties
+        int y = getY() + 32;
+        for (Pair<String, SpellProperty> prop : tile.type.properties()) {
+            context.drawText(textRenderer, prop.getLeft(), getX() + 16 - textRenderer.getWidth(prop.getLeft()) / 2, y, 0xFFFFFFFF, false);
+            SpellPropertyHandler.ALL.get(prop.getRight()).renderer().render(context, textRenderer, getX(), y, mouseX, mouseY, tile.properties.getOrDefault(prop.getLeft(), 0));
+            y += 32;
         }
+        //selection outline
+        context.drawBorder(getX(), getY() + selected * 32, 31, 31, editing ? 0xFFFFFFFF : 0xFFAAAAAA);
+        //gray out if unfocused
         if (!isFocused()) {
-            context.fill(RenderLayer.getGuiOverlay(), getX(), getY(), getX() + 32, getY() + 32, 0x7f000000);
+            context.fill(RenderLayer.getGuiOverlay(), getX(), getY(), getX() + 32, getY() + 32 * (1 + tile.type.properties().size()), 0x7f000000);
         }
     }
 
@@ -90,12 +102,16 @@ public class SpellTileConfigWidget implements Widget, Drawable, Element {
 
     @Override
     public int getWidth() {
-        return 31;
+        return 32;
     }
 
     @Override
     public int getHeight() {
-        return 155;
+        if (tile == null) {
+            return 32;
+        } else {
+            return 32 * (1 + tile.type.properties().size());
+        }
     }
 
     @Override
@@ -110,13 +126,23 @@ public class SpellTileConfigWidget implements Widget, Drawable, Element {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (mouseX >= getX() + 8 && mouseY >= getY() + 8 && mouseX < getX() + 24 && mouseY < getY() + 24) {
-            int dx = (int) mouseX - (getX() + 16);
-            int dy = (int) mouseY - (getY() + 16);
-            if (tile != null) {
+        if (tile == null) {
+            return Element.super.mouseClicked(mouseX, mouseY, button);
+        }
+        if (mouseX >= getX() && mouseY >= getY() && mouseX < getX() + getWidth() && mouseY < getY() + getHeight()) {
+            setFocused(true);
+            selected = (int) ((mouseY - getY()) / 32);
+            editing = true;
+            if (selected == 0) {
+                int dx = (int) mouseX - (getX() + 16);
+                int dy = (int) mouseY - (getY() + 16);
                 tile.next = WandScreen.getHighlightDir(dx, dy);
-                return true;
+            } else {
+                Pair<String, SpellProperty> prop = tile.type.properties().get(selected - 1);
+                int value = SpellPropertyHandler.ALL.get(prop.getRight()).mouseHandler().mouseClicked(mouseX, mouseY, button, tile.properties.getOrDefault(prop.getLeft(), 0));
+                tile.properties.put(prop.getLeft(), value);
             }
+            return true;
         }
         return Element.super.mouseClicked(mouseX, mouseY, button);
     }
@@ -149,8 +175,16 @@ public class SpellTileConfigWidget implements Widget, Drawable, Element {
                 } else if (keyCode == GLFW.GLFW_KEY_UP) {
                     tile.next = Direction.UP;
                 }
+            } else {
+                Pair<String, SpellProperty> prop = tile.type.properties().get(selected - 1);
+                int value = SpellPropertyHandler.ALL.get(prop.getRight()).keyHandler().keyPressed(keyCode, scanCode, modifiers, tile.properties.getOrDefault(prop.getLeft(), 0));
+                tile.properties.put(prop.getLeft(), value);
             }
             return true;
+        } else if (keyCode == GLFW.GLFW_KEY_DOWN) {
+            selected = Math.min(selected + 1, tile.type.properties().size());
+        } else if (keyCode == GLFW.GLFW_KEY_UP) {
+            selected = Math.max(0, selected - 1);
         }
         return true;
     }

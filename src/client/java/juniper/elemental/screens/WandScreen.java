@@ -47,6 +47,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
         addDrawable(tileSelectWidget);
         tileConfigWidget.setX(x - 32);
         tileConfigWidget.setY(y);
+        tileConfigWidget.textRenderer = textRenderer;
         updateTileConfigWidget();
         addDrawable(tileConfigWidget);
     }
