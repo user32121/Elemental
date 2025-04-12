@@ -32,27 +32,39 @@ public record SpellTileType(String name, Identifier texture, TriConsumer<SpellSt
         all.add(make("nop", NOP, List.of()));
         all.add(make("debug", (state, entity, tile) -> {
             if (entity.getOwner() instanceof PlayerEntity player) {
-                double[] values = state.getRegisterRaw();
-                player.sendMessage(Text.of(String.format("[%s, %s, %s, %s]", values[0], values[1], values[2], values[3])), false);
+                double[] primaryValues = state.getRegisterRaw(true);
+                double[] secondaryValues = state.getRegisterRaw(false);
+                player.sendMessage(Text.of(String.format("primary: [%s, %s, %s, %s]\nsecondary: [%s, %s, %s, %s]", primaryValues[0], primaryValues[1], primaryValues[2], primaryValues[3],
+                        secondaryValues[0], secondaryValues[1], secondaryValues[2], secondaryValues[3])), false);
             }
         }, List.of()));
+        all.add(make("swap", (state, entity, tile) -> {
+            state.swapRegisters();
+        }, List.of()));
+        all.add(make("copy", (state, entity, tile) -> {
+            state.setRegisterRaw(true, state.getRegisterRaw(false));
+            state.setCachedRegisterEntity(true, state.getCachedRegisterEntity(false));
+        }, List.of()));
+        all.add(make("constant", (state, entity, tile) -> {
+            state.setRegisterInt(true, tile.properties.getOrDefault("value", 0));
+        }, List.of(new Pair<>("value", SpellProperty.INTEGER))));
         all.add(make("add", (state, entity, tile) -> {
-            state.setRegisterInt(state.getRegisterInt() + tile.properties.getOrDefault("value", 0));
+            state.setRegisterInt(true, state.getRegisterInt(true) + state.getRegisterInt(false) + tile.properties.getOrDefault("value", 0));
         }, List.of(new Pair<>("value", SpellProperty.INTEGER))));
         all.add(make("get_self", (state, entity, tile) -> {
-            state.setRegisterEntity(entity);
+            state.setRegisterEntity(true, entity);
         }, List.of()));
         all.add(make("get_caster", (state, entity, tile) -> {
-            state.setRegisterEntity(entity.getOwner());
+            state.setRegisterEntity(true, entity.getOwner());
         }, List.of()));
         all.add(make("get_look", (state, entity, tile) -> {
-            Entity e = state.getRegisterEntity(entity.getWorld(), entity.getBlockPos());
+            Entity e = state.getRegisterEntity(true, entity.getWorld(), entity.getBlockPos());
             if (e != null) {
                 float pitch = e.getPitch();
                 float yaw = e.getYaw();
                 Vec3d dir = new Vec3d(MathHelper.cos(pitch * MathHelper.RADIANS_PER_DEGREE) * -MathHelper.sin(yaw * MathHelper.RADIANS_PER_DEGREE),
                         -MathHelper.sin(pitch * MathHelper.RADIANS_PER_DEGREE), MathHelper.cos(pitch * MathHelper.RADIANS_PER_DEGREE) * MathHelper.cos(yaw * MathHelper.RADIANS_PER_DEGREE));
-                state.setRegisterVec3d(dir);
+                state.setRegisterVec3d(true, dir);
             }
         }, List.of()));
         return all;
