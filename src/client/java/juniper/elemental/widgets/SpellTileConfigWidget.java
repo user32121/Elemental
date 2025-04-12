@@ -24,7 +24,7 @@ public class SpellTileConfigWidget implements Widget, Drawable, Element {
     private boolean focused;
     private int posX;
     private int posY;
-    private SpellTile step;
+    private SpellTile tile;
     private int selected;
     private boolean editing;
 
@@ -42,7 +42,7 @@ public class SpellTileConfigWidget implements Widget, Drawable, Element {
     }
 
     public void setTile(SpellTile value) {
-        step = value;
+        tile = value;
         selected = 0;
         editing = false;
         setFocused(false);
@@ -50,11 +50,11 @@ public class SpellTileConfigWidget implements Widget, Drawable, Element {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        if (step == null) {
+        if (tile == null) {
             return;
         }
-        context.drawGuiTexture(RenderLayer::getGuiTextured, step.type.texture(), 16, 16, 0, 0, getX() + 8, getY() + 8, 15, 15);
-        context.drawGuiTexture(RenderLayer::getGuiTextured, ARROW_TEXTURE, 32, 128, 0, WandScreen.getArrowV(step.next), getX() + 4, getY() + 4, 23, 23);
+        context.drawGuiTexture(RenderLayer::getGuiTextured, tile.type.texture(), 16, 16, 0, 0, getX() + 8, getY() + 8, 15, 15);
+        context.drawGuiTexture(RenderLayer::getGuiTextured, ARROW_TEXTURE, 32, 128, 0, WandScreen.getArrowV(tile.next), getX() + 4, getY() + 4, 23, 23);
         if (mouseX >= getX() + 8 && mouseY >= getY() + 8 && mouseX < getX() + 24 && mouseY < getY() + 24) {
             int dx = mouseX - (getX() + 16);
             int dy = mouseY - (getY() + 16);
@@ -113,8 +113,8 @@ public class SpellTileConfigWidget implements Widget, Drawable, Element {
         if (mouseX >= getX() + 8 && mouseY >= getY() + 8 && mouseX < getX() + 24 && mouseY < getY() + 24) {
             int dx = (int) mouseX - (getX() + 16);
             int dy = (int) mouseY - (getY() + 16);
-            if (step != null) {
-                step.next = WandScreen.getHighlightDir(dx, dy);
+            if (tile != null) {
+                tile.next = WandScreen.getHighlightDir(dx, dy);
                 return true;
             }
         }
@@ -126,7 +126,7 @@ public class SpellTileConfigWidget implements Widget, Drawable, Element {
         if (!isFocused()) {
             return false;
         }
-        if (step == null) {
+        if (tile == null) {
             return false;
         }
         if (Element.super.keyPressed(keyCode, scanCode, modifiers)) {
@@ -141,13 +141,13 @@ public class SpellTileConfigWidget implements Widget, Drawable, Element {
         } else if (editing) {
             if (selected == 0) {
                 if (keyCode == GLFW.GLFW_KEY_RIGHT) {
-                    step.next = Direction.RIGHT;
+                    tile.next = Direction.RIGHT;
                 } else if (keyCode == GLFW.GLFW_KEY_LEFT) {
-                    step.next = Direction.LEFT;
+                    tile.next = Direction.LEFT;
                 } else if (keyCode == GLFW.GLFW_KEY_DOWN) {
-                    step.next = Direction.DOWN;
+                    tile.next = Direction.DOWN;
                 } else if (keyCode == GLFW.GLFW_KEY_UP) {
-                    step.next = Direction.UP;
+                    tile.next = Direction.UP;
                 }
             }
             return true;

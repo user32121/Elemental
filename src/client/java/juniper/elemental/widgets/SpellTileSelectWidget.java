@@ -121,13 +121,13 @@ public class SpellTileSelectWidget implements Widget, Drawable, Element {
             setFocused(false);
             return true;
         } else if (keyCode == GLFW.GLFW_KEY_ENTER) {
-            selectStep();
+            selectTile();
             return true;
         }
         return Element.super.keyPressed(keyCode, scanCode, modifiers);
     }
 
-    private void selectStep() {
+    private void selectTile() {
         if (selected == 0) {
             callback.accept(null);
         } else {
@@ -180,19 +180,19 @@ public class SpellTileSelectWidget implements Widget, Drawable, Element {
             return false;
         }
         if (isHovering) {
-            selectStep();
+            selectTile();
             return true;
         }
         return Element.super.mouseClicked(mouseX, mouseY, button);
     }
 
-    public void setSelected(SpellTile step) {
-        if (step == null) {
+    public void setSelected(SpellTile tile) {
+        if (tile == null) {
             selected = 0;
             return;
         }
         for (int i = 0; i < SpellTileType.ALL.length; ++i) {
-            if (step.type == SpellTileType.ALL[i]) {
+            if (tile.type == SpellTileType.ALL[i]) {
                 selected = i + 1;
                 return;
             }

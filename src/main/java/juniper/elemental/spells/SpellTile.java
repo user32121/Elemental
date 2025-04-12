@@ -38,8 +38,8 @@ public class SpellTile {
     }
 
     public static final Codec<SpellTile> CODEC = RecordCodecBuilder
-            .create(instance -> instance.group(Codec.INT.fieldOf("x").forGetter(step -> step.x), Codec.INT.fieldOf("y").forGetter(step -> step.y),
-                    Direction.CODEC.fieldOf("next").forGetter(step -> step.next), SpellTileType.CODEC.fieldOf("type").forGetter(step -> step.type)).apply(instance, SpellTile::new));
+            .create(instance -> instance.group(Codec.INT.fieldOf("x").forGetter(tile -> tile.x), Codec.INT.fieldOf("y").forGetter(tile -> tile.y),
+                    Direction.CODEC.fieldOf("next").forGetter(tile -> tile.next), SpellTileType.CODEC.fieldOf("type").forGetter(tile -> tile.type)).apply(instance, SpellTile::new));
     public static final PacketCodec<ByteBuf, SpellTile> PACKET_CODEC = PacketCodec.tuple(PacketCodecs.INTEGER, spell -> spell.x, PacketCodecs.INTEGER, spell -> spell.y, Direction.PACKET_CODEC,
             spell -> spell.next, SpellTileType.PACKET_CODEC, spell -> spell.type, SpellTile::new);
 
