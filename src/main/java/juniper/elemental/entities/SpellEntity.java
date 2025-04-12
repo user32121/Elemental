@@ -70,6 +70,8 @@ public class SpellEntity extends ProjectileEntity {
     @Override
     public void tick() {
         super.tick();
+        //TODO physics
+
         //no spell, do nothing
         if (this.spell == null) {
             return;

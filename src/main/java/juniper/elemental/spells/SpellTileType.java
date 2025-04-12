@@ -31,12 +31,10 @@ public record SpellTileType(String name, Identifier texture, TriConsumer<SpellSt
         all.add(START);
         all.add(make("nop", NOP, List.of()));
         all.add(make("debug", (state, entity, tile) -> {
-            if (entity.getOwner() instanceof PlayerEntity player) {
-                double[] primaryValues = state.getRegisterRaw(true);
-                double[] secondaryValues = state.getRegisterRaw(false);
-                player.sendMessage(Text.of(String.format("primary: [%s, %s, %s, %s]\nsecondary: [%s, %s, %s, %s]", primaryValues[0], primaryValues[1], primaryValues[2], primaryValues[3],
-                        secondaryValues[0], secondaryValues[1], secondaryValues[2], secondaryValues[3])), false);
-            }
+            double[] primaryValues = state.getRegisterRaw(true);
+            double[] secondaryValues = state.getRegisterRaw(false);
+            sendOwnerMessage(entity, Text.of(String.format("primary: [%s, %s, %s, %s]\nsecondary: [%s, %s, %s, %s]", primaryValues[0], primaryValues[1], primaryValues[2], primaryValues[3],
+                    secondaryValues[0], secondaryValues[1], secondaryValues[2], secondaryValues[3])));
         }, List.of()));
         all.add(make("swap", (state, entity, tile) -> {
             state.swapRegisters();
@@ -50,6 +48,9 @@ public record SpellTileType(String name, Identifier texture, TriConsumer<SpellSt
         }, List.of(new Pair<>("value", SpellProperty.INTEGER))));
         all.add(make("add", (state, entity, tile) -> {
             state.setRegisterInt(true, state.getRegisterInt(true) + state.getRegisterInt(false) + tile.properties.getOrDefault("value", 0));
+        }, List.of(new Pair<>("value", SpellProperty.INTEGER))));
+        all.add(make("multiply_vector", (state, entity, tile) -> {
+            state.setRegisterVec3d(true, state.getRegisterVec3d(true).multiply(state.getRegisterInt(false) * tile.properties.getOrDefault("value", 0)));
         }, List.of(new Pair<>("value", SpellProperty.INTEGER))));
         all.add(make("get_self", (state, entity, tile) -> {
             state.setRegisterEntity(true, entity);
@@ -67,16 +68,25 @@ public record SpellTileType(String name, Identifier texture, TriConsumer<SpellSt
                 state.setRegisterVec3d(true, dir);
             }
         }, List.of()));
+        all.add(make("add_velocity", (state, entity, tile) -> {
+            Entity target = state.getRegisterEntity(true, entity.getWorld(), entity.getBlockPos());
+            Vec3d velocity = state.getRegisterVec3d(false);
+            if (target == null) {
+                sendOwnerMessage(entity, Text.of("Primary register does not contain valid entity"));
+                return;
+            }
+            Elemental.LOGGER.info("{}", target.getVelocity());
+            target.addVelocity(velocity);
+            target.velocityModified = true;
+            Elemental.LOGGER.info("{}", target.getVelocity());
+        }, List.of()));
         return all;
     }
 
     public static TriConsumer<SpellState, SpellEntity, SpellTile> NOP = (state, entity, tile) -> {
     };
     public static TriConsumer<SpellState, SpellEntity, SpellTile> TODO = (state, entity, tile) -> {
-        Entity owner = entity.getOwner();
-        if (owner instanceof PlayerEntity player) {
-            player.sendMessage(Text.of("TODO"), false);
-        }
+        sendOwnerMessage(entity, Text.of("TODO"));
     };
     public static final SpellTileType START = make("start", NOP, List.of());
     public static final List<SpellTileType> ALL = makeAll();
@@ -85,6 +95,12 @@ public record SpellTileType(String name, Identifier texture, TriConsumer<SpellSt
 
     private static SpellTileType make(String name, TriConsumer<SpellState, SpellEntity, SpellTile> execute, List<Pair<String, SpellProperty>> properties) {
         return new SpellTileType(name, Identifier.of(Elemental.MOD_ID, "item/wand/" + name), execute, properties);
+    }
+
+    public static void sendOwnerMessage(SpellEntity sender, Text message) {
+        if (sender.getOwner() instanceof PlayerEntity player) {
+            player.sendMessage(message, false);
+        }
     }
 
     @Override
