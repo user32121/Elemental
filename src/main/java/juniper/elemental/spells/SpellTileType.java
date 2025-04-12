@@ -65,7 +65,6 @@ public record SpellTileType(String name, Identifier texture, TriConsumer<SpellSt
                 float yaw = e.getYaw();
                 Vec3d dir = new Vec3d(MathHelper.cos(pitch * MathHelper.RADIANS_PER_DEGREE) * -MathHelper.sin(yaw * MathHelper.RADIANS_PER_DEGREE),
                         -MathHelper.sin(pitch * MathHelper.RADIANS_PER_DEGREE), MathHelper.cos(pitch * MathHelper.RADIANS_PER_DEGREE) * MathHelper.cos(yaw * MathHelper.RADIANS_PER_DEGREE));
-                Elemental.LOGGER.info("{}", dir);
                 state.setRegisterVec3d(true, dir);
             }
         }, List.of()));
@@ -76,10 +75,8 @@ public record SpellTileType(String name, Identifier texture, TriConsumer<SpellSt
                 sendOwnerMessage(entity, Text.of("Primary register does not contain valid entity"));
                 return;
             }
-            Elemental.LOGGER.info("{}", target.getVelocity());
             target.addVelocity(velocity);
             target.velocityModified = true;
-            Elemental.LOGGER.info("{}", target.getVelocity());
         }, List.of()));
         return all;
     }
