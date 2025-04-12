@@ -183,9 +183,11 @@ public class SpellTileConfigWidget implements Widget, Drawable, Element {
             return true;
         } else if (keyCode == GLFW.GLFW_KEY_DOWN) {
             selected = Math.min(selected + 1, tile.type.properties().size());
+            return true;
         } else if (keyCode == GLFW.GLFW_KEY_UP) {
             selected = Math.max(0, selected - 1);
+            return true;
         }
-        return true;
+        return false;
     }
 }

@@ -12,6 +12,23 @@ public class SpellState {
     public @Nullable Vector2i curTile;
     public int ticksLeft = 20 * 60;
 
+    public int[] register = new int[4];
+
+    public int getRegisterInt() {
+        return register[0];
+    }
+
+    public void setRegisterInt(int value) {
+        setRegister(value, 0, 0, 0);
+    }
+
+    public void setRegister(int v0, int v1, int v2, int v3) {
+        register[0] = v0;
+        register[1] = v1;
+        register[2] = v2;
+        register[3] = v3;
+    }
+
     public NbtCompound toNbt() {
         NbtCompound nbt = new NbtCompound();
         nbt.putInt(TICKS_LEFT_KEY, ticksLeft);

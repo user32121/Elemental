@@ -95,7 +95,7 @@ public class SpellEntity extends ProjectileEntity {
             return;
         }
         //normal execution
-        tile.type.execute().accept(state, this);
+        tile.type.execute().accept(state, this, tile);
         --state.ticksLeft;
         state.curTile = state.curTile.add(tile.next.asVec2i());
     }
