@@ -18,6 +18,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.StringIdentifiable;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 
 public record SpellTileType(String name, Identifier texture, TriConsumer<SpellState, SpellEntity, SpellTile> execute, List<Pair<String, SpellProperty>> properties) implements StringIdentifiable {
     public enum SpellProperty {
@@ -30,12 +32,29 @@ public record SpellTileType(String name, Identifier texture, TriConsumer<SpellSt
         all.add(make("nop", NOP, List.of()));
         all.add(make("debug", (state, entity, tile) -> {
             if (entity.getOwner() instanceof PlayerEntity player) {
-                player.sendMessage(Text.of(String.format("[%s, %s, %s, %s]", state.register[0], state.register[1], state.register[2], state.register[3])), false);
+                double[] values = state.getRegisterRaw();
+                player.sendMessage(Text.of(String.format("[%s, %s, %s, %s]", values[0], values[1], values[2], values[3])), false);
             }
         }, List.of()));
         all.add(make("add", (state, entity, tile) -> {
             state.setRegisterInt(state.getRegisterInt() + tile.properties.getOrDefault("value", 0));
         }, List.of(new Pair<>("value", SpellProperty.INTEGER))));
+        all.add(make("get_self", (state, entity, tile) -> {
+            state.setRegisterEntity(entity);
+        }, List.of()));
+        all.add(make("get_caster", (state, entity, tile) -> {
+            state.setRegisterEntity(entity.getOwner());
+        }, List.of()));
+        all.add(make("get_look", (state, entity, tile) -> {
+            Entity e = state.getRegisterEntity(entity.getWorld(), entity.getBlockPos());
+            if (e != null) {
+                float pitch = e.getPitch();
+                float yaw = e.getYaw();
+                Vec3d dir = new Vec3d(MathHelper.cos(pitch * MathHelper.RADIANS_PER_DEGREE) * -MathHelper.sin(yaw * MathHelper.RADIANS_PER_DEGREE),
+                        -MathHelper.sin(pitch * MathHelper.RADIANS_PER_DEGREE), MathHelper.cos(pitch * MathHelper.RADIANS_PER_DEGREE) * MathHelper.cos(yaw * MathHelper.RADIANS_PER_DEGREE));
+                state.setRegisterVec3d(dir);
+            }
+        }, List.of()));
         return all;
     }
 
