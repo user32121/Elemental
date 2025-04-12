@@ -16,11 +16,14 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.data.DataTracker.Builder;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class SpellEntity extends ProjectileEntity {
@@ -70,7 +73,15 @@ public class SpellEntity extends ProjectileEntity {
     @Override
     public void tick() {
         super.tick();
-        //TODO physics
+
+        //physics
+        HitResult hitResult = ProjectileUtil.getCollision(this, this::canHit);
+        Vec3d newPos = hitResult.getType() != HitResult.Type.MISS ? hitResult.getPos() : this.getPos().add(this.getVelocity());
+        this.setPosition(newPos);
+        if (getVelocity().lengthSquared() > 1e-6) {
+            this.updateRotation();
+        }
+        this.tickBlockCollision();
 
         //no spell, do nothing
         if (this.spell == null) {

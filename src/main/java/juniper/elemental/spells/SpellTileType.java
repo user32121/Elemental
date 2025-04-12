@@ -65,6 +65,7 @@ public record SpellTileType(String name, Identifier texture, TriConsumer<SpellSt
                 float yaw = e.getYaw();
                 Vec3d dir = new Vec3d(MathHelper.cos(pitch * MathHelper.RADIANS_PER_DEGREE) * -MathHelper.sin(yaw * MathHelper.RADIANS_PER_DEGREE),
                         -MathHelper.sin(pitch * MathHelper.RADIANS_PER_DEGREE), MathHelper.cos(pitch * MathHelper.RADIANS_PER_DEGREE) * MathHelper.cos(yaw * MathHelper.RADIANS_PER_DEGREE));
+                Elemental.LOGGER.info("{}", dir);
                 state.setRegisterVec3d(true, dir);
             }
         }, List.of()));
@@ -84,9 +85,6 @@ public record SpellTileType(String name, Identifier texture, TriConsumer<SpellSt
     }
 
     public static TriConsumer<SpellState, SpellEntity, SpellTile> NOP = (state, entity, tile) -> {
-    };
-    public static TriConsumer<SpellState, SpellEntity, SpellTile> TODO = (state, entity, tile) -> {
-        sendOwnerMessage(entity, Text.of("TODO"));
     };
     public static final SpellTileType START = make("start", NOP, List.of());
     public static final List<SpellTileType> ALL = makeAll();
