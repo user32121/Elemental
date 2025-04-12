@@ -20,9 +20,11 @@ public record SpellPropertyHandler(Renderer renderer, MouseHandler mouseHandler,
             return value;
         }, (keyCode, scanCode, modifiers, value) -> {
             if (keyCode >= GLFW.GLFW_KEY_0 && keyCode <= GLFW.GLFW_KEY_9) {
-                return value * 10 + keyCode - GLFW.GLFW_KEY_0;
+                return value * 10 + (keyCode - GLFW.GLFW_KEY_0) * (value < 0 ? -1 : 1);
             } else if (keyCode == GLFW.GLFW_KEY_BACKSPACE) {
                 return value / 10;
+            } else if (keyCode == GLFW.GLFW_KEY_MINUS) {
+                return -value;
             }
             return value;
         }));
