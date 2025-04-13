@@ -20,11 +20,15 @@ public record SpellPropertyHandler(Renderer renderer, MouseHandler mouseHandler,
             return value;
         }, (keyCode, scanCode, modifiers, value) -> {
             if (keyCode >= GLFW.GLFW_KEY_0 && keyCode <= GLFW.GLFW_KEY_9) {
-                return fixDouble(value * 10 + (keyCode - GLFW.GLFW_KEY_0) * (value < 0 ? -1 : 1));
+                return fixDouble(value * 10 - getDigit(value * 10) + (keyCode - GLFW.GLFW_KEY_0) * (value < 0 ? -1 : 1));
             } else if (keyCode == GLFW.GLFW_KEY_BACKSPACE) {
+                return fixDouble((value - getDigit(value)) / 10);
+            } else if (keyCode == GLFW.GLFW_KEY_LEFT) {
                 return fixDouble(value / 10);
+            } else if (keyCode == GLFW.GLFW_KEY_RIGHT) {
+                return fixDouble(value * 10);
             } else if (keyCode == GLFW.GLFW_KEY_PERIOD) {
-                return (int) value;
+                return 0;
             } else if (keyCode == GLFW.GLFW_KEY_MINUS) {
                 return -value;
             }
@@ -39,6 +43,10 @@ public record SpellPropertyHandler(Renderer renderer, MouseHandler mouseHandler,
             return 0;
         }
         return value;
+    }
+
+    private static int getDigit(double value) {
+        return (int) (value % 10);
     }
 
     @FunctionalInterface
