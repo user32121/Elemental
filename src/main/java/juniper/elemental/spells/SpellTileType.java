@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.function.TriConsumer;
+import org.joml.Vector2i;
 
 import com.mojang.serialization.Codec;
 
 import io.netty.buffer.ByteBuf;
 import juniper.elemental.Elemental;
 import juniper.elemental.entities.SpellEntity;
+import juniper.elemental.spells.SpellTile.Direction;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.codec.PacketCodec;
@@ -24,7 +26,7 @@ import net.minecraft.util.math.Vec3d;
 
 public record SpellTileType(String name, Identifier texture, TriConsumer<SpellState, SpellEntity, SpellTile> execute, List<Pair<String, SpellProperty>> properties) implements StringIdentifiable {
     public enum SpellProperty {
-        NUMBER
+        NUMBER, DIRECTION
     }
 
     private static List<SpellTileType> makeAll() {
@@ -91,6 +93,14 @@ public record SpellTileType(String name, Identifier texture, TriConsumer<SpellSt
         all.add(make("constant_vector", (state, spell, tile) -> {
             state.setRegisterVec3d(true, new Vec3d(tile.properties.getOrDefault("x", 0.0), tile.properties.getOrDefault("y", 0.0), tile.properties.getOrDefault("z", 0.0)));
         }, List.of(new Pair<>("x", SpellProperty.NUMBER), new Pair<>("y", SpellProperty.NUMBER), new Pair<>("z", SpellProperty.NUMBER))));
+        all.add(make("branch_equals", (state, spell, tile) -> {
+            double[] r1 = state.getRegisterRaw(true);
+            double[] r2 = state.getRegisterRaw(false);
+            if (r1[0] == r2[0] && r1[1] == r2[1] && r1[2] == r2[2] && r1[3] == r2[3]) {
+                state.nextTile = state.curTile.add(Direction.fromId((int) (double) tile.properties.get("branch")).asVec2i(), new Vector2i());
+            }
+        }, List.of(new Pair<>("branch", SpellProperty.DIRECTION))));
+        //TODO get_collided
         return all;
     }
 

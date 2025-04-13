@@ -18,6 +18,7 @@ public class SpellState {
     private static final String TICKS_LEFT_KEY = "TicksLeft";
 
     public @Nullable Vector2i curTile;
+    public @Nullable Vector2i nextTile;
     public int ticksLeft = 20 * 60;
 
     //this is slightly scuffed, but should be ok since all int32 fit in a double
@@ -119,6 +120,7 @@ public class SpellState {
         setCachedRegisterEntity(primary, value);
     }
 
+    //TODO save registers
     public NbtCompound toNbt() {
         NbtCompound nbt = new NbtCompound();
         nbt.putInt(TICKS_LEFT_KEY, ticksLeft);

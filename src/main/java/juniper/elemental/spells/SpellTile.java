@@ -17,15 +17,17 @@ import net.minecraft.util.function.ValueLists.OutOfBoundsHandling;
 
 public class SpellTile {
     public enum Direction implements StringIdentifiable {
-        UP(0, -1), LEFT(-1, 0), DOWN(0, 1), RIGHT(1, 0);
+        RIGHT(0, 1, 0), UP(1, 0, -1), LEFT(2, -1, 0), DOWN(3, 0, 1),;
 
         public static final Codec<Direction> CODEC = StringIdentifiable.createCodec(Direction::values);
         public static final PacketCodec<ByteBuf, Direction> PACKET_CODEC = PacketCodecs.indexed(ValueLists.createIdToValueFunction(Direction::ordinal, Direction.values(), OutOfBoundsHandling.WRAP),
                 Direction::ordinal);
+        public final int id;
         public final int x;
         public final int y;
 
-        Direction(int x, int y) {
+        Direction(int id, int x, int y) {
+            this.id = id;
             this.x = x;
             this.y = y;
         }
@@ -37,6 +39,15 @@ public class SpellTile {
         @Override
         public String asString() {
             return toString();
+        }
+
+        public static Direction fromId(int id) {
+            for (Direction dir : values()) {
+                if (dir.id == id) {
+                    return dir;
+                }
+            }
+            throw new IllegalArgumentException("no direction with id " + id);
         }
     }
 

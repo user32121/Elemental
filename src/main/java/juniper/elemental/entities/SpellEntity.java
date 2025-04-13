@@ -108,9 +108,10 @@ public class SpellEntity extends ProjectileEntity {
             return;
         }
         //normal execution
+        state.nextTile = state.curTile.add(tile.next.asVec2i(), new Vector2i());
         tile.type.execute().accept(state, this, tile);
         --state.ticksLeft;
-        state.curTile = state.curTile.add(tile.next.asVec2i());
+        state.curTile = state.nextTile;
     }
 
     private Vector2i getStart() {

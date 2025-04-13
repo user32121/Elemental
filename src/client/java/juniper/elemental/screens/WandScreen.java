@@ -21,7 +21,7 @@ import net.minecraft.util.math.MathHelper;
 
 public class WandScreen extends HandledScreen<WandScreenHandler> {
     private static final Identifier BACKGROUND_TEXTURE = Identifier.of(Elemental.MOD_ID, "textures/gui/item/wand.png");
-    private static final Identifier ARROW_TEXTURE = Identifier.of(Elemental.MOD_ID, "item/wand/arrows");
+    private static final Identifier ARROW_TEXTURE = Identifier.of(Elemental.MOD_ID, "item/wand/next_arrows");
     private static final Identifier SELECT_TEXTURE = Identifier.of(Elemental.MOD_ID, "item/wand/select");
 
     private double offsetX = 72;
@@ -118,7 +118,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
         return v;
     }
 
-    public static Direction getHighlightDir(int dx, int dy) {
+    public static Direction getHighlightDir(double dx, double dy) {
         if (dy > dx) {
             if (dy > -dx) {
                 return Direction.DOWN;
@@ -138,13 +138,13 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
         int v;
         switch (dir) {
             case UP:
-                v = 15;
+                v = 31;
                 break;
             case DOWN:
-                v = 45;
+                v = 93;
                 break;
             case LEFT:
-                v = 30;
+                v = 62;
                 break;
             case RIGHT:
                 v = 0;
@@ -247,6 +247,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
         super.close();
     }
 
+    //TODO ctrl+c, ctrl+v, etc
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (tileSelectWidget.keyPressed(keyCode, scanCode, modifiers)) {
