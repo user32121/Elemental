@@ -18,6 +18,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.StringIdentifiable;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
@@ -78,6 +79,18 @@ public record SpellTileType(String name, Identifier texture, TriConsumer<SpellSt
             target.addVelocity(velocity);
             target.velocityModified = true;
         }, List.of()));
+        all.add(make("get_nearest_entity", (state, spell, tile) -> {
+            Entity nearest = null;
+            for (Entity e : spell.getWorld().getOtherEntities(spell, new Box(spell.getBlockPos()).expand(32))) {
+                if (nearest == null || e.squaredDistanceTo(spell) < nearest.squaredDistanceTo(spell)) {
+                    nearest = e;
+                }
+            }
+            state.setRegisterEntity(true, nearest);
+        }, List.of()));
+        all.add(make("constant_vector", (state, spell, tile) -> {
+            state.setRegisterVec3d(true, new Vec3d(tile.properties.getOrDefault("x", 0.0), tile.properties.getOrDefault("y", 0.0), tile.properties.getOrDefault("z", 0.0)));
+        }, List.of(new Pair<>("x", SpellProperty.FLOAT), new Pair<>("y", SpellProperty.FLOAT), new Pair<>("z", SpellProperty.FLOAT))));
         return all;
     }
 
