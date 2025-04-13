@@ -16,6 +16,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
@@ -49,13 +50,12 @@ public record SpellTileType(String name, Identifier texture, TriConsumer<SpellSt
         all.add(make("constant", (state, entity, tile) -> {
             state.setRegisterDouble(true, tile.properties.getOrDefault("value", 0.0));
         }, List.of(new Pair<>("value", SpellProperty.NUMBER))));
-        //TODO remove constants from add/multiply
         all.add(make("add", (state, entity, tile) -> {
-            state.setRegisterDouble(true, state.getRegisterDouble(true) + state.getRegisterDouble(false) + tile.properties.getOrDefault("value", 0.0));
-        }, List.of(new Pair<>("value", SpellProperty.NUMBER))));
+            state.setRegisterDouble(true, state.getRegisterDouble(true) + state.getRegisterDouble(false));
+        }, List.of()));
         all.add(make("multiply_vector", (state, entity, tile) -> {
-            state.setRegisterVec3d(true, state.getRegisterVec3d(true).multiply(state.getRegisterDouble(false) * tile.properties.getOrDefault("value", 0.0)));
-        }, List.of(new Pair<>("value", SpellProperty.NUMBER))));
+            state.setRegisterVec3d(true, state.getRegisterVec3d(true).multiply(state.getRegisterDouble(false)));
+        }, List.of()));
         all.add(make("get_self", (state, entity, tile) -> {
             state.setRegisterEntity(true, entity);
         }, List.of()));
@@ -77,6 +77,9 @@ public record SpellTileType(String name, Identifier texture, TriConsumer<SpellSt
             Vec3d velocity = state.getRegisterVec3d(false);
             if (target == null) {
                 sendOwnerMessage(entity, Text.of("Primary register does not contain valid entity"));
+                if (entity.getWorld() instanceof ServerWorld world) {
+                    entity.kill(world);
+                }
                 return;
             }
             target.addVelocity(velocity);

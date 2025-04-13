@@ -248,6 +248,7 @@ public class WandScreen extends HandledScreen<WandScreenHandler> {
     }
 
     //TODO ctrl+c, ctrl+v, etc
+    //TODO export spell
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (tileSelectWidget.keyPressed(keyCode, scanCode, modifiers)) {
