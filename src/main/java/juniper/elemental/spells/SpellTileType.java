@@ -49,6 +49,7 @@ public record SpellTileType(String name, Identifier texture, TriConsumer<SpellSt
         all.add(make("constant", (state, entity, tile) -> {
             state.setRegisterDouble(true, tile.properties.getOrDefault("value", 0.0));
         }, List.of(new Pair<>("value", SpellProperty.NUMBER))));
+        //TODO remove constants from add/multiply
         all.add(make("add", (state, entity, tile) -> {
             state.setRegisterDouble(true, state.getRegisterDouble(true) + state.getRegisterDouble(false) + tile.properties.getOrDefault("value", 0.0));
         }, List.of(new Pair<>("value", SpellProperty.NUMBER))));

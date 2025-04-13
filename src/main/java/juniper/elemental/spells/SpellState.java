@@ -7,6 +7,9 @@ import org.joml.Vector2i;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtDouble;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.util.Uuids;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -16,6 +19,8 @@ import net.minecraft.world.World;
 public class SpellState {
     private static final String CUR_TILE_KEY = "CurrentTile";
     private static final String TICKS_LEFT_KEY = "TicksLeft";
+    private static final String PRIMARY_REGISTER_KEY = "PrimaryRegister";
+    private static final String SECONDARY_REGISTER_KEY = "SecondaryRegister";
 
     public @Nullable Vector2i curTile;
     public @Nullable Vector2i nextTile;
@@ -120,13 +125,24 @@ public class SpellState {
         setCachedRegisterEntity(primary, value);
     }
 
-    //TODO save registers
     public NbtCompound toNbt() {
         NbtCompound nbt = new NbtCompound();
         nbt.putInt(TICKS_LEFT_KEY, ticksLeft);
         if (curTile != null) {
             nbt.putIntArray(CUR_TILE_KEY, new int[] { curTile.x, curTile.y });
         }
+        NbtList list = new NbtList();
+        list.add(NbtDouble.of(primaryRegister[0]));
+        list.add(NbtDouble.of(primaryRegister[1]));
+        list.add(NbtDouble.of(primaryRegister[2]));
+        list.add(NbtDouble.of(primaryRegister[3]));
+        nbt.put(PRIMARY_REGISTER_KEY, list);
+        list = new NbtList();
+        list.add(NbtDouble.of(secondaryRegister[0]));
+        list.add(NbtDouble.of(secondaryRegister[1]));
+        list.add(NbtDouble.of(secondaryRegister[2]));
+        list.add(NbtDouble.of(secondaryRegister[3]));
+        nbt.put(SECONDARY_REGISTER_KEY, list);
         return nbt;
     }
 
@@ -137,6 +153,16 @@ public class SpellState {
         if (ar.length >= 2) {
             state.curTile = new Vector2i(ar[0], ar[1]);
         }
+        NbtList list = nbt.getList(PRIMARY_REGISTER_KEY, NbtElement.DOUBLE_TYPE);
+        state.primaryRegister[0] = list.getDouble(0);
+        state.primaryRegister[1] = list.getDouble(1);
+        state.primaryRegister[2] = list.getDouble(2);
+        state.primaryRegister[3] = list.getDouble(3);
+        list = nbt.getList(SECONDARY_REGISTER_KEY, NbtElement.DOUBLE_TYPE);
+        state.secondaryRegister[0] = list.getDouble(0);
+        state.secondaryRegister[1] = list.getDouble(1);
+        state.secondaryRegister[2] = list.getDouble(2);
+        state.secondaryRegister[3] = list.getDouble(3);
         return state;
     }
 
