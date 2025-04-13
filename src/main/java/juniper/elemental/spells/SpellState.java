@@ -34,6 +34,14 @@ public class SpellState {
         setRegisterRaw(primary, value, 0, 0, 0);
     }
 
+    public double getRegisterDouble(boolean primary) {
+        return getRegisterRaw(primary)[0];
+    }
+
+    public void setRegisterDouble(boolean primary, double value) {
+        setRegisterRaw(primary, value, 0, 0, 0);
+    }
+
     public void setRegisterRaw(boolean primary, double v0, double v1, double v2, double v3) {
         if (primary) {
             primaryRegister[0] = v0;

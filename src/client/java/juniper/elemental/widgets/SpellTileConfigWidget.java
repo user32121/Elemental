@@ -69,7 +69,7 @@ public class SpellTileConfigWidget implements Widget, Drawable, Element {
         int y = getY() + 32;
         for (Pair<String, SpellProperty> prop : tile.type.properties()) {
             context.drawText(textRenderer, prop.getLeft(), getX() + 16 - textRenderer.getWidth(prop.getLeft()) / 2, y, 0xFFFFFFFF, false);
-            SpellPropertyHandler.ALL.get(prop.getRight()).renderer().render(context, textRenderer, getX(), y, mouseX, mouseY, tile.properties.getOrDefault(prop.getLeft(), 0));
+            SpellPropertyHandler.ALL.get(prop.getRight()).renderer().render(context, textRenderer, getX(), y, mouseX, mouseY, tile.properties.getOrDefault(prop.getLeft(), 0.0));
             y += 32;
         }
         //selection outline
@@ -139,7 +139,7 @@ public class SpellTileConfigWidget implements Widget, Drawable, Element {
                 tile.next = WandScreen.getHighlightDir(dx, dy);
             } else {
                 Pair<String, SpellProperty> prop = tile.type.properties().get(selected - 1);
-                int value = SpellPropertyHandler.ALL.get(prop.getRight()).mouseHandler().mouseClicked(mouseX, mouseY, button, tile.properties.getOrDefault(prop.getLeft(), 0));
+                double value = SpellPropertyHandler.ALL.get(prop.getRight()).mouseHandler().mouseClicked(mouseX, mouseY, button, tile.properties.getOrDefault(prop.getLeft(), 0.0));
                 tile.properties.put(prop.getLeft(), value);
             }
             return true;
@@ -177,7 +177,7 @@ public class SpellTileConfigWidget implements Widget, Drawable, Element {
                 }
             } else {
                 Pair<String, SpellProperty> prop = tile.type.properties().get(selected - 1);
-                int value = SpellPropertyHandler.ALL.get(prop.getRight()).keyHandler().keyPressed(keyCode, scanCode, modifiers, tile.properties.getOrDefault(prop.getLeft(), 0));
+                double value = SpellPropertyHandler.ALL.get(prop.getRight()).keyHandler().keyPressed(keyCode, scanCode, modifiers, tile.properties.getOrDefault(prop.getLeft(), 0.0));
                 tile.properties.put(prop.getLeft(), value);
             }
             return true;

@@ -23,7 +23,7 @@ import net.minecraft.util.math.Vec3d;
 
 public record SpellTileType(String name, Identifier texture, TriConsumer<SpellState, SpellEntity, SpellTile> execute, List<Pair<String, SpellProperty>> properties) implements StringIdentifiable {
     public enum SpellProperty {
-        INTEGER;
+        FLOAT;
     }
 
     private static List<SpellTileType> makeAll() {
@@ -44,14 +44,14 @@ public record SpellTileType(String name, Identifier texture, TriConsumer<SpellSt
             state.setCachedRegisterEntity(true, state.getCachedRegisterEntity(false));
         }, List.of()));
         all.add(make("constant", (state, entity, tile) -> {
-            state.setRegisterInt(true, tile.properties.getOrDefault("value", 0));
-        }, List.of(new Pair<>("value", SpellProperty.INTEGER))));
+            state.setRegisterDouble(true, tile.properties.getOrDefault("value", 0.0));
+        }, List.of(new Pair<>("value", SpellProperty.FLOAT))));
         all.add(make("add", (state, entity, tile) -> {
-            state.setRegisterInt(true, state.getRegisterInt(true) + state.getRegisterInt(false) + tile.properties.getOrDefault("value", 0));
-        }, List.of(new Pair<>("value", SpellProperty.INTEGER))));
+            state.setRegisterDouble(true, state.getRegisterDouble(true) + state.getRegisterDouble(false) + tile.properties.getOrDefault("value", 0.0));
+        }, List.of(new Pair<>("value", SpellProperty.FLOAT))));
         all.add(make("multiply_vector", (state, entity, tile) -> {
-            state.setRegisterVec3d(true, state.getRegisterVec3d(true).multiply(state.getRegisterInt(false) * tile.properties.getOrDefault("value", 0)));
-        }, List.of(new Pair<>("value", SpellProperty.INTEGER))));
+            state.setRegisterVec3d(true, state.getRegisterVec3d(true).multiply(state.getRegisterDouble(false) * tile.properties.getOrDefault("value", 0.0)));
+        }, List.of(new Pair<>("value", SpellProperty.FLOAT))));
         all.add(make("get_self", (state, entity, tile) -> {
             state.setRegisterEntity(true, entity);
         }, List.of()));
