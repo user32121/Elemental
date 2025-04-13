@@ -32,6 +32,8 @@ public class SpellState {
     private @Nullable Entity primaryRegisterEntity;
     private @Nullable Entity secondaryRegisterEntity;
 
+    //TODO spell attributes (e.g. costs power to move entities)
+
     public int getRegisterInt(boolean primary) {
         return (int) getRegisterRaw(primary)[0];
     }
@@ -123,6 +125,14 @@ public class SpellState {
             setRegisterRaw(primary, uuid[0], uuid[1], uuid[2], uuid[3]);
         }
         setCachedRegisterEntity(primary, value);
+    }
+
+    public boolean getRegisterBoolean(boolean primary) {
+        return getRegisterRaw(primary)[0] != 0;
+    }
+
+    public void setRegisterBoolean(boolean primary, boolean value) {
+        setRegisterRaw(primary, value ? 1 : 0, 0, 0, 0);
     }
 
     public NbtCompound toNbt() {

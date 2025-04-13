@@ -32,6 +32,7 @@ public class SpellEntity extends ProjectileEntity {
 
     private WandSpell spell;
     private SpellState state = new SpellState();
+    public boolean collided;
 
     public SpellEntity(EntityType<? extends SpellEntity> entityType, World world) {
         super(entityType, world);
@@ -76,15 +77,19 @@ public class SpellEntity extends ProjectileEntity {
 
         //physics
         HitResult hitResult = ProjectileUtil.getCollision(this, this::canHit);
-        Vec3d newPos = hitResult.getType() != HitResult.Type.MISS ? hitResult.getPos() : this.getPos().add(this.getVelocity());
-        this.setPosition(newPos);
-        if (getVelocity().lengthSquared() > 1e-6) {
-            this.updateRotation();
+        Vec3d newPos = hitResult.getType() != HitResult.Type.MISS ? hitResult.getPos() : getPos().add(getVelocity());
+        setPosition(newPos);
+        if (hitResult.getType() != HitResult.Type.MISS) {
+            collided = true;
+            setVelocity(Vec3d.ZERO);
         }
-        this.tickBlockCollision();
+        if (getVelocity().lengthSquared() > 1e-6) {
+            updateRotation();
+        }
+        tickBlockCollision();
 
         //no spell, do nothing
-        if (this.spell == null) {
+        if (spell == null) {
             return;
         }
         //no more ticks, terminate

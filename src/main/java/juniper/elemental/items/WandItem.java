@@ -59,6 +59,7 @@ public class WandItem extends Item {
 
     public ActionResult cast(World world, PlayerEntity user, Hand hand) {
         if (!world.isClient) {
+            //TODO consume shards
             SpellEntity spell = ElementalEntities.SPELL.create(world, SpawnReason.TRIGGERED);
             spell.setPosition(user.getEyePos());
             spell.setAngles(user.getYaw(), user.getPitch());

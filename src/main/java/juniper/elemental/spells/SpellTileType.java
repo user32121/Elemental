@@ -101,17 +101,19 @@ public record SpellTileType(String name, Identifier texture, TriConsumer<SpellSt
             double[] r1 = state.getRegisterRaw(true);
             double[] r2 = state.getRegisterRaw(false);
             if (r1[0] == r2[0] && r1[1] == r2[1] && r1[2] == r2[2] && r1[3] == r2[3]) {
-                state.nextTile = state.curTile.add(Direction.fromId((int) (double) tile.properties.get("branch")).asVec2i(), new Vector2i());
+                state.nextTile = state.curTile.add(Direction.fromId((int) (double) tile.properties.getOrDefault("branch", 0.0)).asVec2i(), new Vector2i());
             }
         }, List.of(new Pair<>("branch", SpellProperty.DIRECTION))));
         all.add(make("branch_greater", (state, spell, tile) -> {
             double[] r1 = state.getRegisterRaw(true);
             double[] r2 = state.getRegisterRaw(false);
             if (r1[0] > r2[0] || r1[1] > r2[1] || r1[2] > r2[2] || r1[3] > r2[3]) {
-                state.nextTile = state.curTile.add(Direction.fromId((int) (double) tile.properties.get("branch")).asVec2i(), new Vector2i());
+                state.nextTile = state.curTile.add(Direction.fromId((int) (double) tile.properties.getOrDefault("branch", 0.0)).asVec2i(), new Vector2i());
             }
         }, List.of(new Pair<>("branch", SpellProperty.DIRECTION))));
-        //TODO get_collided
+        all.add(make("get_collided", (state, spell, tile) -> {
+            state.setRegisterBoolean(true, spell.collided);
+        }, List.of()));
         return all;
     }
 
