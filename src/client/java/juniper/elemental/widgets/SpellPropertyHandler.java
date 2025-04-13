@@ -13,7 +13,7 @@ public record SpellPropertyHandler(Renderer renderer, MouseHandler mouseHandler,
 
     public static Map<SpellProperty, SpellPropertyHandler> ALL = new HashMap<>();
     static {
-        ALL.put(SpellProperty.FLOAT, new SpellPropertyHandler((context, textRenderer, posX, posY, mouseX, mouseY, value) -> {
+        ALL.put(SpellProperty.NUMBER, new SpellPropertyHandler((context, textRenderer, posX, posY, mouseX, mouseY, value) -> {
             String string = Double.toString(value);
             context.drawText(textRenderer, string, posX + 16 - textRenderer.getWidth(string) / 2, posY + 16 - textRenderer.fontHeight / 2, 0xFFFFFFFF, false);
         }, (mouseX, mouseY, button, value) -> {

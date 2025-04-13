@@ -24,7 +24,7 @@ import net.minecraft.util.math.Vec3d;
 
 public record SpellTileType(String name, Identifier texture, TriConsumer<SpellState, SpellEntity, SpellTile> execute, List<Pair<String, SpellProperty>> properties) implements StringIdentifiable {
     public enum SpellProperty {
-        FLOAT;
+        NUMBER
     }
 
     private static List<SpellTileType> makeAll() {
@@ -46,13 +46,13 @@ public record SpellTileType(String name, Identifier texture, TriConsumer<SpellSt
         }, List.of()));
         all.add(make("constant", (state, entity, tile) -> {
             state.setRegisterDouble(true, tile.properties.getOrDefault("value", 0.0));
-        }, List.of(new Pair<>("value", SpellProperty.FLOAT))));
+        }, List.of(new Pair<>("value", SpellProperty.NUMBER))));
         all.add(make("add", (state, entity, tile) -> {
             state.setRegisterDouble(true, state.getRegisterDouble(true) + state.getRegisterDouble(false) + tile.properties.getOrDefault("value", 0.0));
-        }, List.of(new Pair<>("value", SpellProperty.FLOAT))));
+        }, List.of(new Pair<>("value", SpellProperty.NUMBER))));
         all.add(make("multiply_vector", (state, entity, tile) -> {
             state.setRegisterVec3d(true, state.getRegisterVec3d(true).multiply(state.getRegisterDouble(false) * tile.properties.getOrDefault("value", 0.0)));
-        }, List.of(new Pair<>("value", SpellProperty.FLOAT))));
+        }, List.of(new Pair<>("value", SpellProperty.NUMBER))));
         all.add(make("get_self", (state, entity, tile) -> {
             state.setRegisterEntity(true, entity);
         }, List.of()));
@@ -90,7 +90,7 @@ public record SpellTileType(String name, Identifier texture, TriConsumer<SpellSt
         }, List.of()));
         all.add(make("constant_vector", (state, spell, tile) -> {
             state.setRegisterVec3d(true, new Vec3d(tile.properties.getOrDefault("x", 0.0), tile.properties.getOrDefault("y", 0.0), tile.properties.getOrDefault("z", 0.0)));
-        }, List.of(new Pair<>("x", SpellProperty.FLOAT), new Pair<>("y", SpellProperty.FLOAT), new Pair<>("z", SpellProperty.FLOAT))));
+        }, List.of(new Pair<>("x", SpellProperty.NUMBER), new Pair<>("y", SpellProperty.NUMBER), new Pair<>("z", SpellProperty.NUMBER))));
         return all;
     }
 
